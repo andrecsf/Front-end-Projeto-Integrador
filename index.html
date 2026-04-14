@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Alunos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li>Início</li>
+            <li>Perfil</li>
+            <li>Minhas Atividades</li>
+            <li>Documentos</li>
+            <li>Configurações</li>
+        </ul>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="container">
+
+        <header class="topbar">
+            <h1>Gestão de Alunos</h1>
+        </header>
+
+        <!-- FILTROS -->
+        <section class="filtros">
+            <input type="text" placeholder="Buscar usuários..." id="busca">
+
+            <button id="btn-add">+ Adicionar Novo Usuário</button>
+        </section>
+
+        <!-- LISTA DINÂMICA -->
+        <section class="cards" id="lista-usuarios">
+            <!-- Usuários serão inseridos aqui via JS -->
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
