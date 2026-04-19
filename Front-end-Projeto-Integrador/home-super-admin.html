@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tela home super admin</title>
+    <link rel="stylesheet" href="style-home.css">
+   <!-- Chart.js é uma biblioteca de JavaScript que serve pra: transformar números em gráficos visuais -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <img src="img/imagemuser-superadmin.png" alt="Usuário" class="avatar" alt="">
+      <div class="user-info">
+        <span class="welcome">Bem-vindo!</span>
+        <h2>SuperAdmin</h2>
+      </div>
+       <span class="icon">🔔</span>
+    </div>
+   <button class="menu" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <main>
+        <div class="banner">
+    <h3>Olá, Coordenador!</h3>
+    <p>Você tem 12 atividades para revisar</p>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="card">
+
+      <div>
+        <p class="card-label">Total Usuários</p>
+        <p class="card-value">1.456</p>
+      </div>
+
+      <div class="card-icon icon-blue">👥</div>
+
+    </div>
+    <div class="card">
+
+      <div>
+        <p class="card-label">Atividades</p>
+        <p class="card-value">3.890</p>
+      </div>
+
+      <div class="card-icon icon-green">📄</div>
+
+    </div>
+    <div class="card">
+
+      <div>
+        <p class="card-label">Aprovadas</p>
+        <p class="card-value">3.120</p>
+      </div>
+
+      <div class="card-icon icon-purple">📈</div>
+
+    </div>
+    <div class="card">
+
+      <div>
+        <p class="card-label">Pendentes</p>
+        <p class="card-value">770</p>
+      </div>
+
+      <div class="card-icon icon-orange">⏰</div>
+
+    </div>
+
+  </div>
+
+<!-- ATIVIDADES POR CATEGORIA -->
+<div class="category-activity section">
+  <p class="section-title">Atividades por categoria</p>
+
+  <!-- GRÁFICO -->
+  <div class="chart-container">
+    <canvas id="categoriaChart"></canvas>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="legenda" id="legenda"></div>
+
+  <!-- CARDS (mantidos) -->
+  <div class="category-grid">
+    <div class="category-card">
+      <p>Eventos</p>
+      <h3>789</h3>
+      <span>20%</span>
+    </div>
+
+    <div class="category-card">
+      <p>Extensão</p>
+      <h3>654</h3>
+      <span>17%</span>
+    </div>
+
+    <div class="category-card">
+      <p>Pesquisa</p>
+      <h3>445</h3>
+      <span>11%</span>
+    </div>
+
+    <div class="category-card">
+      <p>Cultural</p>
+      <h3>445</h3>
+      <span>11%</span>
+    </div>
+
+    <div class="category-card">
+      <p>Voluntariado</p>
+      <h3>390</h3>
+      <span>10%</span>
+    </div>
+
+    <div class="category-card">
+      <p>Cursos</p>
+      <h3>1100</h3>
+      <span>28%</span>
+    </div>
+  </div>
+</div>
+
+    </main>
+    <footer>
+    </footer>
+</body>
+</html>
