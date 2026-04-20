@@ -1,12 +1,18 @@
 const form = document.getElementById('categoriaForm');
 const listaCategorias = document.getElementById('listaCategorias');
+const btnToggle = document.getElementById('btn-toggle');
+const sidebar = document.getElementById('sidebar');
+
+// Lógica de abrir/fechar sidebar
+btnToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+});
 
 let categorias = [];
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Captura os valores
     const nome = document.getElementById('nome').value;
     const cargaSemestre = document.getElementById('cargaSemestre').value;
     const cargaMaxima = document.getElementById('cargaMaxima').value;
