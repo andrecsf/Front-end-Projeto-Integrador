@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    /* Substitua pela sua imagem de estudantes */
+    background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
+}
+
+.background-overlay {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Escurece a imagem de fundo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Perfis */
+.profile-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.profile-card {
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    flex: 1;
+    cursor: pointer;
+    transition: transform 0.2s, border 0.2s;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.profile-card .icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.profile-card.active {
+    border: 3px solid #ff9100; /* Destaque laranja do Senac */
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-entrar {
+    width: 100%;
+    padding: 15px;
+    background-color: #2b78e4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+}
+
+.btn-entrar:hover {
+    background-color: #1a5bb8;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
