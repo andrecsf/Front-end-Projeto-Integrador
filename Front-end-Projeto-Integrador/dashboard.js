@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
-  // DADOS DAS CATEGORIAS
+  // DADOS
   // =========================
   const dados = [
     { nome: "Eventos", valor: 789, cor: "#4CAF50" },
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const total = dados.reduce((acc, item) => acc + item.valor, 0);
 
   // =========================
-  //  GRÁFICO
+  // GRÁFICO DE CATEGORIA
   // =========================
   const ctx = document.getElementById("categoriaChart");
 
@@ -23,26 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
     new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: dados.map(item => item.nome),
+        labels: dados.map(d => d.nome),
         datasets: [{
-          data: dados.map(item => item.valor),
-          backgroundColor: dados.map(item => item.cor),
+          data: dados.map(d => d.valor),
+          backgroundColor: dados.map(d => d.cor),
           borderWidth: 0
         }]
       },
       options: {
         cutout: "65%",
         plugins: {
-          legend: {
-            display: false
-          }
+          legend: { display: false }
         }
       }
     });
   }
 
   // =========================
-  //  LEGENDA
+  // LEGENDA
   // =========================
   const legenda = document.getElementById("legenda");
 
@@ -56,21 +54,131 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="cor" style="background:${item.cor}"></span>
             ${item.nome}
           </div>
-          <strong>${porcentagem}%</strong>
+          <strong>${porcentagem}% (${item.valor})</strong>
         </div>
       `;
     });
   }
 
   // =========================
-  //  MENU
+  // GRÁFICO DE LINHA
   // =========================
-  window.toggleMenu = function () {
-    alert("Abrir menu lateral (tu pode implementar depois 😄)");
-  };
+  const ctxLinha = document.getElementById("linhaChart");
+
+  if (ctxLinha) {
+    new Chart(ctxLinha, {
+      type: "line",
+      data: {
+        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
+        datasets: [
+          {
+            label: "Atividades",
+            data: [200, 300, 250, 400, 350, 500],
+            borderColor: "#4CAF50",
+            backgroundColor: "rgba(76, 175, 80, 0.2)",
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: "Novos Usuários",
+            data: [100, 150, 200, 180, 220, 300],
+            borderColor: "#2196F3",
+            backgroundColor: "rgba(33, 150, 243, 0.2)",
+            tension: 0.4,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: "bottom" }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
 
   // =========================
-  //  NOTIFICAÇÃO
+  // STATUS CHART
+  // =========================
+  const ctxStatus = document.getElementById("statusChart");
+
+  if (ctxStatus) {
+    new Chart(ctxStatus, {
+      type: "bar",
+      data: {
+        labels: ["Aprovadas", "Pendentes"],
+        datasets: [{
+          data: [3200, 800],
+          backgroundColor: ["#4CAF50", "#FF9800"]
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  }
+
+  // =========================
+  // USUÁRIOS CHART
+  // =========================
+  const ctxUsuarios = document.getElementById("usuariosChart");
+
+  if (ctxUsuarios) {
+    new Chart(ctxUsuarios, {
+      type: "bar",
+      data: {
+        labels: ["Alunos", "Coordenadores", "Admins"],
+        datasets: [{
+          data: [1000, 300, 150],
+          backgroundColor: ["#2196F3", "#9C27B0", "#F44336"]
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  }
+
+  // =========================
+  // 🔥 SIDEBAR FUNCIONANDO
+  // =========================
+  const sidebar = document.getElementById("sidebar");
+  const menuBtn = document.getElementById("menuBtn");
+
+  // só executa se existir (evita erro)
+  if (sidebar && menuBtn) {
+
+    // cria overlay
+    const overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+    document.body.appendChild(overlay);
+
+    function toggleSidebar() {
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
+    }
+
+    function fecharSidebar() {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+    }
+
+    menuBtn.addEventListener("click", toggleSidebar);
+    overlay.addEventListener("click", fecharSidebar);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") fecharSidebar();
+    });
+  }
+
+  // =========================
+  // NOTIFICAÇÃO
   // =========================
   const notificacao = document.querySelector(".icon");
 
@@ -79,17 +187,5 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Você tem novas notificações 🔔");
     });
   }
-
-  // =========================
-  //  CLICK NOS CARDS (extra)
-  // =========================
-  const cards = document.querySelectorAll(".card");
-
-  cards.forEach(card => {
-    card.addEventListener("click", () => {
-      const titulo = card.querySelector(".card-label").innerText;
-      alert(`Você clicou em: ${titulo}`);
-    });
-  });
 
 });

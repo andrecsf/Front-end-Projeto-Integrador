@@ -1,131 +1,197 @@
-/* RESET BÁSICO */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+/* =========================================
+   RESET
+========================================= */
+* {
+  box-sizing: border-box;
 }
 
-/* HEADER */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f5f5;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+========================================= */
 .header {
+  height: 80px;
   background: linear-gradient(to right, #2d6cdf, #2563eb);
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 0 30px;
   border-bottom: 4px solid orange;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
 }
 
-/* LADO ESQUERDO */
 .header-left {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-/* IMAGEM (AVATAR) */
 .avatar {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-/* TEXTO */
 .user-info {
   display: flex;
   flex-direction: column;
 }
 
 .welcome {
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 13px;
 }
 
 .user-info h2 {
   margin: 0;
-  font-size: 20px;
 }
 
-/* ÍCONE DE NOTIFICAÇÃO */
 .icon {
-  font-size: 18px;
-  margin-left: 10px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.icon:hover {
-  transform: scale(1.1);
 }
 
 /* BOTÃO MENU */
 .menu {
-  background: none;
+  background: rgba(255,255,255,0.1);
   border: none;
   color: white;
   font-size: 26px;
+  padding: 5px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.menu:hover {
-  transform: scale(1.1);
-}
-
-/* MAIN */
+/* =========================================
+   MAIN
+========================================= */
 main {
+  margin-top: 80px; /* 🔥 COMPENSA HEADER FIXO */
   padding: 24px 30px;
-  background: #f5f5f5;
-  min-height: calc(100vh - 90px);
+  min-height: 100vh;
 }
 
-/* BANNER */
+/* =========================================
+   SIDEBAR
+========================================= */
+.sidebar {
+  position: fixed;
+  right: -260px;
+  top: 80px;
+  width: 260px;
+  height: calc(100vh - 80px);
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  z-index: 2000;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+/* MENU */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.menu-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-list li:hover {
+  background: rgba(255,255,255,0.1);
+  padding-left: 25px;
+}
+
+/* FOOTER SIDEBAR */
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+.overlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 1500;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* =========================================
+   BANNER
+========================================= */
 .banner {
   background: linear-gradient(135deg, #7c3aed, #9333ea);
   border-radius: 16px;
-  padding: 22px 28px;
-  margin-bottom: 20px;
+  padding: 20px;
   color: white;
+  margin-bottom: 20px;
 }
 
-.banner h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.banner p {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* GRID DE CARDS */
+/* =========================================
+   CARDS
+========================================= */
 .cards-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 14px;
 }
 
 .card {
   background: white;
   border-radius: 14px;
-  border: 1px solid #eee;
-  padding: 16px 20px;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .card-label {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 6px;
+  color: #666;
+  font-size: 14px;
+  margin: 0;
 }
 
 .card-value {
-  font-size: 24px;
-  font-weight: 600;
-  color: #111;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .card-icon {
@@ -135,82 +201,38 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
 }
 
-.icon-blue   { background: #e8f0fe; }
-.icon-green  { background: #e6f4ea; }
+.icon-blue { background: #e8f0fe; }
+.icon-green { background: #e6f4ea; }
 .icon-purple { background: #f3e8fd; }
 .icon-orange { background: #fff3e0; }
 
-
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
+/* =========================================
+   SEÇÕES
+========================================= */
+.section {
+  margin-top: 25px;
 }
 
-.category-card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.category-card p {
-  font-size: 14px;
-  color: #666;
-}
-
-.category-card h3 {
-  font-size: 22px;
-  margin: 5px 0;
-}
-
-.category-card span {
-  font-size: 13px;
-  color: green;
+.section-title {
   font-weight: bold;
-}
-/* ===== GRÁFICO DE CATEGORIAS ===== */
-
-.chart-container {
-  width: 260px;
-  margin: 20px auto;
-}
-
-/* LEGENDA */
-.legenda {
-  margin-top: 10px;
-  padding: 10px 20px;
-}
-
-.legenda-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 18px;
+  margin-bottom: 16px;
   color: #333;
 }
 
-.legenda-item div:first-child {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.section-container {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* BOLINHA DE COR */
-.cor {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-/* MELHORIA VISUAL NA SECTION */
+/* =========================================
+   GRÁFICOS
+========================================= */
 .category-activity {
   background: white;
   padding: 20px;
@@ -218,9 +240,100 @@ main {
   margin-top: 20px;
 }
 
-/* TÍTULO */
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
+.chart-container {
+  width: 260px;
+  margin: 20px auto;
+}
+
+.chart-container-line {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+/* LEGENDA */
+.legenda-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.cor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* =========================================
+   AÇÕES
+========================================= */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  padding: 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #f9fafb;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+}
+
+.action-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+/* CORES */
+.bg-soft-blue   { background-color: #f0f7ff; }
+.bg-soft-green  { background-color: #f0faf0; }
+.bg-soft-cyan   { background-color: #f0ffff; }
+.bg-soft-orange { background-color: #fffaf0; }
+
+/* =========================================
+   STATUS
+========================================= */
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-size: 15px;
+  color: #444;
+}
+
+.badge {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.online,
+.badge.active {
+  background-color: #22c55e;
+}
+
+.status-info {
+  font-size: 13px;
+  color: #94a3b8;
 }
