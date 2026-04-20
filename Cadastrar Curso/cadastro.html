@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Curso</title>
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li class="active"><a href="index.html"><i class="fas fa-chart-bar"></i> <span
+                                class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text">Usuário</p>
+                        <a href="#" class="menu-text">logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <a href="index.html" class="btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Cadastrar Curso</h1>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <form id="course-form" class="form-container">
+                    <!-- Nome do Curso -->
+                    <div class="form-group">
+                        <label for="course-name">Nome do curso:</label>
+                        <input type="text" id="course-name" name="course-name" placeholder="Digite o nome do curso"
+                            required>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-group">
+                        <label for="course-description">Descrição:</label>
+                        <textarea id="course-description" name="course-description"
+                            placeholder="Digite a descrição do curso" rows="4"></textarea>
+                    </div>
+
+                    <!-- Categoria da Atividade Complementar -->
+                    <div class="form-group">
+                        <label for="course-category">Categoria da atividade complementar:</label>
+                        <input type="text" id="course-category" name="course-category"
+                            placeholder="Selecione uma categoria" readonly>
+                        <button type="button" class="btn-add-category" id="btn-add-category"
+                            onclick="window.location.href='cadastro-categoria.html'">
+                            + Cadastrar Nova Categoria
+                        </button>
+                    </div>
+
+                    <!-- Instituição -->
+                    <div class="form-group">
+                        <label for="course-institution">Instituição:</label>
+                        <input type="text" id="course-institution" name="course-institution"
+                            placeholder="Digite o nome da instituição" required>
+                    </div>
+
+                    <!-- Data -->
+                    <div class="form-group form-group-inline">
+                        <label for="course-date">Data:</label>
+                        <input type="date" id="course-date" name="course-date" required>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save" id="btn-save">
+                            Salvar
+                        </button>
+                        <button type="button" class="btn-cancel" id="btn-cancel"
+                            onclick="window.location.href='index.html'">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="cadastro.js"></script>
+</body>
+
+</html>
