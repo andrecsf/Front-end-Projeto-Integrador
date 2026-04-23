@@ -1,3 +1,6 @@
+// =========================
+// ELEMENTOS
+// =========================
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 const courseList = document.getElementById('course-list');
@@ -6,8 +9,23 @@ const activeCourses = document.getElementById('active-courses');
 const totalStudents = document.getElementById('total-students');
 const searchInput = document.getElementById('search-input');
 
+// =========================
+// ROTAS
+// =========================
+const ROTAS = {
+    inicio: "../HomeAdmin/home-super-admin.html",
+    perfil: "../PerfilCurso/perfil-curso.html",
+    cursos: "../GerenciarCurso/gerenciarCursos.html",
+    usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
+    documentos: "../CadastrarCategoria/cadastrarCategoria.html",
+    configuracoes: "../Login/index.html"
+};
+
 let courses = [];
 
+// =========================
+// SIDEBAR TOGGLE
+// =========================
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
@@ -25,8 +43,54 @@ function restoreMenuState() {
     }
 }
 
-document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
+// clique no topo da sidebar
+const sidebarHeader = document.querySelector('.sidebar-header');
+if (sidebarHeader) {
+    sidebarHeader.addEventListener('click', toggleMenu);
+}
 
+// =========================
+// SIDEBAR NAVEGAÇÃO
+// =========================
+const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
+
+const menuKeys = [
+    "inicio",
+    "perfil",
+    "cursos",
+    "usuarios",
+    "documentos",
+    "configuracoes"
+];
+
+menuLinks.forEach((link, index) => {
+    link.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const rota = menuKeys[index];
+
+        if (ROTAS[rota]) {
+            window.location.href = ROTAS[rota];
+        }
+    });
+});
+
+// =========================
+// BOTÃO VOLTAR
+// =========================
+const btnVoltar = document.getElementById("btnVoltar");
+
+if (btnVoltar) {
+    btnVoltar.style.cursor = "pointer";
+
+    btnVoltar.addEventListener("click", () => {
+        window.location.href = ROTAS.inicio;
+    });
+}
+
+// =========================
+// CARREGAR CURSOS
+// =========================
 async function loadCourses() {
     try {
         const response = await fetch('http://localhost:8080/cursos');
@@ -51,6 +115,9 @@ async function loadCourses() {
     }
 }
 
+// =========================
+// RENDER CURSOS
+// =========================
 function renderCourses(courseArray) {
     if (courseArray.length === 0) {
         courseList.innerHTML = `
@@ -62,20 +129,36 @@ function renderCourses(courseArray) {
     }
 
     courseList.innerHTML = courseArray.map(course => `
-        <div class="course-card" onclick="openCourseDetails(${course.id})" style="cursor: pointer;">
+        <div class="course-card" data-id="${course.id}">
             <h3>${course.nome}</h3>
             <p>${course.descricao || 'Sem descrição'}</p>
             <span>Carga horária: ${course.cargaHorariaMax}h</span>
         </div>
     `).join('');
+
+    // clique nos cursos
+    document.querySelectorAll(".course-card").forEach(card => {
+        card.style.cursor = "pointer";
+
+        card.addEventListener("click", () => {
+            const id = card.getAttribute("data-id");
+            openCourseDetails(id);
+        });
+    });
 }
 
+// =========================
+// ESTATÍSTICAS
+// =========================
 function updateStats() {
     totalCourses.textContent = courses.length;
     activeCourses.textContent = courses.length;
     totalStudents.textContent = 0;
 }
 
+// =========================
+// BUSCA
+// =========================
 searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
 
@@ -86,10 +169,16 @@ searchInput.addEventListener('input', () => {
     renderCourses(filteredCourses);
 });
 
+// =========================
+// DETALHES DO CURSO
+// =========================
 function openCourseDetails(courseId) {
     window.location.href = `../CursoDetalhes/cursoDetalhes.html?id=${courseId}`;
 }
 
+// =========================
+// INIT
+// =========================
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
     loadCourses();
