@@ -1,0 +1,339 @@
+/* =========================================
+   RESET
+========================================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f5f5;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+.header {
+  height: 80px;
+  background: linear-gradient(to right, #2d6cdf, #2563eb);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 4px solid orange;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome {
+  font-size: 13px;
+}
+
+.user-info h2 {
+  margin: 0;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+/* BOTÃO MENU */
+.menu {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  font-size: 26px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =========================================
+   MAIN
+========================================= */
+main {
+  margin-top: 80px; /* 🔥 COMPENSA HEADER FIXO */
+  padding: 24px 30px;
+  min-height: 100vh;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+.sidebar {
+  position: fixed;
+  right: -260px;
+  top: 80px;
+  width: 260px;
+  height: calc(100vh - 80px);
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  z-index: 2000;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+/* MENU */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.menu-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-list li:hover {
+  background: rgba(255,255,255,0.1);
+  padding-left: 25px;
+}
+
+/* FOOTER SIDEBAR */
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+.overlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 1500;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* =========================================
+   BANNER
+========================================= */
+.banner {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* =========================================
+   CARDS
+========================================= */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-label {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.card-value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.icon-blue { background: #e8f0fe; }
+.icon-green { background: #e6f4ea; }
+.icon-purple { background: #f3e8fd; }
+.icon-orange { background: #fff3e0; }
+
+/* =========================================
+   SEÇÕES
+========================================= */
+.section {
+  margin-top: 25px;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.section-container {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================
+   GRÁFICOS
+========================================= */
+.category-activity {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+.chart-container {
+  width: 260px;
+  margin: 20px auto;
+}
+
+.chart-container-line {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+/* LEGENDA */
+.legenda-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.cor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* =========================================
+   AÇÕES
+========================================= */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  padding: 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #f9fafb;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+}
+
+.action-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+/* CORES */
+.bg-soft-blue   { background-color: #f0f7ff; }
+.bg-soft-green  { background-color: #f0faf0; }
+.bg-soft-cyan   { background-color: #f0ffff; }
+.bg-soft-orange { background-color: #fffaf0; }
+
+/* =========================================
+   STATUS
+========================================= */
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-size: 15px;
+  color: #444;
+}
+
+.badge {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.online,
+.badge.active {
+  background-color: #22c55e;
+}
+
+.status-info {
+  font-size: 13px;
+  color: #94a3b8;
+}
