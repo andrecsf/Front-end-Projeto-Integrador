@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Curso</title>
+    <link rel="stylesheet" href="style-perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li class="active"><a href="index.html"><i class="fas fa-chart-bar"></i> <span
+                                class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text">Usuário</p>
+                        <a href="#" class="menu-text">logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <a href="index.html" class="btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1 id="course-title">Perfil do Curso</h1>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <!-- Informações do Curso -->
+                <div class="course-info-section">
+                    <div class="course-header">
+                        <div class="course-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="course-details">
+                            <h2 id="course-name">Nome do Curso</h2>
+                            <p id="course-code" class="course-code">Código: ---</p>
+                            <p id="course-status" class="course-status"><span class="badge badge-active">Ativo</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Data: <strong id="course-date">--/--/----</strong></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-building"></i>
+                            <span>Instituição: <strong id="course-institution">---</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="course-description">
+                        <h3>Descrição</h3>
+                        <p id="course-description">Descrição do curso será exibida aqui.</p>
+                    </div>
+                </div>
+
+                <!-- Categorias -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Categorias</h3>
+                        <button class="btn-add-item" id="btn-add-category"
+                            onclick="window.location.href='cadastro-categoria.html'">
+                            <i class="fas fa-plus"></i> Adicionar Nova Categoria
+                        </button>
+                    </div>
+                    <div id="categories-list" class="items-list">
+                        <div class="empty-message">Nenhuma categoria vinculada.</div>
+                    </div>
+                </div>
+
+                <!-- Alunos -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Alunos (<span id="students-count">0</span>)</h3>
+                        <button class="btn-add-item" id="btn-add-student">
+                            <i class="fas fa-plus"></i> Adicionar Aluno
+                        </button>
+                    </div>
+                    <div id="students-list" class="items-list">
+                        <div class="empty-message">Nenhum aluno vinculado.</div>
+                    </div>
+                </div>
+
+                <!-- Coordenadores -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Coordenadores (<span id="coordinators-count">0</span>)</h3>
+                        <button class="btn-add-item" id="btn-add-coordinator">
+                            <i class="fas fa-plus"></i> Adicionar Coordenador
+                        </button>
+                    </div>
+                    <div id="coordinators-list" class="items-list">
+                        <div class="empty-message">Nenhum coordenador vinculado.</div>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="action-buttons">
+                    <button class="btn-edit" id="btn-edit">
+                        <i class="fas fa-edit"></i> Editar Curso
+                    </button>
+                    <button class="btn-delete" id="btn-delete">
+                        <i class="fas fa-trash"></i> Excluir Curso
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script-perfil.js"></script>
+</body>
+
+</html>
