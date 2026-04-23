@@ -11,47 +11,25 @@
 </head>
 
 <body>
+
+  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
+    <ul class="menu-list">
+      <li><i class="fas fa-home"></i><span>Início</span></li>
+      <li><i class="fas fa-user"></i><span>Perfil</span></li>
+      <li><i class="fas fa-chart-line"></i><span>Cursos</span></li>
+      <li><i class="fas fa-users"></i><span>Usuários</span></li>
+      <li><i class="fas fa-file-alt"></i><span>Documentos</span></li>
+      <li><i class="fas fa-cog"></i><span>Configurações</span></li>
+    </ul>
 
+    <div class="sidebar-footer">
+      <i class="fas fa-user-circle"></i>
+      <span>Usuário</span>
+    </div>
+  </div>
 
-  <ul class="menu-list">
-  <li>
-    <i class="fas fa-home"></i>
-    <span>Início</span>
-  </li>
-
-  <li>
-    <i class="fas fa-user"></i>
-    <span>Perfil</span>
-  </li>
-
-  <li>
-    <i class="fas fa-chart-line"></i>
-    <span>Cursos</span>
-  </li>
-
-  <li>
-    <i class="fas fa-users"></i>
-    <span>Usuários</span>
-  </li>
-
-  <li>
-    <i class="fas fa-file-alt"></i>
-    <span>Documentos</span>
-  </li>
-
-  <li>
-    <i class="fas fa-cog"></i>
-    <span>Configurações</span>
-  </li>
-</ul>
-
-  <div class="sidebar-footer">
-  <i class="fas fa-user-circle"></i>
-  <span>Usuário</span>
-</div>
-
-</div>
+  <!-- HEADER -->
   <header class="header">
     <div class="header-left">
       <img src="img/imagemuser-superadmin.png" class="avatar" alt="Avatar Admin">
@@ -64,14 +42,18 @@
     <button class="menu" id="menuBtn">☰</button>
   </header>
 
+  <!-- MAIN -->
   <main>
+
     <div class="banner">
       <h3>Olá, SuperAdmin!</h3>
       <p>Você tem 12 atividades para revisar</p>
     </div>
 
+    <!-- CARDS (AGORA CLICÁVEIS) -->
     <div class="cards-grid">
-      <div class="card">
+
+      <div class="card" data-rota="usuarios">
         <div>
           <p class="card-label">Total Usuários</p>
           <p class="card-value">1.456</p>
@@ -79,7 +61,7 @@
         <div class="card-icon icon-blue">👥</div>
       </div>
 
-      <div class="card">
+      <div class="card" data-rota="cursos">
         <div>
           <p class="card-label">Atividades</p>
           <p class="card-value">3.890</p>
@@ -87,7 +69,7 @@
         <div class="card-icon icon-green">📄</div>
       </div>
 
-      <div class="card">
+      <div class="card" data-rota="relatorios">
         <div>
           <p class="card-label">Aprovadas</p>
           <p class="card-value">3.120</p>
@@ -95,15 +77,17 @@
         <div class="card-icon icon-purple">📈</div>
       </div>
 
-      <div class="card">
+      <div class="card" data-rota="relatorios">
         <div>
           <p class="card-label">Pendentes</p>
           <p class="card-value">770</p>
         </div>
         <div class="card-icon icon-orange">⏰</div>
       </div>
+
     </div>
 
+    <!-- GRÁFICOS -->
     <div class="category-activity section">
       <p class="section-title">Atividades por categoria</p>
       <div class="chart-container">
@@ -134,60 +118,61 @@
     </div>
 
     <!-- AÇÕES RÁPIDAS -->
-<div class="section">
-  <div class="section-container">
-    <p class="section-title">Ações Rápidas</p>
+    <div class="section">
+      <div class="section-container">
+        <p class="section-title">Ações Rápidas</p>
 
-    <div class="actions-grid">
-      <div class="action-card bg-soft-blue" data-action="coordenadores">
-        <span class="action-icon text-blue">👥</span>
-        <h3>Gerenciar Coordenadores</h3>
-      </div>
+        <div class="actions-grid">
+          <div class="action-card bg-soft-blue" data-action="coordenadores">
+            <span class="action-icon text-blue">👥</span>
+            <h3>Gerenciar Coordenadores</h3>
+          </div>
 
-      <div class="action-card bg-soft-green" data-action="categorias">
-        <span class="action-icon text-green">📄</span>
-        <h3>Categorias</h3>
-      </div>
+          <div class="action-card bg-soft-green" data-action="categorias">
+            <span class="action-icon text-green">📄</span>
+            <h3>Categorias</h3>
+          </div>
 
-      <div class="action-card bg-soft-cyan" data-action="cursos">
-        <span class="action-icon text-cyan">📊</span>
-        <h3>Gerenciar Cursos</h3>
-      </div>
+          <div class="action-card bg-soft-cyan" data-action="cursos">
+            <span class="action-icon text-cyan">📊</span>
+            <h3>Gerenciar Cursos</h3>
+          </div>
 
-      <div class="action-card bg-soft-orange" data-action="relatorios">
-        <span class="action-icon text-orange">📈</span>
-        <h3>Relatórios Avançados</h3>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- STATUS DO SISTEMA -->
-<div class="section">
-  <div class="section-container">
-    <p class="section-title">Status do Sistema</p>
-
-    <div class="status-box">
-      <div class="status-item">
-        <span class="status-label">Servidor</span>
-        <span class="badge online">Online</span>
-      </div>
-
-      <div class="status-item">
-        <span class="status-label">Banco de Dados</span>
-        <span class="badge active">Ativo</span>
-      </div>
-
-      <div class="status-item">
-        <span class="status-label">Backup</span>
-        <span class="status-info">Último: 14/03/2026</span>
+          <div class="action-card bg-soft-orange" data-action="relatorios">
+            <span class="action-icon text-orange">📈</span>
+            <h3>Relatórios Avançados</h3>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- STATUS -->
+    <div class="section">
+      <div class="section-container">
+        <p class="section-title">Status do Sistema</p>
+
+        <div class="status-box">
+          <div class="status-item">
+            <span class="status-label">Servidor</span>
+            <span class="badge online">Online</span>
+          </div>
+
+          <div class="status-item">
+            <span class="status-label">Banco de Dados</span>
+            <span class="badge active">Ativo</span>
+          </div>
+
+          <div class="status-item">
+            <span class="status-label">Backup</span>
+            <span class="status-info">Último: 14/03/2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </main>
 
   <footer></footer>
+
 </body>
 </html>

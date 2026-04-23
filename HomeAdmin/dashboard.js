@@ -1,6 +1,82 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
+  // ROTAS (AJUSTADAS)
+  // =========================
+  const ROTAS = {
+    inicio: "../HomeAdmin/home-super-admin.html",
+    perfil: "../PerfilCurso/perfil-curso.html",
+    cursos: "../GerenciarCurso/gerenciarCursos.html",
+    usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
+    documentos: "../CadastrarCategoria/cadastrarCategoria.html",
+    configuracoes: "../Login/index.html",
+
+    // ações rápidas
+    coordenadores: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
+    categorias: "../CadastrarCategoria/cadastrarCategoria.html",
+    relatorios: "../GerenciarCurso/gerenciarCursos.html"
+  };
+
+  // =========================
+  // SIDEBAR — NAVEGAÇÃO
+  // =========================
+  const menuItems = document.querySelectorAll(".menu-list li");
+
+  const menuKeys = [
+    "inicio",
+    "perfil",
+    "cursos",
+    "usuarios",
+    "documentos",
+    "configuracoes"
+  ];
+
+  menuItems.forEach((item, index) => {
+    item.style.cursor = "pointer";
+
+    item.addEventListener("click", () => {
+      const rota = menuKeys[index];
+      if (ROTAS[rota]) {
+        window.location.href = ROTAS[rota];
+      }
+    });
+  });
+
+  // =========================
+  // AÇÕES RÁPIDAS
+  // =========================
+  const actionCards = document.querySelectorAll(".action-card");
+
+  actionCards.forEach(card => {
+    card.style.cursor = "pointer";
+
+    card.addEventListener("click", () => {
+      const acao = card.getAttribute("data-action");
+
+      if (ROTAS[acao]) {
+        window.location.href = ROTAS[acao];
+      }
+    });
+  });
+
+  // =========================
+  // CARDS DO TOPO (clicáveis)
+  // =========================
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    card.style.cursor = "pointer";
+
+    card.addEventListener("click", () => {
+      const rota = card.getAttribute("data-rota");
+
+      if (ROTAS[rota]) {
+        window.location.href = ROTAS[rota];
+      }
+    });
+  });
+
+  // =========================
   // DADOS
   // =========================
   const dados = [
@@ -146,15 +222,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // 🔥 SIDEBAR FUNCIONANDO
+  // SIDEBAR (TOGGLE)
   // =========================
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
 
-  // só executa se existir (evita erro)
   if (sidebar && menuBtn) {
 
-    // cria overlay
     const overlay = document.createElement("div");
     overlay.classList.add("overlay");
     document.body.appendChild(overlay);
