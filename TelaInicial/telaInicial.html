@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Coordenador</title>
+    <!-- Importando Font Awesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Local -->
+    <link rel="stylesheet" href="telaInicial.css">
+</head>
+<body>
+    <!-- Overlay para fechar o menu ao clicar fora -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="container">
+        <!-- Conteúdo Principal (Esquerda) -->
+        <main class="main-content">
+            <!-- Header Azul Superior -->
+            <header class="top-header">
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/150?u=coord" alt="Foto do Coordenador" class="profile-img">
+                    <div class="welcome-msg">
+                        <span class="welcome-text">Bem-vindo! <i class="fa-solid fa-bell"></i></span>
+                        <span class="user-role">Coordenador</span>
+                    </div>
+                </div>
+                <!-- Botão que abre o menu -->
+                <button class="menu-toggle" id="openMenu">
+                    <i class="fa-solid fa-bars"></i> Menu
+                </button>
+            </header>
+
+            <div class="content-padding">
+                <!-- Banner de Boas-vindas Roxo -->
+                <section class="promo-banner">
+                    <h1>Olá, Coordenador!</h1>
+                    <p>Você tem <strong>12 atividades</strong> para revisar</p>
+                </section>
+
+                <!-- Cards de Estatísticas -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Pendentes</span>
+                            <span class="stat-number">12</span>
+                        </div>
+                        <div class="stat-icon icon-orange">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Aprovadas</span>
+                            <span class="stat-number">87</span>
+                        </div>
+                        <div class="stat-icon icon-green">
+                            <i class="fa-regular fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Rejeitadas</span>
+                            <span class="stat-number">5</span>
+                        </div>
+                        <div class="stat-icon icon-red">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Alunos</span>
+                            <span class="stat-number">156</span>
+                        </div>
+                        <div class="stat-icon icon-blue">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ações Rápidas -->
+                <section class="quick-actions">
+                    <h2>Ações Rápidas</h2>
+                    <div class="actions-grid">
+                        <div class="action-card card-yellow">
+                            <div class="action-icon">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
+                            <div class="action-text">
+                                <strong>Revisar Atividades</strong>
+                                <span>12 pendentes</span>
+                            </div>
+                        </div>
+                        <div class="action-card card-sky">
+                            <div class="action-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="action-text">
+                                <strong>Relatórios</strong>
+                                <span>Ver progresso</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Enviadas Recentemente -->
+                <section class="recent-submissions">
+                    <div class="section-header">
+                        <h2>Enviadas Recentemente</h2>
+                        <a href="#" class="view-all">Ver Todas</a>
+                    </div>
+                    <div class="submissions-grid">
+                        <div class="submission-card">
+                            <div class="card-top">
+                                <h3>Projeto de Extensão</h3>
+                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
+                            </div>
+                            <p class="category">Extensão Universitária</p>
+                            <div class="card-bottom">
+                                <span>30h complementares</span>
+                                <span>13/03/2026</span>
+                            </div>
+                        </div>
+                        <div class="submission-card">
+                            <div class="card-top">
+                                <h3>Curso Online Certificado</h3>
+                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
+                            </div>
+                            <p class="category">Cursos Complementares</p>
+                            <div class="card-bottom">
+                                <span>15h complementares</span>
+                                <span>12/03/2026</span>
+                            </div>
+                        </div>
+                        <div class="submission-card">
+                            <div class="card-top">
+                                <h3>Participação em Hackathon</h3>
+                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
+                            </div>
+                            <p class="category">Eventos Acadêmicos</p>
+                            <div class="card-bottom">
+                                <span>20h complementares</span>
+                                <span>14/03/2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Sidebar Azul Retrátil (Direita) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="close-menu" id="closeMenu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <nav class="side-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fa-solid fa-house"></i> Início</a></li>
+                    <li><a href="#"><i class="fa-regular fa-user"></i> Perfil</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chart-simple"></i> Minhas Atividades</a></li>
+                    <li><a href="#"><i class="fa-regular fa-file-lines"></i> Documentos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="footer-user">
+                    <i class="fa-regular fa-user"></i>
+                    <div class="footer-text">
+                        <strong>Usuário</strong>
+                        <span>logado</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- JS Local -->
+    <script src="telaInicial.js"></script>
+</body>
+</html>
