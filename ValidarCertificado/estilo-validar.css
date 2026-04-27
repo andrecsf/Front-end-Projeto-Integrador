@@ -1,0 +1,371 @@
+/* ===========================
+   Reset & Base
+=========================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fe;
+  color: #111;
+  overflow-x: hidden; /* Evita scroll lateral por causa da sidebar */
+}
+
+/* ===========================
+   Layout Principal
+=========================== */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Previne quebra de flexbox */
+}
+
+/* ===========================
+   Topbar
+=========================== */
+.topbar {
+  background: #1A56DB;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.back-btn, .bell-btn, #openMenu {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.back-btn:hover, .bell-btn:hover, #openMenu:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===========================
+   Sidebar (Direita & Escondida)
+=========================== */
+.sidebar {
+  width: 280px;
+  background: #1A56DB;
+  position: fixed;
+  top: 0;
+  right: -280px; /* Escondida fora da tela */
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+  color: #fff;
+}
+
+/* Classe ativada pelo JS */
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-list {
+  list-style: none;
+  padding: 1rem 0;
+  flex: 1;
+}
+
+.nav-item {
+  padding: 14px 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+  border-right: 4px solid #fff;
+}
+
+.sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.logout-link {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.logout-link:hover {
+  color: #fff;
+}
+
+/* ===========================
+   Conteúdo e Cards
+=========================== */
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  background: #EFF4FF;
+  color: #1A56DB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Perfil */
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  background: #1A56DB;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1A56DB;
+  transition: width 0.5s ease;
+}
+
+/* Tabelas/Grids de Informação */
+.info-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.info-label { color: #666; }
+.info-value { font-weight: 500; }
+
+/* Documento */
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.doc-thumb { font-size: 24px; color: #DC2626; }
+.doc-action {
+  background: #fff;
+  border: 1px solid #1A56DB;
+  color: #1A56DB;
+  padding: 6px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Formulário */
+#justificativa {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  margin-top: 10px;
+}
+
+#justificativa:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* ===========================
+   Botões e Ações
+=========================== */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.btn:active { filter: brightness(0.9); }
+
+.btn-approve { background: #16A34A; color: #fff; }
+.btn-reject { background: #DC2626; color: #fff; }
+
+/* ===========================
+   Modal
+=========================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #fff;
+  width: 90%;
+  max-width: 340px;
+  padding: 24px;
+  border-radius: 16px;
+  text-align: center;
+  animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-title { margin-bottom: 8px; font-size: 18px; }
+.modal-sub { color: #666; margin-bottom: 24px; font-size: 14px; }
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-confirm { background: #16A34A; color: #fff; }
+.btn-cancel { background: #f3f4f6; color: #374151; }
+
+/* ===========================
+   Toast (Notificação)
+=========================== */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 3000;
+}
+
+.toast.show {
+  display: block;
+  animation: fadeInOut 3s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; bottom: 15px; }
+  15% { opacity: 1; bottom: 25px; }
+  85% { opacity: 1; bottom: 25px; }
+  100% { opacity: 0; bottom: 15px; }
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Validação de Certificado</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="estilo-validar.css" />
+</head>
+<body>
+
+  <div class="app">
+    <div class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="back-btn" aria-label="Voltar"><i class="fa-solid fa-arrow-left"></i></button>
+          <h1 class="topbar-title">Validação de Certificado</h1>
+        </div>
+        <div class="topbar-right" style="display: flex; gap: 15px; align-items: center;">
+          <button class="bell-btn" aria-label="Notificações"><i class="fa-solid fa-bell"></i></button>
+          <button id="openMenu" style="background:none; border:none; color:white; font-size:22px; cursor:pointer;">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="card profile-card">
+          <div class="profile-row">
+            <div class="avatar" id="avatar">JS</div>
+            <div class="profile-info">
+              <p class="profile-name" id="profile-name">João Silva</p>
+              <p class="profile-sub" id="profile-sub">120h / 200h obrigatórias</p>
+            </div>
+          </div>
+          <div class="progress-row">
+            <span class="progress-label">Progresso</span>
+            <div class="progress-bar" role="progressbar">
+              <div class="progress-fill" id="progress-fill" style="width: 60%"></div>
+            </div>
+            <span class="progress-pct" id="progress-pct">60%</span>
+          </div>
+        </section>
+
+        <section class="card info-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+            <h2 class="card-title">Informações do Aluno</h2>
+          </div>
+          <dl class="info-grid">
+            <dt class="info-label">Nome</dt>
+            <dd class="info-value" id="info-nome">—</dd>
+            <dt class="info-label">Atividade</dt>
+            <dd class="info-value" id="info-atividade">—</dd>
+            <dt class="info-label">Data</dt>
+            <dd class="info-value" id="info-data">—</dd>
+            <dt class="info-label">Carga Horária</dt>
+            <dd class="info-value" id="info-carga">—</dd>
+          </dl>
+        </section>
+
+        <section class="card doc-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fa-solid fa-paperclip"></i></span>
+            <h2 class="card-title">Documento Anexado</h2>
+          </div>
+          <div class="doc-item">
+            <div class="doc-thumb"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="doc-info">
+              <p class="doc-name" id="doc-name">—</p>
+              <p class="doc-meta" id="doc-meta">—</p>
+            </div>
+            <button class="doc-action">Ver</button>
+          </div>
+        </section>
+
+        <section class="card just-card">
+          <label class="just-label" for="justificativa">
+            Justificativa <span>(obrigatória se reprovar)</span>
+          </label>
+          <textarea id="justificativa" placeholder="Descreva o motivo da reprovação..." disabled></textarea>
+        </section>
+
+        <div class="actions">
+          <button class="btn btn-approve" id="btn-approve">Aprovar</button>
+          <button class="btn btn-reject" id="btn-reject">Reprovar</button>
+        </div>
+      </main>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button id="closeMenu" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+        <span style="font-weight: 600; margin-left: 10px;">Menu</span>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item active"><i class="fa-solid fa-house"></i> Início</li>
+        <li class="nav-item"><i class="fa-solid fa-user"></i> Perfil</li>
+        <li class="nav-item"><i class="fa-solid fa-chart-line"></i> Atividades</li>
+        <li class="nav-item"><i class="fa-solid fa-file"></i> Documentos</li>
+        <li class="nav-item"><i class="fa-solid fa-gear"></i> Configurações</li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-info"><i class="fa-solid fa-circle-user"></i> Usuário</div>
+        <a href="#" class="logout-link">logout</a>
+      </div>
+    </aside>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2 class="modal-title" id="modal-title">Confirmar</h2>
+      <p class="modal-sub" id="modal-sub"></p>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" id="modal-cancel">Cancelar</button>
+        <button class="btn btn-confirm" id="modal-confirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="validar-certificado.js" defer></script>
+</body>
+</html>
