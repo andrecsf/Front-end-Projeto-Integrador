@@ -173,7 +173,7 @@ searchInput.addEventListener('input', () => {
 // DETALHES DO CURSO
 // =========================
 function openCourseDetails(courseId) {
-    window.location.href = `../CursoDetalhes/cursoDetalhes.html?id=${courseId}`;
+    window.location.href = `../PerfilCurso/perfil-curso.html?id=${courseId}`;
 }
 
 // =========================
