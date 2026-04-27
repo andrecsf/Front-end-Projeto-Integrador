@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Coordenador</title>
+    <link rel="stylesheet" href="style-perfil-coordenador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li class="active"><a href="index.html"><i class="fas fa-chart-bar"></i> <span
+                                class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text">Usuário</p>
+                        <a href="#" class="menu-text">logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <a href="javascript:history.back()" class="btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Perfil do Coordenador</h1>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <!-- Coordinator Info Section -->
+                <div class="coordinator-info-section">
+                    <div class="coordinator-header">
+                        <div class="coordinator-avatar" id="coordinator-avatar">C</div>
+                        <div class="coordinator-details">
+                            <h2 id="coordinator-name">Prof. Dr. Carlos Mendes</h2>
+                            <p id="coordinator-email" class="coordinator-email">carlos@example.com</p>
+                            <p id="coordinator-department" class="coordinator-department">Departamento de Engenharia</p>
+                        </div>
+                    </div>
+
+                    <div class="coordinator-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <p class="stat-label">Cursos Coordenados</p>
+                                <p class="stat-value" id="courses-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <p class="stat-label">Alunos Vinculados</p>
+                                <p class="stat-value" id="students-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div>
+                                <p class="stat-label">Data de Cadastro</p>
+                                <p class="stat-value" id="registration-date">--/--/----</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Cursos Coordenados</h3>
+                    </div>
+                    <div id="courses-list" class="courses-list">
+                        <div class="empty-message">Nenhum curso vinculado.</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-edit" id="btn-edit">
+                        <i class="fas fa-edit"></i> Editar Coordenador
+                    </button>
+                    <button class="btn-delete" id="btn-delete">
+                        <i class="fas fa-trash"></i> Remover Coordenador
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script-perfil-coordenador.js"></script>
+</body>
+
+</html>
