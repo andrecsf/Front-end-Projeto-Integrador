@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório do Aluno</title>
+    <link rel="stylesheet" href="style-relatorio-aluno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li class="active"><a href="index.html"><i class="fas fa-chart-bar"></i> <span
+                                class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text">Usuário</p>
+                        <a href="#" class="menu-text">logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <a href="javascript:history.back()" class="btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Relatório do Aluno</h1>
+                </div>
+                <div class="header-right">
+                    <button class="btn-notification" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <!-- Student Header Card -->
+                <div class="student-header-card">
+                    <div class="student-avatar" id="student-avatar">J</div>
+                    <div class="student-info">
+                        <h2 id="student-name">João Silva</h2>
+                        <p id="student-hours">120h / 200h obrigatórias</p>
+                        <div class="student-trend">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Progresso positivo</span>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Progresso</span>
+                            <span id="progress-percentage">60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities Section -->
+                <div class="section">
+                    <h3 class="section-title">Atividades Realizadas</h3>
+                    <div id="activities-list" class="activities-list">
+                        <!-- Activities will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-edit" id="btn-edit">
+                        <i class="fas fa-edit"></i> Editar Aluno
+                    </button>
+                    <button class="btn-delete" id="btn-delete">
+                        <i class="fas fa-trash"></i> Remover Aluno
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script-relatorio-aluno.js"></script>
+</body>
+
+</html>
