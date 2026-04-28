@@ -19,6 +19,9 @@ const infoData = document.getElementById('info-data');
 const infoCarga = document.getElementById('info-carga');
 const docName = document.getElementById('doc-name');
 
+// 🔥 ADICIONADO AQUI
+const btnVer = document.getElementById('btnVer');
+
 // Justificativa e Botões Principais
 const justificativa = document.getElementById('justificativa');
 const btnApprove = document.getElementById('btn-approve');
@@ -122,6 +125,17 @@ function preencherDados() {
 }
 
 /* ============================================================
+   🔥 4.1 EVENTO DO BOTÃO "VER" (ADICIONADO)
+============================================================ */
+
+btnVer.addEventListener("click", () => {
+  const data = getData();
+  const arquivo = data.certificado.arquivo;
+
+  window.location.href = `../VisualizarCertificado/visualizar-certificado.html?arquivo=${arquivo}`;
+});
+
+/* ============================================================
    5. EVENTOS DE APROVAÇÃO / REPROVAÇÃO
 ============================================================ */
 
@@ -156,10 +170,9 @@ modalConfirm.addEventListener("click", () => {
 
   if (pendingAction === "approve") {
     showToast("✅ Certificado aprovado com sucesso!");
-    // Aqui você faria a chamada para o banco de dados
   } else {
     showToast("❌ Certificado reprovado.");
-    justificativa.disabled = true; // Trava novamente após finalizar
+    justificativa.disabled = true;
   }
 });
 
