@@ -1,18 +1,20 @@
 /* ============================================================
    1. SELEÇÃO DE ELEMENTOS
 ============================================================ */
-// Sidebar
+
+// Sidebar (menu lateral)
 const sidebar = document.getElementById('sidebar');
 const btnOpenSidebar = document.getElementById('openMenu');
 const btnCloseSidebar = document.getElementById('closeMenu');
 
-// Elementos de Perfil e Dados
+// Perfil do aluno (topo)
 const avatar = document.getElementById('avatar');
 const profileName = document.getElementById('profile-name');
 const profileSub = document.getElementById('profile-sub');
 const progressFill = document.getElementById('progress-fill');
 const progressPct = document.getElementById('progress-pct');
 
+// Informações do certificado
 const infoNome = document.getElementById('info-nome');
 const infoAtiv = document.getElementById('info-atividade');
 const infoCategoria = document.getElementById('info-categoria');
@@ -20,29 +22,33 @@ const infoData = document.getElementById('info-data');
 const infoCarga = document.getElementById('info-carga');
 const docName = document.getElementById('doc-name');
 
-// Botão ver
+// Botão para visualizar o certificado
 const btnVer = document.getElementById('btnVer');
 
-// Justificativa e Botões Principais
+// Ações principais (aprovar/reprovar)
 const justificativa = document.getElementById('justificativa');
 const btnApprove = document.getElementById('btn-approve');
 const btnReject = document.getElementById('btn-reject');
 
-// Modal
+// Elementos do modal de confirmação
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modal-title');
 const modalSub = document.getElementById('modal-sub');
 const modalCancel = document.getElementById('modal-cancel');
 const modalConfirm = document.getElementById('modal-confirm');
 
-// Toast
+// Toast (mensagens rápidas na tela)
 const toast = document.getElementById('toast');
 
-// Estado da ação (aprovar/reprovar)
+// Estado da ação atual (approve/reject)
 let pendingAction = null;
 
-// 🔥 Armazena os dados vindos da API (cache local)
+// Armazena os dados retornados da API (cache local)
 let dataGlobal = null;
+
+// Captura o ID da submissão via query string (?id=1)
+const urlParams = new URLSearchParams(window.location.search);
+const submissaoId = urlParams.get('id');
 
 
 /* ============================================================
@@ -50,29 +56,41 @@ let dataGlobal = null;
 ============================================================ */
 
 /**
- * Exibe mensagem temporária (toast)
+ * Exibe uma notificação temporária (toast)
  */
 function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add("show");
-  
+
+  // Remove automaticamente após 3 segundos
   setTimeout(() => {
     toast.classList.remove("show");
   }, 3000);
 }
 
 /**
- * Abre modal de confirmação
+ * Abre o modal de confirmação
  */
 function abrirModal() {
   modal.style.display = "flex";
 }
 
 /**
- * Fecha modal
+ * Fecha o modal
  */
 function fecharModal() {
   modal.style.display = "none";
+}
+
+/**
+ * Desabilita os botões após ação concluída
+ * Evita múltiplos envios
+ */
+function desabilitarBotoes() {
+  btnApprove.disabled = true;
+  btnReject.disabled = true;
+  btnApprove.style.opacity = "0.5";
+  btnReject.style.opacity = "0.5";
 }
 
 
@@ -80,18 +98,18 @@ function fecharModal() {
    3. CONTROLE DA SIDEBAR
 ============================================================ */
 
-// Abre sidebar
+// Abre a sidebar
 btnOpenSidebar.addEventListener('click', (e) => {
-  e.stopPropagation();
+  e.stopPropagation(); // evita conflito com clique global
   sidebar.classList.add('active');
 });
 
-// Fecha pelo botão
+// Fecha pelo botão X
 btnCloseSidebar.addEventListener('click', () => {
   sidebar.classList.remove('active');
 });
 
-// Fecha clicando fora
+// Fecha ao clicar fora da sidebar
 document.addEventListener('click', (event) => {
   if (!sidebar.contains(event.target) && !btnOpenSidebar.contains(event.target)) {
     sidebar.classList.remove('active');
@@ -104,66 +122,91 @@ document.addEventListener('click', (event) => {
 ============================================================ */
 
 /**
- * Busca dados do certificado no backend
+ * Busca os dados da submissão no backend via API REST
  */
 async function getData() {
   try {
-    const response = await fetch("http://localhost:8080/certificados/1");
-
-    if (!response.ok) {
-      throw new Error("Erro HTTP");
+    // Validação: precisa ter ID na URL
+    if (!submissaoId) {
+      throw new Error("ID não informado na URL");
     }
 
-    const data = await response.json();
-    return data;
+    // Requisição GET para o backend Spring
+    const response = await fetch(`http://localhost:8080/submissoes/${submissaoId}`);
+
+    // Validação de erro HTTP
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    // Retorna o JSON da API
+    return await response.json();
 
   } catch (error) {
     console.error("Erro ao buscar API:", error);
-
-    // ⚠️ Não trava a aplicação, apenas alerta
-    showToast("⚠️ Não foi possível carregar dados do servidor");
-
+    showToast("❌ Erro ao carregar dados");
     return null;
   }
 }
 
 
 /* ============================================================
-   5. PREENCHIMENTO DA TELA
+   5. PREENCHIMENTO DA INTERFACE
 ============================================================ */
 
 /**
- * Preenche os dados na interface
+ * Preenche os dados na tela com base no retorno da API
  */
 async function preencherDados() {
-  const data = await getData();
 
-  // 🔥 Se falhar, não quebra a tela
+  // Valida se o ID existe
+  if (!submissaoId) {
+    showToast("⚠️ URL sem ID. Use: ?id=1");
+    return;
+  }
+
+  // Busca dados
+  const data = await getData();
   if (!data) return;
 
-  // Salva globalmente (usado no botão "Ver")
+  // Salva globalmente
   dataGlobal = data;
 
-  // Avatar com iniciais
-  avatar.textContent = data.alunoNome?.substring(0, 2).toUpperCase() || "--";
+  // Gera iniciais do avatar
+  avatar.textContent = data.nomeAluno
+    ? data.nomeAluno.substring(0, 2).toUpperCase()
+    : "--";
 
-  // Nome e infos
-  profileName.textContent = data.alunoNome || "—";
+  // Dados do perfil
+  profileName.textContent = data.nomeAluno || "—";
   profileSub.textContent = "Horas complementares";
 
-  // (Caso não tenha no DTO ainda)
+  // Barra de progresso (não implementada ainda)
   progressFill.style.width = "0%";
   progressPct.textContent = "0%";
 
   // Dados principais
-  infoNome.textContent = data.alunoNome;
-  infoAtiv.textContent = data.atividade;
-  infoCategoria.textContent = data.categoria;
-  infoData.textContent = data.data;
-  infoCarga.textContent = data.cargaHoraria + "h";
+  infoNome.textContent = data.nomeAluno || "—";
+  infoAtiv.textContent = data.nomeCategoria || "—";
+  infoCategoria.textContent = data.nomeCategoria || "—";
 
-  // Documento
-  docName.textContent = data.arquivo;
+  // Formatação da data (ISO → BR)
+  infoData.textContent = data.dataEnvio
+    ? new Date(data.dataEnvio).toLocaleDateString('pt-BR')
+    : "—";
+
+  // Carga horária
+  infoCarga.textContent = data.horasAproveitadas
+    ? data.horasAproveitadas + "h"
+    : "—";
+
+  // Nome/URL do documento
+  docName.textContent = data.urlCertificado || "—";
+
+  // Se já foi aprovado/rejeitado → bloqueia ações
+  if (data.status && data.status !== "PENDENTE") {
+    desabilitarBotoes();
+  }
 }
 
 
@@ -172,26 +215,19 @@ async function preencherDados() {
 ============================================================ */
 
 /**
- * Navega para tela de visualização
- * ✔ Funciona com API
- * ✔ Funciona mesmo sem API (fallback)
+ * Redireciona para a tela de visualização do certificado
  */
 btnVer.addEventListener("click", () => {
 
-  let arquivo;
+  // Usa arquivo da API ou fallback
+  const arquivo = dataGlobal?.urlCertificado || "certificado_exemplo.pdf";
 
-  // 🔥 Usa API se disponível
-  if (dataGlobal && dataGlobal.arquivo) {
-    arquivo = dataGlobal.arquivo;
-  } else {
-    // 🔥 Fallback (evita travar navegação)
-    arquivo = "certificado_exemplo.pdf";
-  }
-
+  // Monta URL da outra tela
   const url = `../VisualizarCertificado/visualizar-certificado.html?arquivo=${encodeURIComponent(arquivo)}`;
 
   console.log("Redirecionando para:", url);
 
+  // Navegação
   window.location.href = url;
 });
 
@@ -200,44 +236,74 @@ btnVer.addEventListener("click", () => {
    7. APROVAÇÃO / REPROVAÇÃO
 ============================================================ */
 
-// Aprovar
+// Clique em Aprovar
 btnApprove.addEventListener("click", () => {
   pendingAction = "approve";
   modalTitle.textContent = "Confirmar Aprovação";
-  modalSub.textContent = "Deseja aprovar este certificado e somar as horas?";
+  modalSub.textContent = "Deseja aprovar este certificado?";
   abrirModal();
 });
 
-// Reprovar
+// Clique em Reprovar
 btnReject.addEventListener("click", () => {
   justificativa.disabled = false;
   justificativa.focus();
 
   pendingAction = "reject";
   modalTitle.textContent = "Confirmar Reprovação";
-  modalSub.textContent = "Tem certeza que deseja reprovar este certificado?";
+  modalSub.textContent = "Deseja reprovar este certificado?";
   abrirModal();
 });
 
-// Cancelar modal
+// Cancelar ação
 modalCancel.addEventListener("click", fecharModal);
 
-// Confirmar ação
-modalConfirm.addEventListener("click", () => {
+// Confirmar ação → envia para o backend
+modalConfirm.addEventListener("click", async () => {
 
-  // Validação obrigatória na reprovação
+  // Validação obrigatória
   if (pendingAction === "reject" && !justificativa.value.trim()) {
-    showToast("⚠️ Informe o motivo da reprovação!");
+    showToast("⚠️ Informe a justificativa!");
     return;
   }
 
   fecharModal();
 
-  if (pendingAction === "approve") {
-    showToast("✅ Certificado aprovado com sucesso!");
-  } else {
-    showToast("❌ Certificado reprovado.");
-    justificativa.disabled = true;
+  try {
+
+    // Monta payload conforme ação
+    const body = pendingAction === "approve"
+      ? { status: "APROVADO" }
+      : {
+          status: "REJEITADO",
+          observacaoCoordenador: justificativa.value.trim()
+        };
+
+    // Requisição PUT para atualizar status
+    const response = await fetch(
+      `http://localhost:8080/submissoes/${submissaoId}/status`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      }
+    );
+
+    if (!response.ok) throw new Error("Erro ao atualizar");
+
+    // Feedback visual
+    showToast(
+      pendingAction === "approve"
+        ? "✅ Aprovado com sucesso!"
+        : "❌ Reprovado com sucesso!"
+    );
+
+    // Bloqueia ações após envio
+    desabilitarBotoes();
+
+  } catch (error) {
+    console.error(error);
+    showToast("❌ Erro ao enviar status");
   }
 });
 
@@ -246,5 +312,5 @@ modalConfirm.addEventListener("click", () => {
    8. INICIALIZAÇÃO
 ============================================================ */
 
-// Carrega dados ao abrir página
+// Dispara carregamento inicial da tela
 preencherDados();
