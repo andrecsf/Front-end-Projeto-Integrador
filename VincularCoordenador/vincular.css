@@ -1,0 +1,257 @@
+/* --- VARIÁVEIS DO SISTEMA (CONFORME REFERÊNCIA) --- */
+:root {
+    --primary-blue: #2563eb;
+    --sidebar-blue: #1d4ed8;
+    --bg-gray: #f8fafc;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --white: #ffffff;
+    --border-color: #e2e8f0;
+    --green: #22c55e;
+    --red: #ef4444;
+    --sidebar-width: 250px;
+    --sidebar-width-collapsed: 80px;
+    --transition-duration: 0.3s;
+}
+
+/* --- RESET E BASE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-gray);
+    color: var(--text-dark);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR (ALINHADA À DIREITA CONFORME SUA REF) --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    transition: width var(--transition-duration) ease;
+}
+
+.sidebar-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    min-height: 80px;
+    justify-content: center;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.sidebar-nav li {
+    padding: 12px 20px;
+    transition: background 0.3s;
+}
+
+.sidebar-nav li:hover, .sidebar-nav li.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav a {
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* --- CONTEÚDO PRINCIPAL (MARGEM À DIREITA) --- */
+.main-content {
+    flex: 1;
+    margin-right: var(--sidebar-width);
+    padding: 0;
+    transition: margin-right var(--transition-duration) ease;
+}
+
+.main-header {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-back {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: transform 0.2s;
+}
+
+.btn-back:hover { transform: scale(1.1); }
+
+.content-body {
+    padding: 30px 40px;
+}
+
+/* --- CONTAINER DA LISTA (ESTILO FORM DA REF) --- */
+.section {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.section-header {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* --- BUSCA (ESTILO INPUT DA REF) --- */
+.search-box {
+    position: relative;
+    max-width: 350px;
+    width: 100%;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* --- CARDS DE COORDENADORES --- */
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.item-card:hover {
+    border-color: var(--primary-blue);
+    background-color: #f8fafc;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.item-info i {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.item-info strong {
+    display: block;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.item-info p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* --- BOTÃO DE VÍNCULO (ESTILO BTN-SAVE DA REF) --- */
+.btn-add-item {
+    background-color: var(--green); /* Verde da referência */
+    color: var(--white) !important;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-add-item:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-add-item i {
+    color: var(--white);
+}
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .sidebar { display: none; } /* Oculta sidebar em telas pequenas se necessário */
+    .main-content { margin-right: 0; }
+    .item-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    .item-info { flex-direction: column; }
+    .btn-add-item { width: 100%; justify-content: center; }
+}

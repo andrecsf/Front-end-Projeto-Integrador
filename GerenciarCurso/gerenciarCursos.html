@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Cursos</title>
+    <title>Gerenciar Cursos | Sistema Acadêmico</title>
     <link rel="stylesheet" href="gerenciaCursos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,47 +21,12 @@
 
             <nav class="sidebar-nav">
                 <ul>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-home"></i>
-                            <span class="menu-text">Início</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-user"></i>
-                            <span class="menu-text">Perfil</span>
-                        </a>
-                    </li>
-
-                    <li class="active">
-                        <a href="#">
-                            <i class="fas fa-chart-bar"></i>
-                            <span class="menu-text">Gerenciar cursos</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-users"></i>
-                            <span class="menu-text">Usuários</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-file-alt"></i>
-                            <span class="menu-text">Documentos</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-cog"></i>
-                            <span class="menu-text">Configurações</span>
-                        </a>
-                    </li>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li class="active"><a href="#"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
                 </ul>
             </nav>
 
@@ -69,7 +34,7 @@
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
                     <div class="user-text">
-                        <p class="menu-text">Usuário</p>
+                        <p class="menu-text">Administrador</p>
                         <a href="#" class="menu-text">Logout</a>
                     </div>
                 </div>
@@ -78,65 +43,54 @@
 
         <!-- Main Content -->
         <main class="main-content">
-
-            <!-- HEADER -->
             <header class="main-header">
                 <div class="header-left">
-                    <!-- 🔥 BOTÃO VOLTAR FUNCIONANDO -->
-                    <i class="fas fa-arrow-left" id="btnVoltar"></i>
+                    <i class="fas fa-arrow-left" id="btnVoltar" title="Voltar para Home"></i>
                     <h1>Gerenciar Cursos</h1>
                 </div>
             </header>
 
             <section class="content-body">
-
-                <!-- Estatísticas -->
+                <!-- Estatísticas Dinâmicas -->
                 <div class="stats-container">
                     <div class="stat-card">
                         <h2 id="total-courses">0</h2>
-                        <p>Total</p>
+                        <p>Total de Cursos</p>
                     </div>
-
                     <div class="stat-divider"></div>
-
                     <div class="stat-card">
                         <h2 id="active-courses" class="text-green">0</h2>
-                        <p>Ativos</p>
+                        <p>Cursos Ativos</p>
                     </div>
-
                     <div class="stat-divider"></div>
-
                     <div class="stat-card">
                         <h2 id="total-students" class="text-orange">0</h2>
-                        <p>Alunos</p>
+                        <p>Total Alunos</p>
                     </div>
                 </div>
 
-                <!-- Ações -->
+                <!-- Barra de Busca e Ações -->
                 <div class="actions-container">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="search-input" placeholder="Buscar cursos...">
+                        <input type="text" id="search-input" placeholder="Buscar por nome do curso...">
                     </div>
 
                     <button class="btn-add" onclick="window.location.href='../CadastrarCurso/cadastroCurso.html'">
-                        + Cadastrar Novo Curso
+                        <i class="fas fa-plus"></i> Cadastrar Novo Curso
                     </button>
                 </div>
 
-                <!-- Lista de cursos -->
+                <!-- Container onde o JS injetará os Cards -->
                 <div id="course-list" class="course-list">
-                    <div class="empty-state">
-                        <p>Nenhum curso cadastrado ainda.</p>
+                    <div class="loading-state">
+                        <p><i class="fas fa-spinner fa-spin"></i> Carregando cursos...</p>
                     </div>
                 </div>
-
             </section>
         </main>
     </div>
 
-    <!-- SCRIPT -->
     <script src="gerenciarCursos.js"></script>
 </body>
-
 </html>

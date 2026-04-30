@@ -15,7 +15,7 @@ const searchInput = document.getElementById('search-input');
 const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
     perfil: "../PerfilCurso/perfil-curso.html",
-    cursos: "../GerenciarCurso/gerenciarCursos.html",
+    cursos: "../GerenciarCurso/gerenciaCursos.html",
     usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
     documentos: "../CadastrarCategoria/cadastrarCategoria.html",
     configuracoes: "../Login/index.html"
@@ -43,7 +43,7 @@ function restoreMenuState() {
     }
 }
 
-// clique no topo da sidebar
+// Clique no topo da sidebar
 const sidebarHeader = document.querySelector('.sidebar-header');
 if (sidebarHeader) {
     sidebarHeader.addEventListener('click', toggleMenu);
@@ -66,9 +66,7 @@ const menuKeys = [
 menuLinks.forEach((link, index) => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
-
         const rota = menuKeys[index];
-
         if (ROTAS[rota]) {
             window.location.href = ROTAS[rota];
         }
@@ -79,23 +77,30 @@ menuLinks.forEach((link, index) => {
 // BOTÃO VOLTAR
 // =========================
 const btnVoltar = document.getElementById("btnVoltar");
-
 if (btnVoltar) {
     btnVoltar.style.cursor = "pointer";
-
     btnVoltar.addEventListener("click", () => {
         window.location.href = ROTAS.inicio;
     });
 }
 
 // =========================
-// CARREGAR CURSOS
+// CARREGAR CURSOS DO BACKEND
 // =========================
 async function loadCourses() {
     try {
-        const response = await fetch('http://localhost:8080/cursos');
+        const token = localStorage.getItem('token'); // Recupera o token de login
+
+        const response = await fetch('http://localhost:8080/cursos', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
 
         if (!response.ok) {
+            if (response.status === 403) throw new Error('Sessão expirada. Faça login novamente.');
             throw new Error('Erro ao carregar cursos');
         }
 
@@ -109,14 +114,15 @@ async function loadCourses() {
 
         courseList.innerHTML = `
             <div class="empty-state">
-                <p>Erro ao carregar cursos.</p>
+                <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ff4d4d; margin-bottom: 10px;"></i>
+                <p>${error.message}</p>
             </div>
         `;
     }
 }
 
 // =========================
-// RENDER CURSOS
+// RENDERIZAR CARDS DE CURSOS
 // =========================
 function renderCourses(courseArray) {
     if (courseArray.length === 0) {
@@ -129,22 +135,20 @@ function renderCourses(courseArray) {
     }
 
     courseList.innerHTML = courseArray.map(course => `
-        <div class="course-card" data-id="${course.id}">
-            <h3>${course.nome}</h3>
-            <p>${course.descricao || 'Sem descrição'}</p>
-            <span>Carga horária: ${course.cargaHorariaMax}h</span>
+        <div class="course-card" onclick="openCourseDetails(${course.id})">
+            <div class="course-card-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="course-card-content">
+                <h3>${course.nome}</h3>
+                <p>${course.descricao || 'Nenhuma descrição fornecida.'}</p>
+                <div class="course-card-footer">
+                    <span><i class="fas fa-clock"></i> ${course.cargaHorariaMax}h</span>
+                    <span class="badge-active">Ativo</span>
+                </div>
+            </div>
         </div>
     `).join('');
-
-    // clique nos cursos
-    document.querySelectorAll(".course-card").forEach(card => {
-        card.style.cursor = "pointer";
-
-        card.addEventListener("click", () => {
-            const id = card.getAttribute("data-id");
-            openCourseDetails(id);
-        });
-    });
 }
 
 // =========================
@@ -152,32 +156,33 @@ function renderCourses(courseArray) {
 // =========================
 function updateStats() {
     totalCourses.textContent = courses.length;
-    activeCourses.textContent = courses.length;
-    totalStudents.textContent = 0;
+    activeCourses.textContent = courses.length; // Aqui você pode filtrar por status se tiver no futuro
+    totalStudents.textContent = 0; // Você pode implementar uma rota de contagem de alunos depois
 }
 
 // =========================
-// BUSCA
+// BUSCA DINÂMICA
 // =========================
 searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
 
     const filteredCourses = courses.filter(course =>
-        course.nome.toLowerCase().includes(searchTerm)
+        course.nome.toLowerCase().includes(searchTerm) || 
+        (course.descricao && course.descricao.toLowerCase().includes(searchTerm))
     );
 
     renderCourses(filteredCourses);
 });
 
 // =========================
-// DETALHES DO CURSO
+// REDIRECIONAR PARA PERFIL
 // =========================
 function openCourseDetails(courseId) {
-    window.location.href = `../PerfilCurso/perfil-curso.html?id=${courseId}`;
+    window.location.href = `${ROTAS.perfil}?id=${courseId}`;
 }
 
 // =========================
-// INIT
+// INICIALIZAÇÃO
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();

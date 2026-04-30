@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Coordenador</title>
+    <!-- Mantendo seus arquivos de estilo originais -->
     <link rel="stylesheet" href="style-cadastro-coordenador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
-        <!-- Sidebar -->
+        <!-- Sidebar (Lado Direito conforme seu CSS) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <i class="fas fa-bars"></i>
@@ -21,10 +22,8 @@
                 <ul>
                     <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
                     <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
-                    <li><a href="index.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar
-                                cursos</span></a></li>
-                    <li class="active"><a href="#"><i class="fas fa-users"></i> <span
-                                class="menu-text">Usuários</span></a></li>
+                    <li><a href="../GerenciarCurso/index.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span></a></li>
+                    <li class="active"><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
                     <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
                     <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
                 </ul>
@@ -33,7 +32,7 @@
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
                     <div class="user-text">
-                        <p class="menu-text">Usuário</p>
+                        <p class="menu-text">Administrador</p>
                         <a href="#" class="menu-text">logout</a>
                     </div>
                 </div>
@@ -44,6 +43,7 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
+                    <!-- Link para voltar à gestão de coordenadores -->
                     <a href="javascript:history.back()" class="btn-back">
                         <i class="fas fa-arrow-left"></i>
                     </a>
@@ -53,6 +53,7 @@
 
             <section class="content-body">
                 <form id="coordinator-form" class="form-container">
+                    
                     <!-- Nome Completo -->
                     <div class="form-group">
                         <label for="coordinator-name">Nome completo:</label>
@@ -62,17 +63,17 @@
 
                     <!-- E-mail -->
                     <div class="form-group">
-                        <label for="coordinator-email">E-mail:</label>
+                        <label for="coordinator-email">E-mail institucional:</label>
                         <input type="email" id="coordinator-email" name="coordinator-email"
                             placeholder="email@exemplo.com" required>
                     </div>
 
-                    <!-- Senha -->
+                    <!-- Senha com Wrapper de Visualização -->
                     <div class="form-group">
                         <label for="coordinator-password">Senha:</label>
                         <div class="password-input-wrapper">
                             <input type="password" id="coordinator-password" name="coordinator-password"
-                                placeholder="Digite uma senha" required>
+                                placeholder="Digite uma senha" required minlength="6">
                             <button type="button" class="btn-toggle-password" id="btn-toggle-password"
                                 title="Mostrar/Ocultar senha">
                                 <i class="fas fa-eye"></i>
@@ -80,10 +81,19 @@
                         </div>
                     </div>
 
+                    <!-- Vínculo com Curso (Novo Campo Adicionado) -->
+                    <div class="form-group">
+                        <label for="coordinator-course">Vincular a um curso (Opcional):</label>
+                        <select id="coordinator-course" class="custom-select">
+                            <option value="">Nenhum vínculo agora</option>
+                            <!-- Os cursos serão carregados aqui via JavaScript -->
+                        </select>
+                    </div>
+
                     <!-- Botões de Ação -->
                     <div class="form-actions">
                         <button type="submit" class="btn-save" id="btn-save">
-                            Finalizar Vínculo
+                            Finalizar Cadastro
                         </button>
                         <button type="button" class="btn-cancel" id="btn-cancel" onclick="window.history.back()">
                             Cancelar
@@ -93,6 +103,8 @@
             </section>
         </main>
     </div>
+
+    <!-- Script atualizado com integração ao Backend -->
     <script src="script-cadastro-coordenador.js"></script>
 </body>
 

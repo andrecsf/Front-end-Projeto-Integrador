@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Curso</title>
+    <title>Cadastrar Curso - Sistema Acadêmico</title>
+    <!-- Mantendo seu padrão de estilização -->
     <link rel="stylesheet" href="cadastroCurso.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -23,12 +24,12 @@
                     <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
                     <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
                     <li class="active">
-                        <a href="index.html">
+                        <a href="../GerenciarCurso/gerenciarCursos.html">
                             <i class="fas fa-chart-bar"></i>
                             <span class="menu-text">Gerenciar cursos</span>
                         </a>
                     </li>
-                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="../GerenciarCoordenador/gerenciarCoordenadores.html"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
                     <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
                     <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
                 </ul>
@@ -38,7 +39,7 @@
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
                     <div class="user-text">
-                        <p class="menu-text">Usuário</p>
+                        <p class="menu-text">Coordenador</p>
                         <a href="#" class="menu-text">Logout</a>
                     </div>
                 </div>
@@ -49,51 +50,53 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
-                    <a href="index.html" class="btn-back">
+                    <!-- Redireciona para a listagem de cursos -->
+                    <a href="../GerenciarCurso/gerenciarCursos.html" class="btn-back">
                         <i class="fas fa-arrow-left"></i>
                     </a>
-                    <h1>Cadastrar Curso</h1>
+                    <h1>Novo Cadastro de Curso</h1>
                 </div>
             </header>
 
             <section class="content-body">
                 <form id="course-form" class="form-container">
 
-                    <!-- Nome -->
+                    <!-- Nome do Curso -->
                     <div class="form-group">
                         <label for="course-name">Nome do curso:</label>
                         <input type="text"
                                id="course-name"
-                               placeholder="Digite o nome do curso"
+                               placeholder="Ex: Análise e Desenvolvimento de Sistemas"
                                required>
                     </div>
 
                     <!-- Descrição -->
                     <div class="form-group">
-                        <label for="course-description">Descrição:</label>
+                        <label for="course-description">Descrição do curso:</label>
                         <textarea id="course-description"
-                                  placeholder="Digite a descrição do curso"
+                                  placeholder="Descreva brevemente os objetivos do curso..."
                                   rows="4"></textarea>
                     </div>
 
                     <!-- Carga Horária -->
                     <div class="form-group">
-                        <label for="course-workload">Carga horária máxima:</label>
+                        <label for="course-workload">Carga horária máxima (horas):</label>
                         <input type="number"
                                id="course-workload"
-                               placeholder="Digite a carga horária máxima"
+                               placeholder="Ex: 2000"
+                               min="1"
                                required>
                     </div>
 
-                    <!-- Botões -->
+                    <!-- Botões de Ação -->
                     <div class="form-actions">
                         <button type="submit" class="btn-save" id="btn-save">
-                            Salvar
+                            Salvar Curso
                         </button>
 
                         <button type="button"
                                 class="btn-cancel"
-                                onclick="window.location.href='index.html'">
+                                onclick="window.location.href='../GerenciarCurso/gerenciarCursos.html'">
                             Cancelar
                         </button>
                     </div>
@@ -103,6 +106,7 @@
         </main>
     </div>
 
+    <!-- Referência ao seu arquivo JS que contém a lógica de POST -->
     <script src="cadastroCurso.js"></script>
 </body>
 

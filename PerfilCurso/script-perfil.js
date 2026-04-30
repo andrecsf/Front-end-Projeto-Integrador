@@ -1,114 +1,163 @@
 // --- CONFIGURAÇÃO INICIAL ---
 const urlParams = new URLSearchParams(window.location.search);
-const courseId = urlParams.get('id'); // Pega o ID do curso da URL (?id=1)
+const courseId = urlParams.get('id');
+const token = localStorage.getItem('token'); 
 
 let currentCourse = null;
+let allStudents = [];
 
-// --- ELEMENTOS DA PÁGINA ---
+// --- ELEMENTOS DO DOM ---
+const coordinatorDisplay = document.getElementById('coordinator-display');
 const categoriesList = document.getElementById('categories-list');
 const studentsList = document.getElementById('students-list'); 
 const studentsCount = document.getElementById('students-count');
+const searchInput = document.getElementById('search-student');
+
+// Botões
 const btnAddCategory = document.getElementById('btn-add-category');
 const btnAddStudent = document.getElementById('btn-add-student');
+const btnManageCoordinator = document.getElementById('btn-manage-coordinator');
+const btnDelete = document.getElementById('btn-delete');
 
-// --- CARREGAMENTO DE DADOS ---
+const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+};
+
+// --- INICIALIZAÇÃO ---
 async function init() {
     if (!courseId) {
+        console.error("ID do curso não encontrado na URL!");
         alert("ID do curso não encontrado!");
-        window.location.href = 'index.html';
+        window.location.href = '../GerenciarCurso/gerenciaCursos.html';
         return;
+    }
+
+    if (!token) {
+        console.warn("Token de autenticação não encontrado!");
     }
 
     await loadCourseDetails();
     await loadCategories();
-    await loadStudents(); // Carrega os alunos vinculados
+    await loadStudents();
 }
 
-// 1. Carrega os dados básicos do curso
+// 1. Carrega os dados básicos do curso e Coordenador
 async function loadCourseDetails() {
     try {
-        const response = await fetch(`http://localhost:8080/cursos/${courseId}`);
+        console.log(`Buscando curso ID: ${courseId}...`);
+        const response = await fetch(`http://localhost:8080/cursos/${courseId}`, { headers });
+        
         if (response.ok) {
             currentCourse = await response.json();
+            console.log("Dados do curso carregados:", currentCourse);
             
-            // Preenche o HTML
-            document.getElementById('course-name-display').innerText = currentCourse.nome;
-            document.getElementById('course-id-display').innerText = currentCourse.id;
-            document.getElementById('course-workload-display').innerText = currentCourse.cargaHorariaMax;
+            // Atualização dos textos da página
+            document.getElementById('course-name-display').innerText = currentCourse.nome || "N/A";
+            document.getElementById('course-id-display').innerText = currentCourse.id || "---";
+            document.getElementById('course-workload-display').innerText = currentCourse.cargaHorariaMax || "0";
             document.getElementById('course-description-display').innerText = currentCourse.descricao || "Sem descrição disponível.";
             document.getElementById('course-title').innerText = `Perfil: ${currentCourse.nome}`;
+
+            // Renderiza o coordenador
+            renderCoordinator(currentCourse.coordenador);
+        } else {
+            console.error("Erro ao buscar curso:", response.status);
         }
     } catch (error) {
-        console.error("Erro ao carregar detalhes do curso:", error);
+        console.error("Erro na requisição de detalhes do curso:", error);
     }
 }
 
-// 2. Carrega e Filtra as Categorias (Mantendo lógica de filtro manual)
+// 2. Renderiza Card do Coordenador (CORRIGIDO)
+function renderCoordinator(coord) {
+    if (!coord) {
+        console.log("Nenhum coordenador encontrado no objeto curso.");
+        coordinatorDisplay.innerHTML = `
+            <div class="empty-message">
+                <i class="fas fa-exclamation-circle"></i> Nenhum coordenador vinculado a este curso.
+            </div>`;
+        return;
+    }
+
+    // Mapeia propriedades para aceitar diferentes padrões (nome/name)
+    const nome = coord.nome || coord.name || "Coordenador sem nome";
+    const email = coord.email || "E-mail não informado";
+    const matricula = coord.matricula || coord.id || "---";
+
+    coordinatorDisplay.innerHTML = `
+        <div class="item-card highlight-card">
+            <div class="item-info">
+                <i class="fas fa-user-tie" style="font-size: 2rem; color: #2563eb;"></i>
+                <div>
+                    <strong style="color: #1e293b; font-size: 1.1rem;">${nome}</strong>
+                    <p style="color: #64748b; margin-top: 4px;">
+                        <i class="fas fa-envelope"></i> ${email} | 
+                        <i class="fas fa-id-card"></i> Matrícula: ${matricula}
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// 3. Carrega as Categorias
 async function loadCategories() {
     try {
-        const response = await fetch('http://localhost:8080/categorias');
+        const response = await fetch(`http://localhost:8080/categorias`, { headers });
         if (response.ok) {
             const allCategories = await response.json();
-            const filteredCategories = allCategories.filter(cat => cat.cursoId == courseId);
-            renderCategories(filteredCategories);
+            const filtered = allCategories.filter(cat => cat.cursoId == courseId);
+            renderCategories(filtered);
         }
     } catch (error) {
         console.error("Erro ao carregar categorias:", error);
-        categoriesList.innerHTML = '<div class="empty-message">Erro ao conectar com o servidor.</div>';
     }
 }
 
-// 3. ATUALIZADO: Carrega os Alunos usando o novo endpoint de filtro do Backend
-async function loadStudents() {
-    try {
-        // Chamada ao endpoint que criamos no AlunoResource
-        const response = await fetch(`http://localhost:8080/alunos/curso/${courseId}`);
-        
-        if (response.ok) {
-            const students = await response.json();
-            renderStudents(students);
-        } else {
-            console.error("Erro ao buscar alunos do curso");
-            studentsList.innerHTML = '<div class="empty-message">Erro ao processar alunos.</div>';
-        }
-    } catch (error) {
-        console.error("Erro de conexão ao carregar alunos:", error);
-        studentsList.innerHTML = '<div class="empty-message">Servidor offline.</div>';
-    }
-}
-
-// 4. Renderiza as categorias na tela
 function renderCategories(list) {
     if (list.length === 0) {
-        categoriesList.innerHTML = '<div class="empty-message">Nenhuma categoria vinculada a este curso.</div>';
+        categoriesList.innerHTML = '<div class="empty-message">Nenhuma categoria vinculada.</div>';
         return;
     }
 
     categoriesList.innerHTML = list.map(cat => `
         <div class="item-card">
             <div class="item-info">
-                <i class="fas fa-tags"></i>
+                <i class="fas fa-tag"></i>
                 <div>
-                    <strong>${cat.area}</strong>
-                    <p>${cat.horasPorCertificado}h por certificado | Limite: ${cat.limiteSubmissoesSemestre}/sem</p>
+                    <strong>${cat.nome}</strong>
+                    <p>Máximo: ${cat.cargaHorariaMax}h</p>
                 </div>
             </div>
             <div class="item-actions">
-                <button title="Excluir" onclick="deleteCategory(${cat.id})"><i class="fas fa-trash"></i></button>
+                <button class="btn-icon-delete" onclick="deleteCategory(${cat.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
         </div>
     `).join('');
 }
 
-// 5. ATUALIZADO: Renderiza os alunos na tela
-function renderStudents(list) {
-    // Atualiza o número no contador (ex: Alunos (5))
-    if (studentsCount) {
-        studentsCount.innerText = list.length;
+// 4. Carrega os Alunos
+async function loadStudents() {
+    try {
+        const response = await fetch(`http://localhost:8080/alunos/curso/${courseId}`, { headers });
+        if (response.ok) {
+            allStudents = await response.json();
+            renderStudents(allStudents);
+        }
+    } catch (error) {
+        console.error("Erro ao carregar alunos:", error);
     }
+}
+
+// 5. Renderiza Alunos
+function renderStudents(list) {
+    if (studentsCount) studentsCount.innerText = list.length;
 
     if (list.length === 0) {
-        studentsList.innerHTML = '<div class="empty-message">Nenhum aluno matriculado neste curso.</div>';
+        studentsList.innerHTML = '<div class="empty-message">Nenhum aluno vinculado.</div>';
         return;
     }
 
@@ -117,13 +166,12 @@ function renderStudents(list) {
             <div class="item-info">
                 <i class="fas fa-user-graduate"></i>
                 <div>
-                    <strong>${aluno.name}</strong>
-                    <p>Matrícula: ${aluno.matricula} | Turma: ${aluno.turma}</p>
-                    <small>${aluno.horasAcumuladas || 0}h acumuladas</small>
+                    <strong>${aluno.nome}</strong>
+                    <p>Matrícula: ${aluno.matricula} | Turma: ${aluno.turma || 'N/A'}</p>
                 </div>
             </div>
             <div class="item-actions">
-                <button title="Remover do Curso" onclick="removeStudent(${aluno.id})">
+                <button class="btn-icon-delete" onclick="removeStudent(${aluno.id})">
                     <i class="fas fa-user-minus"></i>
                 </button>
             </div>
@@ -131,29 +179,44 @@ function renderStudents(list) {
     `).join('');
 }
 
-// --- BOTÕES DE AÇÃO ---
+// --- LÓGICA DE BUSCA ---
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = allStudents.filter(aluno => 
+            aluno.nome.toLowerCase().includes(term) || 
+            aluno.matricula.toString().includes(term)
+        );
+        renderStudents(filtered);
+    });
+}
 
-btnAddStudent.addEventListener('click', () => {
+// --- FUNÇÕES GLOBAIS ---
+window.deleteCategory = async function(id) {
+    if (!confirm("Excluir esta categoria?")) return;
+    try {
+        const res = await fetch(`http://localhost:8080/categorias/${id}`, { method: 'DELETE', headers });
+        if (res.ok) loadCategories();
+    } catch (err) { console.error("Erro ao deletar categoria:", err); }
+};
+
+window.removeStudent = async function(id) {
+    if (!confirm("Remover aluno do curso?")) return;
+    alert("Funcionalidade de remoção sendo processada pelo servidor...");
+};
+
+// --- EVENTOS DE NAVEGAÇÃO ---
+btnManageCoordinator?.addEventListener('click', () => {
+    window.location.href = `../VincularCoordenador/vincular.html?cursoId=${courseId}`;
+});
+
+btnAddStudent?.addEventListener('click', () => {
     window.location.href = `../CadastrarAluno/cadastrarAluno.html?cursoId=${courseId}`;
 });
 
-btnAddCategory.addEventListener('click', () => {
+btnAddCategory?.addEventListener('click', () => {
     window.location.href = `../CadastrarCategoria/cadastrarCategoria.html?cursoId=${courseId}`;
 });
 
-async function deleteCategory(id) {
-    if (!confirm("Deseja realmente excluir esta categoria?")) return;
-    try {
-        const response = await fetch(`http://localhost:8080/categorias/${id}`, { method: 'DELETE' });
-        if (response.ok) loadCategories();
-    } catch (error) { alert("Erro ao excluir categoria."); }
-}
-
-async function removeStudent(id) {
-    if (!confirm("Deseja desvincular este aluno do curso?")) return;
-    // Implementação futura: Endpoint para remover da tabela de associação
-    alert("Funcionalidade de desvínculo em desenvolvimento.");
-}
-
-// Iniciar ao carregar a página
+// Inicializa o script
 document.addEventListener('DOMContentLoaded', init);

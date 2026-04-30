@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Curso</title>
+    <title>Perfil do Curso | Sistema Acadêmico</title>
     <link rel="stylesheet" href="style-perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
+        <!-- Sidebar Mantendo o Padrão -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <i class="fas fa-bars"></i>
@@ -18,30 +19,18 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
-                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
-                    <li class="active"><a href="index.html"><i class="fas fa-chart-bar"></i> <span
-                                class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="../HomeAdmin/home-super-admin.html"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li class="active"><a href="../GerenciarCurso/gerenciaCursos.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span></a></li>
                     <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
                     <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
                 </ul>
             </nav>
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <div class="user-text">
-                        <p class="menu-text">Usuário</p>
-                        <a href="#" class="menu-text">logout</a>
-                    </div>
-                </div>
-            </div>
         </aside>
 
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
-                    <a href="index.html" class="btn-back">
+                    <a href="../GerenciarCurso/gerenciaCursos.html" class="btn-back">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <h1 id="course-title">Perfil do Curso</h1>
@@ -49,6 +38,7 @@
             </header>
 
             <section class="content-body">
+                <!-- Informações do Curso -->
                 <div class="course-info-section">
                     <div class="course-header">
                         <div class="course-icon">
@@ -73,9 +63,24 @@
                     </div>
                 </div>
 
+                <!-- Seção Coordenador (NOVA) -->
                 <div class="section">
                     <div class="section-header">
-                        <h3>Categorias</h3>
+                        <h3><i class="fas fa-user-tie"></i> Coordenador responsável</h3>
+                        <button class="btn-add-item" id="btn-manage-coordinator">
+                            <i class="fas fa-sync-alt"></i> Vincular Coordenador
+                        </button>
+                    </div>
+                    <div id="coordinator-display" class="items-list">
+                        <!-- O card do coordenador será injetado aqui pelo JS -->
+                        <div class="empty-message">Carregando informações do coordenador...</div>
+                    </div>
+                </div>
+
+                <!-- Seção Categorias -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-tags"></i> Categorias</h3>
                         <button class="btn-add-item" id="btn-add-category">
                             <i class="fas fa-plus"></i> Adicionar Categoria
                         </button>
@@ -85,9 +90,17 @@
                     </div>
                 </div>
 
+                <!-- Seção Alunos (COM BUSCA) -->
                 <div class="section">
                     <div class="section-header">
-                        <h3>Alunos (<span id="students-count">0</span>)</h3>
+                        <h3><i class="fas fa-user-graduate"></i> Alunos (<span id="students-count">0</span>)</h3>
+                        
+                        <!-- Barra de Pesquisa de Alunos -->
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="search-student" placeholder="Pesquisar aluno por nome ou matrícula...">
+                        </div>
+
                         <button class="btn-add-item" id="btn-add-student">
                             <i class="fas fa-plus"></i> Vincular Aluno
                         </button>
@@ -97,18 +110,7 @@
                     </div>
                 </div>
 
-                <div class="section">
-                    <div class="section-header">
-                        <h3>Coordenadores (<span id="coordinators-count">0</span>)</h3>
-                        <button class="btn-add-item" id="btn-add-coordinator">
-                            <i class="fas fa-plus"></i> Vincular Coordenador
-                        </button>
-                    </div>
-                    <div id="coordinators-list" class="items-list">
-                        <div class="empty-message">Nenhum coordenador vinculado.</div>
-                    </div>
-                </div>
-
+                <!-- Botões de Ação Final -->
                 <div class="action-buttons">
                     <button class="btn-edit" id="btn-edit">
                         <i class="fas fa-edit"></i> Editar Curso
@@ -120,7 +122,8 @@
             </section>
         </main>
     </div>
+    
+    <!-- Importante: O script deve vir por último -->
     <script src="script-perfil.js"></script>
 </body>
-
 </html>

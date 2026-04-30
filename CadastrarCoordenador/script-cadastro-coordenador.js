@@ -1,24 +1,20 @@
 // Elementos do DOM
-const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 const coordinatorForm = document.getElementById('coordinator-form');
 const btnTogglePassword = document.getElementById('btn-toggle-password');
 const passwordInput = document.getElementById('coordinator-password');
 const btnSave = document.getElementById('btn-save');
-const btnCancel = document.getElementById('btn-cancel');
 
 // Função para alternar o menu
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
-    
-    // Salvar estado do menu no localStorage
     const isCollapsed = sidebar.classList.contains('collapsed');
     localStorage.setItem('sidebarCollapsed', isCollapsed);
 }
 
-// Restaurar estado do menu ao carregar a página
+// Restaurar estado do menu
 function restoreMenuState() {
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     if (isCollapsed) {
@@ -27,122 +23,106 @@ function restoreMenuState() {
     }
 }
 
-// Função para alternar visibilidade da senha
+// Visibilidade da senha
 function togglePasswordVisibility() {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
-    
-    // Alterar ícone
     const icon = btnTogglePassword.querySelector('i');
-    if (type === 'text') {
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+}
+
+// --- INTEGRAÇÃO COM BACKEND ---
+
+// Carregar cursos no Select (Execute isso no DOMContentLoaded)
+async function carregarCursosNoSelect() {
+    // Verifique se você adicionou o <select id="coordinator-course"> no seu HTML
+    const selectCurso = document.getElementById('coordinator-course');
+    if (!selectCurso) return; 
+
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('http://localhost:8080/cursos', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const cursos = await response.json();
+
+        cursos.forEach(curso => {
+            const option = document.createElement('option');
+            option.value = curso.id;
+            option.textContent = curso.nome;
+            selectCurso.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
     }
-}
-
-// Função para validar e-mail
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// Função para validar senha
-function isValidPassword(password) {
-    // Mínimo de 6 caracteres
-    return password.length >= 6;
 }
 
 // Submissão do formulário
 coordinatorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Coletar dados do formulário
+    const token = localStorage.getItem('token');
+    const cursoId = document.getElementById('coordinator-course')?.value;
+
     const coordinatorData = {
         name: document.getElementById('coordinator-name').value.trim(),
         email: document.getElementById('coordinator-email').value.trim(),
-        password: document.getElementById('coordinator-password').value
+        password: passwordInput.value
     };
 
-    // Validação básica
-    if (!coordinatorData.name) {
-        alert('Por favor, digite o nome completo.');
-        return;
-    }
-
-    if (!isValidEmail(coordinatorData.email)) {
-        alert('Por favor, digite um e-mail válido.');
-        return;
-    }
-
-    if (!isValidPassword(coordinatorData.password)) {
+    // Validações básicas (você pode manter as suas isValidEmail aqui)
+    if (coordinatorData.password.length < 6) {
         alert('A senha deve ter no mínimo 6 caracteres.');
         return;
     }
 
+    btnSave.disabled = true;
+    btnSave.innerText = 'Salvando...';
+
     try {
-        // Aqui você faria a chamada para o backend
-        // Exemplo:
-        // const response = await fetch('/api/coordinators', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(coordinatorData)
-        // });
-        // if (!response.ok) throw new Error('Erro ao salvar coordenador');
-        // const result = await response.json();
-        
-        // Por enquanto, apenas exibir uma mensagem de sucesso
-        console.log('Dados do coordenador:', coordinatorData);
+        // 1. Salvar o Coordenador
+        const response = await fetch('http://localhost:8080/coordenadores', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(coordinatorData)
+        });
+
+        if (!response.ok) throw new Error('Erro ao cadastrar coordenador (Email já existe ou erro no servidor)');
+
+        const novoCoord = await response.json();
+
+        // 2. Vínculo Opcional (apenas se selecionou curso)
+        if (cursoId) {
+            await fetch(`http://localhost:8080/coordenadores/${novoCoord.id}/cursos/${cursoId}`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        }
+
         alert('Coordenador cadastrado com sucesso!');
-        
-        // Redirecionar para a página anterior
         window.history.back();
+
     } catch (error) {
-        console.error('Erro ao salvar coordenador:', error);
-        alert('Erro ao salvar o coordenador. Tente novamente.');
+        alert(error.message);
+    } finally {
+        btnSave.disabled = false;
+        btnSave.innerText = 'Finalizar Vínculo';
     }
 });
 
 // Event Listeners
 document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
-
 btnTogglePassword.addEventListener('click', (e) => {
     e.preventDefault();
     togglePasswordVisibility();
 });
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
-    // Restaurar estado do menu
     restoreMenuState();
+    carregarCursosNoSelect(); // Carrega os cursos assim que a página abrir
 });
-
-/**
- * Exemplo de função para integração com backend
- * Descomente e adapte conforme sua API
- */
-async function saveCoordinatorToBackend(coordinatorData) {
-    try {
-        const response = await fetch('/api/coordinators', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': 'Bearer SEU_TOKEN_AQUI'
-            },
-            body: JSON.stringify(coordinatorData)
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        console.log('Coordenador salvo com sucesso:', result);
-        return result;
-    } catch (error) {
-        console.error('Erro ao salvar coordenador no backend:', error);
-        throw error;
-    }
-}
