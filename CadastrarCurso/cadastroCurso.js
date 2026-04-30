@@ -43,10 +43,13 @@ courseForm.addEventListener('submit', async (e) => {
     btnSave.innerText = 'Salvando...';
 
     try {
+        const token = localStorage.getItem('token');
+
         const response = await fetch('http://localhost:8080/cursos', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(courseData)
         });

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://localhost:8080;">
     <title>Dashboard - Superadmin</title>
     <link rel="stylesheet" href="style-dashboard-superadmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -140,25 +141,27 @@
                         </div>
                     </div>
 
+                    <!-- Ações Rápidas -->
                     <div class="quick-actions">
                         <h3>Ações Rápidas</h3>
                         <div class="actions-grid">
-                            <a href="cadastro.html" class="action-btn">
+                            <!-- Removido o href="cadastro.html" para não dar conflito -->
+                            <button class="action-btn">
                                 <i class="fas fa-plus"></i>
                                 <span>Novo Curso</span>
-                            </a>
-                            <a href="#" class="action-btn">
+                            </button>
+                            <button class="action-btn">
                                 <i class="fas fa-user-plus"></i>
                                 <span>Novo Usuário</span>
-                            </a>
-                            <a href="index.html" class="action-btn">
+                            </button>
+                            <button class="action-btn">
                                 <i class="fas fa-list"></i>
                                 <span>Gerenciar Cursos</span>
-                            </a>
-                            <a href="#" class="action-btn">
+                            </button>
+                            <button class="action-btn">
                                 <i class="fas fa-cog"></i>
                                 <span>Configurações</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
