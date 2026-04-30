@@ -1,28 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vincular Aluno</title>
+    <title>Cadastrar Aluno</title>
+    <link rel="stylesheet" href="../common-style.css">
     <link rel="stylesheet" href="cadastrarAluno.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="container">
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header"><i class="fas fa-bars"></i><span class="menu-text">Menu</span></div>
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="../index.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="../HomeAdmin/home-super-admin.html"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a></li>
+                    <li><a href="../PerfilSuperadmin/dashboard-superadmin.html"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
+                    <li><a href="../GerenciarCurso/gerenciarCursos.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span></a></li>
+                    <li><a href="../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
                 </ul>
             </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text">Usuário</p>
+                        <a href="#" class="menu-text">logout</a>
+                    </div>
+                </div>
+            </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
-                    <a href="javascript:history.back()" class="btn-back"><i class="fas fa-arrow-left"></i></a>
-                    <h1 id="page-title">Cadastrar Aluno</h1>
+                    <a href="javascript:history.back()" class="btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Cadastrar Aluno</h1>
                 </div>
             </header>
 
@@ -35,15 +59,15 @@
 
                     <div class="form-group">
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;" placeholder="email@exemplo.com" required>
+                        <input type="email" id="email" placeholder="email@exemplo.com" required>
                     </div>
 
-                    <div style="display: flex; gap: 20px;">
-                        <div class="form-group" style="flex: 1;">
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="matricula">Matrícula:</label>
                             <input type="text" id="matricula" placeholder="Nº Matrícula" required>
                         </div>
-                        <div class="form-group" style="flex: 1;">
+                        <div class="form-group">
                             <label for="turma">Turma:</label>
                             <input type="text" id="turma" placeholder="Ex: ADS-2025" required>
                         </div>
@@ -51,17 +75,19 @@
 
                     <div class="form-group">
                         <label for="senha">Senha Temporária:</label>
-                        <input type="password" id="senha" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;" placeholder="Defina uma senha" required>
+                        <input type="password" id="senha" placeholder="Defina uma senha" required>
                     </div>
 
                     <div class="form-actions">
                         <button type="submit" class="btn-save">Finalizar Vínculo</button>
-                        <button type="button" class="btn-cancel" onclick="history.back()">Cancelar</button>
+                        <button type="button" class="btn-cancel" onclick="window.history.back()">Cancelar</button>
                     </div>
                 </form>
             </section>
         </main>
     </div>
+    <script src="../common-script.js"></script>
     <script src="cadastrarAluno.js"></script>
 </body>
+
 </html>
