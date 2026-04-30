@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =========================
-  // ROTAS (AJUSTADAS)
-  // =========================
   const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
     perfil: "../PerfilCurso/perfil-curso.html",
