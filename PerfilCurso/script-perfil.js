@@ -22,7 +22,7 @@ const btnDelete = document.getElementById('btn-delete');
 const headers = {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
-};
+}; 
 
 // --- INICIALIZAÇÃO ---
 async function init() {
@@ -104,10 +104,17 @@ function renderCoordinator(coord) {
 // 3. Carrega as Categorias
 async function loadCategories() {
     try {
+        // Busca todas as categorias
         const response = await fetch(`http://localhost:8080/categorias`, { headers });
+        
         if (response.ok) {
             const allCategories = await response.json();
-            const filtered = allCategories.filter(cat => cat.cursoId == courseId);
+            
+            // Filtro: No seu DTO o campo é 'cursoId'
+            // O courseId da URL vem como String, convertemos para Number para comparar com o Long do Java
+            const filtered = allCategories.filter(cat => cat.cursoId === Number(courseId));
+            
+            console.log("Categorias filtradas:", filtered);
             renderCategories(filtered);
         }
     } catch (error) {
@@ -126,8 +133,9 @@ function renderCategories(list) {
             <div class="item-info">
                 <i class="fas fa-tag"></i>
                 <div>
-                    <strong>${cat.nome}</strong>
-                    <p>Máximo: ${cat.cargaHorariaMax}h</p>
+                    <strong>${cat.area}</strong> 
+                    <p>Horas/Certificado: ${cat.horasPorCertificado}h</p>
+                    <small>Limite/Semestre: ${cat.limiteSubmissoesSemestre}</small>
                 </div>
             </div>
             <div class="item-actions">

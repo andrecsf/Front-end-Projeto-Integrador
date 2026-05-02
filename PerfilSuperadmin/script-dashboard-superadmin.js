@@ -60,7 +60,7 @@ function configurarAcoesRapidas() {
         if (botoesAcao[2]) {
             botoesAcao[2].onclick = (e) => {
                 e.preventDefault();
-                window.location.href = '../GerenciarCursos/listaCursos.html';
+                window.location.href = '../GerenciarCurso/gerenciarCursos.html';
             };
         }
     }

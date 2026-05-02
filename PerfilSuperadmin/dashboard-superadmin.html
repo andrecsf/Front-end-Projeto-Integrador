@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://localhost:8080;">
     <title>Dashboard - Superadmin</title>
     <link rel="stylesheet" href="style-dashboard-superadmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,17 +18,40 @@
                 <span class="menu-text">Menu</span>
             </div>
             <nav class="sidebar-nav">
-                <ul>
-                    <li class="active"><a href="#"><i class="fas fa-home"></i> <span class="menu-text">Início</span></a>
-                    </li>
-                    <li><a href="#"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a></li>
-                    <li><a href="index.html"><i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar
-                                cursos</span></a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> <span class="menu-text">Usuários</span></a></li>
-                    <li><a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a></li>
-                </ul>
-            </nav>
+    <ul>
+        <li class="active">
+            <a href="../PerfilSuperadmin/dashboard-superadmin.html">
+                <i class="fas fa-home"></i> <span class="menu-text">Início</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="../PerfilSuperadmin/dashboard-superadmin.html">
+                <i class="fas fa-user"></i> <span class="menu-text">Perfil</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="../GerenciarCurso/gerenciarCursos.html">
+                <i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="../GerenciarUsuario/gerenciarUsuario.html">
+                <i class="fas fa-users"></i> <span class="menu-text">Usuários</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a>
+        </li>
+        
+        <li>
+            <a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a>
+        </li>
+    </ul>
+</nav>
             <div class="sidebar-footer">
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
