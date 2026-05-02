@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="relatoriosDosAlunos.css">
 </head>
+
 <body>
+    <!-- Overlay removido, mas mantido no DOM para não quebrar o JS existente -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="container">
-        <main class="main-content">
+        <main class="main-content" id="mainContent">
             <header class="top-header">
                 <div class="header-left">
-                    <a href="..//TelaInicial/telaInicial.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <a href="..//TelaInicial/telaInicial.html" class="back-btn"><i
+                            class="fa-solid fa-arrow-left"></i></a>
                     <h1>Relatórios de Alunos</h1>
                 </div>
+                <!-- Botão de menu mantido no DOM para não quebrar o JS, mas oculto pelo CSS -->
                 <button class="menu-toggle" id="openMenu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -227,23 +232,43 @@
             </div>
         </main>
 
+        <!-- SIDEBAR — agora colapsável igual ao cadastro-coordenador -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <button class="close-menu" id="closeMenu">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+                <span class="menu-text">Menu</span>
             </div>
             <nav class="side-nav">
                 <ul>
-                    <li><a href="..//TelaInicial/telaInicial.html"><i class="fa-solid fa-house"></i> Início</a></li>
-                    <li><a href="..//PerfilCoordenador/perfil-coordenador.html"><i class="fa-regular fa-user"></i> Perfil</a></li>
-                    <li class="active"><a href="..//RelatoriosDosAlunos/relatoriosDosAlunos.html"><i class="fa-solid fa-chart-simple"></i> Relatorio</a></li>
-                    <li><a href="#"><i class="fa-regular fa-file-lines"></i> Gerenciar curso</a></li>
+                    <li>
+                        <a href="..//TelaInicial/telaInicial.html">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="..//PerfilCoordenador/perfil-coordenador.html">
+                            <i class="fa-regular fa-user"></i>
+                            <span class="nav-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="..//RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="nav-text">Relatório</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span class="nav-text">Gerenciar curso</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
                 <div class="footer-user">
-                    <i class="fa-regular fa-user"></i>
+                    <i class="fa-regular fa-user fa-2x"></i>
                     <div class="footer-text">
                         <strong>Usuário</strong>
                         <span>logado</span>
@@ -255,4 +280,5 @@
 
     <script src="realatoriosDosAlunos.js"></script>
 </body>
+
 </html>
