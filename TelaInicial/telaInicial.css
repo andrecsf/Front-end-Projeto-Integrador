@@ -433,3 +433,7 @@ body {
     .content-padding { padding: 20px; }
     .top-header { padding: 15px 20px; }
 }
+
+.fa-bars:not(.menu-toggle i) {
+    display: none !important;
+}
