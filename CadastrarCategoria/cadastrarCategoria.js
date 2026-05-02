@@ -1,16 +1,40 @@
 // --- CONFIGURAÇÃO INICIAL ---
 const urlParams = new URLSearchParams(window.location.search);
-// Nota: No seu HTML anterior você usou cursoId, mas para garantir 
-// pegamos ambos os casos (id ou cursoId)
 const cursoId = urlParams.get('cursoId') || urlParams.get('id');
 const token = localStorage.getItem('token'); 
 
 // --- ELEMENTOS DO DOM ---
 const form = document.getElementById('categoriaForm');
 const listaCategorias = document.getElementById('listaCategorias');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.querySelector('.main-content');
+
+// --- SIDEBAR ---
+function toggleMenu() {
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+    const isCollapsed = sidebar.classList.contains('collapsed');
+    localStorage.setItem('sidebarCollapsed', isCollapsed);
+}
+
+function restoreMenuState() {
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+        sidebar.classList.add('collapsed');
+        mainContent.classList.add('expanded');
+    }
+}
+
+function setupSidebar() {
+    const sidebarHeader = document.getElementById('sidebar-header');
+    sidebarHeader.addEventListener('click', toggleMenu);
+    restoreMenuState();
+}
 
 // --- INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
+    setupSidebar();
+
     if (!cursoId) {
         alert("Erro: ID do curso não identificado na URL.");
         window.history.back();
@@ -128,14 +152,3 @@ window.excluirCategoria = async function(id) {
 window.limparFormulario = function() {
     form.reset();
 };
-
-// Lógica simples para a Sidebar (colapsar/expandir)
-function setupSidebar() {
-    const btnToggle = document.getElementById('btn-toggle');
-    const sidebar = document.getElementById('sidebar');
-    if (btnToggle && sidebar) {
-        btnToggle.onclick = () => {
-            sidebar.classList.toggle('collapsed');
-        };
-    }
-}
