@@ -25,7 +25,7 @@ body {
   background: #1A56DB;
   position: fixed;
   top: 0;
-  right: -280px; /* Escondida fora da tela */
+  right: -280px;
   height: 100vh;
   z-index: 1000;
   display: flex;
@@ -75,6 +75,17 @@ body {
 .nav-item:hover { background: rgba(255,255,255,0.12); }
 .nav-item.active { background: rgba(255,255,255,0.2); font-weight: 600; }
 .nav-item i { width: 18px; text-align: center; opacity: 0.9; }
+
+/* ── LINKS DA SIDEBAR ─────────────────────────────────────── */
+.nav-item a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.nav-item a:hover { color: white; }
 
 .sidebar-footer {
   padding: 16px 20px;
@@ -247,7 +258,7 @@ body {
   line-height: 1.5;
 }
 
-/* ── NOTIFICAÇÕES (ADICIONADO) ───────────────────────────── */
+/* ── NOTIFICAÇÕES ─────────────────────────────────────────── */
 .notif-btn {
   position: relative;
 }
@@ -265,63 +276,34 @@ body {
   display: none;
 }
 
-/* ── NOTIFICAÇÕES (PROFISSIONAL) ───────────────────────────── */
-.notif-btn {
-  position: relative;
-}
-
-/* Badge */
-.notif-badge {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: #ef4444;
-  color: white;
-  font-size: 10px;
-  font-weight: 600;
-  border-radius: 999px;
-  padding: 2px 6px;
-  display: none;
-}
-
-/* Painel estilo dropdown */
 .notif-painel {
   position: absolute;
   top: 60px;
   right: 20px;
-
   width: 340px;
   background: white;
   border-radius: 14px;
-
   box-shadow: 0 12px 30px rgba(0,0,0,0.18);
   border: 1px solid #e5e7eb;
-
   z-index: 999;
-
   opacity: 0;
   transform: translateY(-10px) scale(0.98);
   pointer-events: none;
-
   transition: all 0.25s ease;
 }
 
-/* estado aberto */
 .notif-painel.open {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
-/* header */
 .notif-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
-
   font-weight: 600;
   font-size: 14px;
 }
@@ -334,17 +316,13 @@ body {
   color: #6b7280;
 }
 
-.notif-header button:hover {
-  color: #111;
-}
+.notif-header button:hover { color: #111; }
 
-/* lista */
 .notif-lista {
   max-height: 320px;
   overflow-y: auto;
 }
 
-/* item */
 .notif-item {
   padding: 12px 16px;
   border-bottom: 1px solid #f1f1f1;
@@ -352,11 +330,8 @@ body {
   transition: background 0.2s;
 }
 
-.notif-item:hover {
-  background: #f9fafb;
-}
+.notif-item:hover { background: #f9fafb; }
 
-/* título */
 .notif-assunto {
   margin: 0 0 4px;
   font-size: 14px;
@@ -364,14 +339,12 @@ body {
   color: #111827;
 }
 
-/* corpo */
 .notif-corpo {
   margin: 0;
   font-size: 13px;
   color: #6b7280;
 }
 
-/* vazio */
 .notif-vazia {
   padding: 20px;
   text-align: center;
