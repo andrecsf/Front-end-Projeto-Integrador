@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <!-- Sidebar Mantendo o Padrão -->
+        <!-- Sidebar Mantendo o Padrão[cite: 1] -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <i class="fas fa-bars"></i>
@@ -38,7 +38,7 @@
             </header>
 
             <section class="content-body">
-                <!-- Informações do Curso -->
+                <!-- Informações do Curso[cite: 1] -->
                 <div class="course-info-section">
                     <div class="course-header">
                         <div class="course-icon">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <!-- Seção Coordenador (NOVA) -->
+                <!-- Seção Coordenador[cite: 1] -->
                 <div class="section">
                     <div class="section-header">
                         <h3><i class="fas fa-user-tie"></i> Coordenador responsável</h3>
@@ -72,12 +72,11 @@
                         </button>
                     </div>
                     <div id="coordinator-display" class="items-list">
-                        <!-- O card do coordenador será injetado aqui pelo JS -->
                         <div class="empty-message">Carregando informações do coordenador...</div>
                     </div>
                 </div>
 
-                <!-- Seção Categorias -->
+                <!-- Seção Categorias[cite: 1] -->
                 <div class="section">
                     <div class="section-header">
                         <h3><i class="fas fa-tags"></i> Categorias</h3>
@@ -90,27 +89,35 @@
                     </div>
                 </div>
 
-                <!-- Seção Alunos (COM BUSCA) -->
+                <!-- Seção Alunos (ATUALIZADA)[cite: 1] -->
                 <div class="section">
                     <div class="section-header">
                         <h3><i class="fas fa-user-graduate"></i> Alunos (<span id="students-count">0</span>)</h3>
                         
-                        <!-- Barra de Pesquisa de Alunos -->
+                        <!-- Barra de Pesquisa Local (Alunos já matriculados) -->
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="search-student" placeholder="Pesquisar aluno por nome ou matrícula...">
+                            <input type="text" id="search-student" placeholder="Filtrar alunos matriculados...">
                         </div>
 
-                        <button class="btn-add-item" id="btn-add-student">
-                            <i class="fas fa-plus"></i> Vincular Aluno
-                        </button>
+                        <!-- Grupo de Ações para Alunos -->
+                        <div class="student-actions" style="display: flex; gap: 10px;">
+                            <!-- Botão para cadastrar um novo aluno do zero -->
+                            <button class="btn-add-item" id="btn-create-new-student" style="background-color: #64748b;">
+                                <i class="fas fa-user-plus"></i> Novo Aluno
+                            </button>
+                            <!-- Botão para abrir o modal de vínculo de alunos já existentes -->
+                            <button class="btn-add-item" id="btn-link-existing-student">
+                                <i class="fas fa-link"></i> Vincular Existente
+                            </button>
+                        </div>
                     </div>
                     <div id="students-list" class="items-list">
                         <div class="empty-message">Nenhum aluno vinculado.</div>
                     </div>
                 </div>
 
-                <!-- Botões de Ação Final -->
+                <!-- Botões de Ação Final[cite: 1] -->
                 <div class="action-buttons">
                     <button class="btn-edit" id="btn-edit">
                         <i class="fas fa-edit"></i> Editar Curso
@@ -122,8 +129,26 @@
             </section>
         </main>
     </div>
+
+    <!-- MODAL PARA VINCULAR ALUNO EXISTENTE (NOVO) -->
+    <div id="modal-vincular" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vincular Aluno ao Curso</h2>
+                <span class="close-modal" id="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Pesquise por alunos já cadastrados no sistema para adicioná-los a este curso.</p>
+                <div class="search-box-modal" style="margin: 20px 0;">
+                    <input type="text" id="input-search-all-students" placeholder="Digite o nome ou matrícula..." style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                </div>
+                <div id="results-search-all-students" class="items-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Resultados da busca serão injetados aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <!-- Importante: O script deve vir por último -->
     <script src="script-perfil.js"></script>
 </body>
 </html>
