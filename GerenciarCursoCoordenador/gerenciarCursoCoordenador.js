@@ -13,7 +13,7 @@ const searchInput = document.getElementById('search-input');
 // ROTAS
 // =========================
 const ROTAS = {
-    inicio: "../HomeAdmin/home-super-admin.html",
+    inicio: "../TelaInicial/telaInicial.html",
     perfil: "../PerfilCurso/perfil-curso.html",
     cursos: "../GerenciarCurso/gerenciaCursos.html",
     usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
