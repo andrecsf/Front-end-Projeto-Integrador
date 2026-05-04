@@ -87,7 +87,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 function direcionarParaPainel(perfil) {
     const paginas = {
         'admin': '../PerfilSuperadmin/dashboard-superadmin.html',
-        'coordenador': 'dashboard-coordenador.html',
+        'coordenador': '../TelaInicial/telaInicial.html',
         'aluno': 'dashboard-aluno.html'
     };
     
