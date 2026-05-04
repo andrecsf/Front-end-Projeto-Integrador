@@ -18,40 +18,35 @@
                 <span class="menu-text">Menu</span>
             </div>
             <nav class="sidebar-nav">
-    <ul>
-        <li class="active">
-            <a href="../PerfilSuperadmin/dashboard-superadmin.html">
-                <i class="fas fa-home"></i> <span class="menu-text">Início</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="../PerfilSuperadmin/dashboard-superadmin.html">
-                <i class="fas fa-user"></i> <span class="menu-text">Perfil</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="../GerenciarCurso/gerenciarCursos.html">
-                <i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="../GerenciarUsuario/gerenciarUsuario.html">
-                <i class="fas fa-users"></i> <span class="menu-text">Usuários</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a>
-        </li>
-        
-        <li>
-            <a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a>
-        </li>
-    </ul>
-</nav>
+                <ul>
+                    <li class="active">
+                        <a href="../PerfilSuperadmin/dashboard-superadmin.html">
+                            <i class="fas fa-home"></i> <span class="menu-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../PerfilSuperadmin/dashboard-superadmin.html">
+                            <i class="fas fa-user"></i> <span class="menu-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../GerenciarCurso/gerenciarCursos.html">
+                            <i class="fas fa-chart-bar"></i> <span class="menu-text">Gerenciar cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../GerenciarUsuario/gerenciarUsuario.html">
+                            <i class="fas fa-users"></i> <span class="menu-text">Usuários</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-file-alt"></i> <span class="menu-text">Documentos</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Configurações</span></a>
+                    </li>
+                </ul>
+            </nav>
             <div class="sidebar-footer">
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
@@ -140,7 +135,6 @@
                                     <div class="engagement-fill active" id="active-bar" style="width: 0%"></div>
                                 </div>
                             </div>
-
                             <div class="engagement-item">
                                 <div class="engagement-label">
                                     <span>Alunos Concluindo</span>
@@ -150,7 +144,6 @@
                                     <div class="engagement-fill completing" id="completing-bar" style="width: 0%"></div>
                                 </div>
                             </div>
-
                             <div class="engagement-item">
                                 <div class="engagement-label">
                                     <span>Alunos Inativos</span>
@@ -167,7 +160,6 @@
                     <div class="quick-actions">
                         <h3>Ações Rápidas</h3>
                         <div class="actions-grid">
-                            <!-- Removido o href="cadastro.html" para não dar conflito -->
                             <button class="action-btn">
                                 <i class="fas fa-plus"></i>
                                 <span>Novo Curso</span>
@@ -188,17 +180,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Activities Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <h3>Atividades Recentes</h3>
-                        <a href="#" class="view-all">Ver tudo</a>
-                    </div>
-                    <div id="recent-activities" class="activities-timeline">
-                        <!-- Activities will be populated here -->
-                    </div>
-                </div>
-
                 <!-- System Health Section -->
                 <div class="section">
                     <div class="section-header">
@@ -206,24 +187,24 @@
                     </div>
                     <div class="system-health">
                         <div class="health-item">
-                            <div class="health-status online"></div>
+                            <div class="health-status" id="status-server"></div>
                             <div class="health-info">
                                 <p class="health-label">Servidor Principal</p>
-                                <p class="health-detail">Online • Resposta: 45ms</p>
+                                <p class="health-detail" id="detail-server">Verificando...</p>
                             </div>
                         </div>
                         <div class="health-item">
-                            <div class="health-status online"></div>
+                            <div class="health-status" id="status-db"></div>
                             <div class="health-info">
                                 <p class="health-label">Banco de Dados</p>
-                                <p class="health-detail">Online • Uso: 65%</p>
+                                <p class="health-detail" id="detail-db">Verificando...</p>
                             </div>
                         </div>
                         <div class="health-item">
-                            <div class="health-status online"></div>
+                            <div class="health-status" id="status-mail"></div>
                             <div class="health-info">
-                                <p class="health-label">API de Integração</p>
-                                <p class="health-detail">Online • Requisições: 1.2k/min</p>
+                                <p class="health-label">Serviço de E-mail</p>
+                                <p class="health-detail" id="detail-mail">Verificando...</p>
                             </div>
                         </div>
                     </div>

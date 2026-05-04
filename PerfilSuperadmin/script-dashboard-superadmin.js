@@ -23,14 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCurrentDate();
     configurarLogout();
     configurarAcoesRapidas();
+    
+    // Chamadas iniciais
     loadSystemData();
+    checkSystemHealth();
 
-    setInterval(loadSystemData, 5 * 60 * 1000);
+    // Atualiza os dados periodicamente (5 em 5 minutos)
+    setInterval(() => {
+        loadSystemData();
+        checkSystemHealth();
+    }, 5 * 60 * 1000);
 });
 
 /**
- * AÇÕES RÁPIDAS - MÉTODO SEGURO
- * Altera apenas o texto (textContent) e o className do <i> para não quebrar o layout.
+ * AÇÕES RÁPIDAS
  */
 function configurarAcoesRapidas() {
     const botoesAcao = document.querySelectorAll('.action-btn');
@@ -61,7 +67,7 @@ function configurarAcoesRapidas() {
             };
         }
 
-        // Botão 3: Novo Aluno (Antigo Configurações)
+        // Botão 3: Novo Aluno
         const labelAluno = botoesAcao[3].querySelector('span');
         if (labelAluno) labelAluno.textContent = 'Novo Aluno';
         const iconeAluno = botoesAcao[3].querySelector('i');
@@ -69,15 +75,13 @@ function configurarAcoesRapidas() {
 
         botoesAcao[3].onclick = (e) => {
             e.preventDefault();
-            // Direciona para o cadastro de aluno SEM o ?cursoId na URL
-            // Ajuste o caminho se a pasta for diferente no seu projeto
             window.location.href = '../CadastrarAluno/cadastrarAluno.html'; 
         };
     }
 }
 
 /**
- * BUSCA DE DADOS
+ * BUSCA DE DADOS E KPIS
  */
 async function loadSystemData() {
     const token = localStorage.getItem('token');
@@ -104,12 +108,89 @@ async function loadSystemData() {
             document.getElementById('total-hours').textContent = totalHoras.toLocaleString('pt-BR');
         }
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('Erro ao carregar dados dos KPIs:', error);
     }
 }
 
 /**
- * MENU E UI
+ * MONITORAMENTO DE SAÚDE DO SISTEMA (ACTUATOR)
+ */
+async function checkSystemHealth() {
+    const sStatus = document.getElementById('status-server');
+    const sDetail = document.getElementById('detail-server');
+    const dbStatus = document.getElementById('status-db');
+    const dbDetail = document.getElementById('detail-db');
+    const mailStatus = document.getElementById('status-mail');
+    const mailDetail = document.getElementById('detail-mail');
+
+    // Remove as classes de cor anteriores
+    sStatus.className = 'health-status';
+    dbStatus.className = 'health-status';
+    mailStatus.className = 'health-status';
+
+    try {
+        const start = performance.now();
+        // Endpoint do Actuator (certifique-se de que a URL base está correta e a rota aberta no SecurityConfig)
+        const response = await fetch(`${API_BASE_URL}/actuator/health`); 
+        const end = performance.now();
+        const ping = Math.round(end - start);
+
+        if (response.ok) {
+            const data = await response.json();
+
+            // 1. Status Geral do Servidor
+            if (data.status === 'UP') {
+                sStatus.classList.add('online');
+                sDetail.textContent = `Online • Resposta: ${ping}ms`;
+            } else {
+                sStatus.classList.add('offline');
+                sDetail.textContent = 'Instável • Verifique os logs';
+            }
+
+            // 2. Status do Banco de Dados
+            if (data.components && data.components.db) {
+                if (data.components.db.status === 'UP') {
+                    dbStatus.classList.add('online');
+                    // Mostra qual banco de dados está usando baseado no seu JSON
+                    dbDetail.textContent = `Online • ${data.components.db.details.database}`; 
+                } else {
+                    dbStatus.classList.add('offline');
+                    dbDetail.textContent = 'Offline • Sem conexão com Banco';
+                }
+            }
+
+            // 3. Status do E-mail (SMTP)
+            if (data.components && data.components.mail) {
+                if (data.components.mail.status === 'UP') {
+                    mailStatus.classList.add('online');
+                    // Mostra o host do e-mail do seu JSON
+                    mailDetail.textContent = `Online • ${data.components.mail.details.location}`; 
+                } else {
+                    mailStatus.classList.add('offline');
+                    mailDetail.textContent = 'Offline • Falha no SMTP';
+                }
+            }
+
+        } else {
+            throw new Error("Actuator retornou status diferente de 2xx");
+        }
+    } catch (error) {
+        console.warn("Falha ao se comunicar com /actuator/health:", error);
+        
+        // Em caso de catch, o backend está inacessível
+        sStatus.classList.add('offline');
+        sDetail.textContent = 'Offline • Sem conexão';
+        
+        dbStatus.classList.add('offline');
+        dbDetail.textContent = 'Desconhecido';
+        
+        mailStatus.classList.add('offline');
+        mailDetail.textContent = 'Desconhecido';
+    }
+}
+
+/**
+ * MENU E FUNÇÕES DE UI
  */
 function toggleMenu() {
     if (sidebar && mainContent) {
@@ -145,6 +226,5 @@ function configurarLogout() {
     }
 }
 
-// Ativa o clique no ícone de barras (sidebar-header)
 const menuTrigger = document.querySelector('.sidebar-header');
 if (menuTrigger) menuTrigger.onclick = toggleMenu;
