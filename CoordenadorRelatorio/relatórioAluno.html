@@ -1,92 +1,133 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Relatório do Aluno</title>
   <link rel="stylesheet" href="relatórioAluno.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
 
-  <!-- OVERLAY (fundo escuro ao abrir sidebar) -->
+  <!-- OVERLAY mantido no DOM para não quebrar o JS existente -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <button id="closeMenu">&times;</button>
-      <span>Menu</span>
-    </div>
-    <ul class="nav-list">
-      <li class="nav-item active"><a href="..//TelaInicial/telaInicial.html"><i class="fa-solid fa-house"></i> Início</a></li>
-      <li class="nav-item"><a href="..//PerfilCoordenador/perfil-coordenador.html"><i class="fa-solid fa-user"></i> Perfil</a></li>
-      <li class="nav-item"><a href="..//CoordenadorRelatorio/relatórioAluno.html"><i class="fa-solid fa-chart-line"></i> Atividades</a></li>
-      <li class="nav-item"><a href="..//"><i class="fa-solid fa-file"></i> Gerenciar Curso</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <div class="user-info"><i class="fa-solid fa-circle-user"></i> Usuário</div>
-      <a href="..//Login/index.html" class="logout-link">logout</a>
-    </div>
-  </aside>
+  <div class="page-wrapper">
 
-  <!-- TOPO -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <span class="icon">←</span>
-      <h1>Relatório do Aluno</h1>
+    <main class="main-content" id="mainContent">
 
-      <!-- 🔔 NOTIFICAÇÃO -->
-      <span class="icon notif-btn" id="openNotif">
-        🔔
-        <span class="notif-badge" id="notif-badge" style="display:none;">0</span>
-      </span>
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <a href="..//TelaInicial/telaInicial.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <h1>Relatório do Aluno</h1>
 
-    </div>
-    <span class="icon" id="openMenu">☰</span>
-  </header>
+          <!-- 🔔 NOTIFICAÇÃO (mantida intacta) -->
+          <span class="notif-btn" id="openNotif">
+            🔔
+            <span class="notif-badge" id="notif-badge" style="display:none;">0</span>
+          </span>
+        </div>
 
-  <!-- 📌 PAINEL DE NOTIFICAÇÕES -->
-  <div class="notif-painel" id="notif-painel">
-    <div class="notif-header">
-      <span>Notificações</span>
-      <button id="closeNotif">&times;</button>
-    </div>
-    <div class="notif-lista" id="notif-lista">
-      <p class="notif-vazia">Carregando...</p>
-    </div>
+        <!-- Botão de menu mantido no DOM para não quebrar o JS, mas oculto pelo CSS -->
+        <span id="openMenu" style="display:none;"></span>
+      </header>
+
+      <!-- 📌 PAINEL DE NOTIFICAÇÕES (mantido intacto) -->
+      <div class="notif-painel" id="notif-painel">
+        <div class="notif-header">
+          <span>Notificações</span>
+          <button id="closeNotif">&times;</button>
+        </div>
+        <div class="notif-lista" id="notif-lista">
+          <p class="notif-vazia">Carregando...</p>
+        </div>
+      </div>
+
+      <main class="container">
+
+        <!-- CARD DO ALUNO -->
+        <div class="card aluno">
+          <h2 id="nome-aluno">Carregando...</h2>
+          <p id="horas-texto">— h / — h obrigatórias</p>
+
+          <div class="progress-area">
+            <span>Progresso</span>
+            <span id="percent">0%</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+          </div>
+        </div>
+
+        <!-- Mensagem de erro (oculta por padrão) -->
+        <div id="erro-msg" class="erro-msg" style="display:none;"></div>
+
+        <!-- Spinner de loading -->
+        <div id="loading" class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Carregando atividades...</p>
+        </div>
+
+        <!-- CARDS DE ATIVIDADES -->
+        <div id="cards-container"></div>
+
+      </main>
+    </main>
+
+    <!-- SIDEBAR — colapsável, igual ao relatoriosDosAlunos -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="sidebarToggle">
+        <i class="fa-solid fa-bars"></i>
+        <span class="menu-text">Menu</span>
+      </div>
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="..//TelaInicial/telaInicial.html">
+              <i class="fa-solid fa-house"></i>
+              <span class="nav-text">Início</span>
+            </a>
+          </li>
+          <li>
+            <a href="..//PerfilCoordenador/perfil-coordenador.html">
+              <i class="fa-solid fa-user"></i>
+              <span class="nav-text">Perfil</span>
+            </a>
+          </li>
+          <li class="active">
+            <a href="..//CoordenadorRelatorio/relatórioAluno.html">
+              <i class="fa-solid fa-chart-line"></i>
+              <span class="nav-text">Atividades</span>
+            </a>
+          </li>
+          <li>
+            <a href="..//">
+              <i class="fa-solid fa-file"></i>
+              <span class="nav-text">Gerenciar Curso</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="footer-user">
+          <i class="fa-solid fa-circle-user fa-2x"></i>
+          <div class="footer-text">
+            <strong>Usuário</strong>
+            <a href="..//Login/index.html"
+              style="color: rgba(255,255,255,0.7); font-size: 0.75rem; text-decoration: none;">logout</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
   </div>
-
-  <main class="container">
-
-    <!-- CARD DO ALUNO -->
-    <div class="card aluno">
-      <h2 id="nome-aluno">Carregando...</h2>
-      <p id="horas-texto">— h / — h obrigatórias</p>
-
-      <div class="progress-area">
-        <span>Progresso</span>
-        <span id="percent">0%</span>
-      </div>
-
-      <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-      </div>
-    </div>
-
-    <!-- Mensagem de erro (oculta por padrão) -->
-    <div id="erro-msg" class="erro-msg" style="display:none;"></div>
-
-    <!-- Spinner de loading -->
-    <div id="loading" class="loading-spinner">
-      <div class="spinner"></div>
-      <p>Carregando atividades...</p>
-    </div>
-
-    <!-- CARDS DE ATIVIDADES -->
-    <div id="cards-container"></div>
-
-  </main>
 
   <script src="relatórioAluno.js"></script>
 </body>
+
 </html>
