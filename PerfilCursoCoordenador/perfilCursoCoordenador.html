@@ -1,136 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Curso | Sistema Acadêmico</title>
-    <!-- Endereço mantido conforme solicitado -->
-    <link rel="stylesheet" href="perfilCursoCoordenador.css">
+    <title>Gerenciar Cursos | Coordenador</title>
+    <!-- CSS da Amiga (Base) e CSS Específico -->
+    <link rel="stylesheet" href="../Telainicial/telaInicial.css">
+    <link rel="stylesheet" href="gerenciarCursoCoordenador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
     <div class="container">
-        <!-- Main Content (Conteúdo à esquerda do menu) -->
-        <main class="main-content" id="main-content">
-            <header class="main-header">
-                <div class="header-left">
-                    <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html" class="btn-back">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
-                    <h1 id="course-title">Perfil do Curso</h1>
-                </div>
-            </header>
-
-            <section class="content-body">
-                <!-- Card de Informações do Curso -->
-                <div class="course-info-section shadow-card">
-                    <div class="course-header-row">
-                        <div class="course-icon-container">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="course-title-details">
-                            <h2 id="course-name-display">Estética</h2>
-                            <p class="course-id-label">ID: <span id="course-id-display">1</span></p>
-                        </div>
-                    </div>
-                    
-                    <div class="divider"></div>
-
-                    <div class="course-meta-info">
-                        <div class="meta-item">
-                            <i class="fas fa-clock"></i>
-                            <span>Carga Horária Máxima: <strong id="course-workload-display">2000</strong>h</span>
-                        </div>
-                    </div>
-
-                    <div class="course-description-box">
-                        <h3>Descrição</h3>
-                        <p id="course-description-display">Descrição do curso de estética...</p>
-                    </div>
-                </div>
-
-                <!-- Seção Categorias em formato de Card -->
-                <div class="section-card shadow-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-tags"></i>
-                            <h3>Categorias</h3>
-                        </div>
-                        <button class="btn-action-primary" id="btn-add-category">
-                            <i class="fas fa-plus"></i> Adicionar Categoria
-                        </button>
-                    </div>
-                    <div id="categories-list" class="list-wrapper">
-                        <div class="empty-state">
-                            <i class="fas fa-info-circle"></i> Nenhuma categoria vinculada.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Seção Alunos em formato de Card -->
-                <div class="section-card shadow-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-user-graduate"></i>
-                            <h3>Alunos (<span id="students-count">0</span>)</h3>
-                        </div>
-                        <div class="card-actions">
-                            <div class="search-input-group">
-                                <i class="fas fa-search"></i>
-                                <input type="text" id="search-student" placeholder="Buscar aluno...">
-                            </div>
-                            <button class="btn-action-primary" id="btn-add-student">
-                                <i class="fas fa-plus"></i> Vincular Aluno
-                            </button>
-                        </div>
-                    </div>
-                    <div id="students-list" class="list-wrapper">
-                        <div class="empty-state">
-                            <i class="fas fa-info-circle"></i> Nenhum aluno vinculado.
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Sidebar Retrátil à Direita -->
+        <!-- SIDEBAR COORDENADOR -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-toggle-area" id="toggle-menu">
-                <i class="fas fa-bars"></i>
-                <span class="menu-label">Menu</span>
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+                <span class="menu-text">Menu</span>
             </div>
-            <nav class="sidebar-navigation">
+            <nav class="side-nav">
                 <ul>
                     <li>
-                        <a href="#">
-                            <i class="fas fa-home"></i>
-                            <span class="menu-label">Início</span>
+                        <a href="../Telainicial/telaInicial.html">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../PerfilCoordenador/perfil-coordenador.html">
+                            <i class="fa-regular fa-user"></i>
+                            <span class="nav-text">Perfil</span>
                         </a>
                     </li>
                     <li class="active">
                         <a href="#">
-                            <i class="fas fa-book"></i>
-                            <span class="menu-label">Cursos</span>
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span class="nav-text">Gerenciar curso</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="fas fa-users"></i>
-                            <span class="menu-label">Usuários</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-file-alt"></i>
-                            <span class="menu-label">Documentos</span>
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="nav-text">Relatório</span>
                         </a>
                     </li>
                 </ul>
             </nav>
+            <div class="sidebar-footer">
+                <div class="footer-user">
+                    <i class="fa-regular fa-user fa-2x"></i>
+                    <div class="footer-text">
+                        <strong>Coordenador</strong>
+                        <span><a href="../Login/index.html">logout</a></span>
+                    </div>
+                </div>
+            </div>
         </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content" id="mainContent">
+            <header class="top-header">
+                <div class="header-navigation">
+                    <button id="btnVoltar" class="back-button">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <h1>Gerenciar Cursos da Coordenação</h1>
+                </div>
+            </header>
+
+            <div class="content-padding">
+                <!-- Resumo Simples -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Meus Cursos</span>
+                            <span class="stat-number" id="total-courses">0</span>
+                        </div>
+                        <div class="stat-icon icon-blue">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Área de Busca -->
+                <section class="search-section">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-input" placeholder="Filtrar cursos...">
+                    </div>
+                </section>
+
+                <!-- Lista de Cursos -->
+                <section class="course-grid" id="course-list">
+                    <!-- Gerado via JS -->
+                </section>
+            </div>
+        </main>
     </div>
 
-    <!-- Script mantido conforme solicitado -->
-    <script src="perfilCursoCoordenador.js"></script>
+    <script src="gerenciarCursoCoordenador.js"></script>
 </body>
+
 </html>
