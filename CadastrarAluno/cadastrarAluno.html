@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vincular Aluno</title>
+    <title>Cadastrar / Vincular Aluno</title>
     <link rel="stylesheet" href="cadastrarAluno.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -49,13 +49,22 @@
                         </div>
                     </div>
 
+                    <!-- NOVO: Vínculo Opcional com Curso -->
+                    <div class="form-group" id="course-selection-group">
+                        <label for="student-course">Vincular a um curso (Opcional):</label>
+                        <select id="student-course" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; background-color: #fff;">
+                            <option value="">Nenhum vínculo agora</option>
+                            <!-- Opções carregadas via JS -->
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="senha">Senha Temporária:</label>
                         <input type="password" id="senha" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;" placeholder="Defina uma senha" required>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn-save">Finalizar Vínculo</button>
+                        <button type="submit" class="btn-save">Finalizar Cadastro</button>
                         <button type="button" class="btn-cancel" onclick="history.back()">Cancelar</button>
                     </div>
                 </form>

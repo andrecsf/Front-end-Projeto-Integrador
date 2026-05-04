@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * AÇÕES RÁPIDAS - MÉTODO SEGURO
- * Altera apenas o texto (textContent) para não apagar as tags <i> dos ícones.
+ * Altera apenas o texto (textContent) e o className do <i> para não quebrar o layout.
  */
 function configurarAcoesRapidas() {
     const botoesAcao = document.querySelectorAll('.action-btn');
 
-    if (botoesAcao.length >= 2) {
+    if (botoesAcao.length >= 4) {
         // Botão 0: Novo Curso
         botoesAcao[0].onclick = (e) => {
             e.preventDefault();
@@ -43,13 +43,10 @@ function configurarAcoesRapidas() {
         };
 
         // Botão 1: Novo Coordenador
-        // Procuramos o SPAN dentro do botão para mudar o texto sem deletar o <i>
-        const label = botoesAcao[1].querySelector('span');
-        if (label) label.textContent = 'Novo Coordenador';
-        
-        // Se o ícone estiver errado, mudamos apenas a classe dele
-        const icone = botoesAcao[1].querySelector('i');
-        if (icone) icone.className = 'fas fa-user-tie';
+        const labelCoord = botoesAcao[1].querySelector('span');
+        if (labelCoord) labelCoord.textContent = 'Novo Coordenador';
+        const iconeCoord = botoesAcao[1].querySelector('i');
+        if (iconeCoord) iconeCoord.className = 'fas fa-user-tie';
 
         botoesAcao[1].onclick = (e) => {
             e.preventDefault();
@@ -63,6 +60,19 @@ function configurarAcoesRapidas() {
                 window.location.href = '../GerenciarCurso/gerenciarCursos.html';
             };
         }
+
+        // Botão 3: Novo Aluno (Antigo Configurações)
+        const labelAluno = botoesAcao[3].querySelector('span');
+        if (labelAluno) labelAluno.textContent = 'Novo Aluno';
+        const iconeAluno = botoesAcao[3].querySelector('i');
+        if (iconeAluno) iconeAluno.className = 'fas fa-user-graduate';
+
+        botoesAcao[3].onclick = (e) => {
+            e.preventDefault();
+            // Direciona para o cadastro de aluno SEM o ?cursoId na URL
+            // Ajuste o caminho se a pasta for diferente no seu projeto
+            window.location.href = '../CadastrarAluno/cadastrarAluno.html'; 
+        };
     }
 }
 

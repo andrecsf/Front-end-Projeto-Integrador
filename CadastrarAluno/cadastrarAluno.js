@@ -3,50 +3,106 @@ const studentForm = document.getElementById('student-form');
 
 // 1. CAPTURA O ID DO CURSO DA URL (Ex: cadastrarAluno.html?cursoId=1)
 const urlParams = new URLSearchParams(window.location.search);
-const cursoId = urlParams.get('cursoId');
-const token = localStorage.getItem('token'); // Recupera o token de autenticação[cite: 3]
+const cursoIdDaUrl = urlParams.get('cursoId');
+const token = localStorage.getItem('token'); // Recupera o token de autenticação
 
-// Validação: se não houver ID do curso, redireciona para evitar erro na API
-if (!cursoId) {
-    alert("ID do curso não encontrado. Retornando ao gerenciador.");
-    window.location.href = '../index.html';
+// Elementos do novo select
+const courseSelectionGroup = document.getElementById('course-selection-group');
+const selectCurso = document.getElementById('student-course');
+
+// 2. LÓGICA DE INICIALIZAÇÃO
+document.addEventListener('DOMContentLoaded', () => {
+    // Se o ID do curso estiver na URL, ele veio da tela de perfil do curso
+    if (cursoIdDaUrl) {
+        // Esconde o campo de seleção de curso, pois já sabemos qual é
+        if (courseSelectionGroup) {
+            courseSelectionGroup.style.display = 'none';
+        }
+        
+        // Atualiza o título da página
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+            pageTitle.innerText = "Vincular Aluno ao Curso";
+        }
+    } else {
+        // Se for um cadastro global (sem ID na URL), carrega a lista de cursos no select
+        carregarCursosNoSelect();
+    }
+});
+
+// Função para buscar os cursos no backend e preencher o <select>
+async function carregarCursosNoSelect() {
+    try {
+        const response = await fetch('http://localhost:8080/cursos', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok) throw new Error("Erro ao buscar cursos");
+        
+        const cursos = await response.json();
+        cursos.forEach(curso => {
+            const option = document.createElement('option');
+            option.value = curso.id;
+            option.textContent = curso.nome;
+            if (selectCurso) {
+                selectCurso.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+    }
 }
 
-// 2. LÓGICA DE ENVIO DO FORMULÁRIO
+// 3. LÓGICA DE ENVIO DO FORMULÁRIO
 studentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Captura os valores dos inputs e monta o objeto conforme o AlunoDTO.java[cite: 4, 6]
+    // Captura os valores dos inputs e monta o objeto conforme o AlunoDTO.java
     const novoAluno = {
-        name: document.getElementById('name').value,      // Corrigido para 'name' (igual ao DTO)
+        name: document.getElementById('name').value,      
         email: document.getElementById('email').value,
         matricula: document.getElementById('matricula').value,
         turma: document.getElementById('turma').value,
-        senha: document.getElementById('senha').value,    // Corrigido para 'senha' (igual ao DTO)
+        senha: document.getElementById('senha').value,    
         horasAcumuladas: 0 
     };
 
-    console.log("Tentando cadastrar aluno no curso " + cursoId, novoAluno);
+    // Define qual ID de curso usar: o da URL (prioridade) ou o selecionado no <select>
+    const finalCursoId = cursoIdDaUrl || (selectCurso ? selectCurso.value : null);
+    
+    // Define para qual endpoint mandar a requisição dependendo se tem curso ou não
+    let endpoint = 'http://localhost:8080/alunos'; // Cadastro comum sem vincular curso
+    if (finalCursoId) {
+        endpoint = `http://localhost:8080/alunos/curso/${finalCursoId}`; // Cadastro ou Vínculo com curso
+    }
+
+    console.log(`Enviando para: ${endpoint}`, novoAluno);
 
     try {
-        // Envia para o endpoint que já vincula ao curso
-        const response = await fetch(`http://localhost:8080/alunos/curso/${cursoId}`, {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Inclui o token se o backend exigir[cite: 3]
+                'Authorization': `Bearer ${token}` 
             },
             body: JSON.stringify(novoAluno)
         });
 
         if (response.ok) {
-            alert('Aluno cadastrado e vinculado com sucesso!');
-            // Redireciona de volta para a tela de perfil do curso
-            window.location.href = `../PerfilCurso/perfil-Curso.html?id=${cursoId}`;
+            alert('Aluno processado com sucesso!');
+            
+            // Redirecionamento inteligente após o sucesso
+            if (cursoIdDaUrl) {
+                // Se veio do perfil do curso, volta para lá
+                window.location.href = `../PerfilCurso/perfil-Curso.html?id=${cursoIdDaUrl}`;
+            } else {
+                // Se veio do menu global, volta para a página anterior
+                window.history.back();
+            }
         } else {
-            // Tenta capturar a mensagem de erro vinda do Service (ex: "E-mail já cadastrado!")
+            // Tenta capturar a mensagem de erro específica vinda do Service
             const erroData = await response.json();
-            alert('Erro: ' + (erroData.message || 'Falha ao cadastrar aluno. Verifique se os dados já existem.'));
+            alert('Erro: ' + (erroData.message || 'Falha ao processar cadastro.'));
         }
     } catch (error) {
         console.error("Erro na requisição:", error);
@@ -64,10 +120,14 @@ if (sidebarHeader) {
 }
 
 // --- FUNÇÃO DE CANCELAR ---
-// Caso queira usar um botão de cancelar via JS
 const btnCancel = document.querySelector('.btn-cancel');
 if (btnCancel) {
     btnCancel.addEventListener('click', () => {
-        window.location.href = `../PerfilCurso/perfil-Curso.html?id=${cursoId}`;
+        // Cancelamento inteligente
+        if (cursoIdDaUrl) {
+            window.location.href = `../PerfilCurso/perfil-Curso.html?id=${cursoIdDaUrl}`;
+        } else {
+            window.history.back();
+        }
     });
 }
