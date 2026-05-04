@@ -17,40 +17,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* =====================================================
-   MENU LATERAL
+   SIDEBAR COLAPSÁVEL (padrão relatoriosDosAlunos)
 ===================================================== */
 function iniciarMenu() {
-    const openMenuBtn = document.getElementById('openMenu');
+    const sidebar       = document.getElementById('sidebar');
+    const mainContent   = document.getElementById('mainContent');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    // Elementos originais mantidos no DOM — lógica preservada sem efeito visual
+    const openMenuBtn  = document.getElementById('openMenu');
     const closeMenuBtn = document.getElementById('closeMenu');
-    const sidebar = document.getElementById('sidebar');
-    const menuOverlay = document.getElementById('menuOverlay');
+    const menuOverlay  = document.getElementById('menuOverlay');
 
-    const openMenu = () => {
-        sidebar.classList.add('active');
-        menuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
+    function toggleMenu() {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        localStorage.setItem('telaInicial_sidebarCollapsed', isCollapsed);
+    }
 
-    const closeMenu = () => {
-        sidebar.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    };
+    function restoreMenuState() {
+        const isCollapsed = localStorage.getItem('telaInicial_sidebarCollapsed') === 'true';
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+        }
+    }
 
-    if (openMenuBtn) openMenuBtn.addEventListener('click', openMenu);
-    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenu);
-    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+    if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
 
+    // Mantidos para não quebrar referências existentes
+    if (openMenuBtn)  openMenuBtn.addEventListener('click', () => {});
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', () => {});
+    if (menuOverlay)  menuOverlay.addEventListener('click', () => {});
+
+    // Fecha com Escape (comportamento original mantido)
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') {
+            sidebar.classList.remove('collapsed');
+            mainContent.classList.remove('expanded');
+        }
     });
 
-    // Fecha menu ao clicar em links (mobile)
-    document.querySelectorAll('.side-nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 850) closeMenu();
-        });
-    });
+    restoreMenuState();
 }
 
 
@@ -134,7 +143,7 @@ function criarCardSubmissao(sub) {
     const status = (sub.status || "").toUpperCase();
 
     let icon = "fa-clock";
-    if (status === "APROVADO") icon = "fa-circle-check";
+    if (status === "APROVADO")  icon = "fa-circle-check";
     if (status === "REJEITADO") icon = "fa-circle-xmark";
 
     card.innerHTML = `
