@@ -1,17 +1,15 @@
-/* ============================================================
-   JS ATUALIZADO PARA DOWNLOAD DO BANCO DE DADOS
-============================================================ */
-
 const sidebar = document.getElementById('sidebar');
-const btnOpenSidebar = document.getElementById('openMenu');
-const btnCloseSidebar = document.getElementById('closeMenu');
+const main = document.querySelector('.main');
 
+// Toggle sidebar
+document.querySelector('.sidebar-header').addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
+  main.classList.toggle('expanded');
+});
+
+// ELEMENTOS
 const avatar = document.getElementById('avatar');
 const profileName = document.getElementById('profile-name');
-const profileSub = document.getElementById('profile-sub');
-const progressFill = document.getElementById('progress-fill');
-const progressPct = document.getElementById('progress-pct');
-
 const infoNome = document.getElementById('info-nome');
 const infoAtiv = document.getElementById('info-atividade');
 const infoCategoria = document.getElementById('info-categoria');
@@ -35,126 +33,85 @@ const toast = document.getElementById('toast');
 let pendingAction = null;
 let dataGlobal = null;
 
-// Captura o ID da submissão na URL
+// URL
 const urlParams = new URLSearchParams(window.location.search);
 const submissaoId = urlParams.get('id');
 
+// Toast
 function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add("show");
-  setTimeout(() => { toast.classList.remove("show"); }, 3000);
+  setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+// Modal
 function abrirModal() { modal.style.display = "flex"; }
 function fecharModal() { modal.style.display = "none"; }
 
-function desabilitarBotoes() {
-  btnApprove.disabled = true;
-  btnReject.disabled = true;
-  btnApprove.style.opacity = "0.5";
-  btnReject.style.opacity = "0.5";
-}
-
-// Sidebars
-btnOpenSidebar.addEventListener('click', (e) => {
-  e.stopPropagation();
-  sidebar.classList.add('active');
-});
-
-btnCloseSidebar.addEventListener('click', () => { sidebar.classList.remove('active'); });
-
-document.addEventListener('click', (event) => {
-  if (!sidebar.contains(event.target) && !btnOpenSidebar.contains(event.target)) {
-    sidebar.classList.remove('active');
-  }
-});
-
-// API Get
+// API
 async function getData() {
-  try {
-    if (!submissaoId) throw new Error("ID não informado");
-    const response = await fetch(`http://localhost:8080/submissoes/${submissaoId}`);
-    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    showToast("❌ Erro ao carregar dados");
-    return null;
-  }
+  const res = await fetch(`http://localhost:8080/submissoes/${submissaoId}`);
+  return res.json();
 }
 
-// Preenche a tela
+// Preencher
 async function preencherDados() {
-  if (!submissaoId) { showToast("⚠️ URL sem ID."); return; }
   const data = await getData();
-  if (!data) return;
   dataGlobal = data;
 
-  avatar.textContent = data.nomeAluno ? data.nomeAluno.substring(0, 2).toUpperCase() : "--";
-  profileName.textContent = data.nomeAluno || "—";
-  profileSub.textContent = "Horas complementares";
-  infoNome.textContent = data.nomeAluno || "—";
-  infoAtiv.textContent = data.nomeCategoria || "—";
-  infoCategoria.textContent = data.nomeCategoria || "—";
-  infoData.textContent = data.dataEnvio ? new Date(data.dataEnvio).toLocaleDateString('pt-BR') : "—";
-  infoCarga.textContent = data.horasAproveitadas ? data.horasAproveitadas + "h" : "—";
-  docName.textContent = data.urlCertificado ? "Certificado Anexado" : "—";
-
-  if (data.status && data.status !== "PENDENTE") desabilitarBotoes();
+  avatar.textContent = data.nomeAluno?.substring(0, 2).toUpperCase();
+  profileName.textContent = data.nomeAluno;
+  infoNome.textContent = data.nomeAluno;
+  infoAtiv.textContent = data.nomeCategoria;
+  infoCategoria.textContent = data.nomeCategoria;
+  infoData.textContent = new Date(data.dataEnvio).toLocaleDateString('pt-BR');
+  infoCarga.textContent = data.horasAproveitadas + "h";
+  docName.textContent = data.urlCertificado ? "Certificado anexado" : "—";
 }
 
-// BOTÃO VER: Abre a URL de download gerada pelo Backend no MySQL
+// Ver PDF
 btnVer.addEventListener("click", () => {
-  const urlDownload = dataGlobal?.urlCertificado;
-  if (urlDownload) {
-      window.open(urlDownload, '_blank');
-  } else {
-      showToast("⚠️ Nenhum arquivo anexado.");
+  if (dataGlobal?.urlCertificado) {
+    window.open(dataGlobal.urlCertificado, "_blank");
   }
 });
 
-// Modal de ações
+// Aprovar
 btnApprove.addEventListener("click", () => {
   pendingAction = "approve";
-  modalTitle.textContent = "Confirmar Aprovação";
-  modalSub.textContent = "Deseja aprovar este certificado?";
+  modalTitle.textContent = "Aprovar?";
+  modalSub.textContent = "Deseja aprovar?";
   abrirModal();
 });
 
+// Reprovar
 btnReject.addEventListener("click", () => {
   justificativa.disabled = false;
-  justificativa.focus();
   pendingAction = "reject";
-  modalTitle.textContent = "Confirmar Reprovação";
-  modalSub.textContent = "Deseja reprovar este certificado?";
+  modalTitle.textContent = "Reprovar?";
+  modalSub.textContent = "Deseja reprovar?";
   abrirModal();
 });
 
 modalCancel.addEventListener("click", fecharModal);
 
+// Confirmar ação
 modalConfirm.addEventListener("click", async () => {
   if (pendingAction === "reject" && !justificativa.value.trim()) {
-    showToast("⚠️ Informe a justificativa!");
+    showToast("Informe a justificativa!");
     return;
   }
+
   fecharModal();
-  try {
-    const endpoint = pendingAction === "approve" ? "aprovar" : "rejeitar";
-    const url = `http://localhost:8080/submissoes/${submissaoId}/${endpoint}`;
-    const config = { method: "PUT", headers: {} };
-    if (pendingAction === "reject") {
-      config.headers["Content-Type"] = "text/plain";
-      config.body = justificativa.value.trim();
-    }
-    const response = await fetch(url, config);
-    if (!response.ok) throw new Error("Erro ao atualizar");
-    showToast(pendingAction === "approve" ? "✅ Aprovado!" : "❌ Reprovado!");
-    desabilitarBotoes();
-  } catch (error) {
-    console.error(error);
-    showToast("❌ Erro ao enviar status");
-  }
+
+  const endpoint = pendingAction === "approve" ? "aprovar" : "rejeitar";
+
+  await fetch(`http://localhost:8080/submissoes/${submissaoId}/${endpoint}`, {
+    method: "PUT",
+    body: pendingAction === "reject" ? justificativa.value : null
+  });
+
+  showToast("Atualizado!");
 });
 
-// Inicia
 preencherDados();
