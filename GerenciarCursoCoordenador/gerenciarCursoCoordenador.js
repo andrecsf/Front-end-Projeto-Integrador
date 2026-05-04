@@ -187,5 +187,16 @@ function openCourseDetails(courseId) {
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
     loadCourses();
-});
 
+    // =========================
+    // LOGOUT
+    // =========================
+    const logoutLink = document.querySelector('.sidebar-footer .user-info a');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = ROTAS.configuracoes;
+        });
+    }
+});
