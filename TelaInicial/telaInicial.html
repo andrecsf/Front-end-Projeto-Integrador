@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Coordenador</title>
-    <!-- Importando Font Awesome para os ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS Local -->
     <link rel="stylesheet" href="telaInicial.css">
 </head>
+
 <body>
-    <!-- Overlay para fechar o menu ao clicar fora -->
+    <!-- Overlay mantido no DOM para não quebrar o JS existente -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="container">
-        <!-- Conteúdo Principal (Esquerda) -->
-        <main class="main-content">
+        <!-- Conteúdo Principal -->
+        <main class="main-content" id="mainContent">
+
             <!-- Header Azul Superior -->
             <header class="top-header">
                 <div class="user-profile">
@@ -25,7 +26,7 @@
                         <span class="user-role">Coordenador</span>
                     </div>
                 </div>
-                <!-- Botão que abre o menu -->
+                <!-- Mantido no DOM para não quebrar o JS, oculto pelo CSS -->
                 <button class="menu-toggle" id="openMenu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -43,7 +44,7 @@
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Pendentes</span>
-                            <span class="stat-number">12</span>
+                            <span class="stat-number" id="pendentes">12</span>
                         </div>
                         <div class="stat-icon icon-orange">
                             <i class="fa-regular fa-clock"></i>
@@ -52,7 +53,7 @@
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Aprovadas</span>
-                            <span class="stat-number">87</span>
+                            <span class="stat-number" id="aprovadas">87</span>
                         </div>
                         <div class="stat-icon icon-green">
                             <i class="fa-regular fa-circle-check"></i>
@@ -61,7 +62,7 @@
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Rejeitadas</span>
-                            <span class="stat-number">5</span>
+                            <span class="stat-number" id="rejeitadas">5</span>
                         </div>
                         <div class="stat-icon icon-red">
                             <i class="fa-regular fa-circle-xmark"></i>
@@ -70,7 +71,7 @@
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Alunos</span>
-                            <span class="stat-number">156</span>
+                            <span class="stat-number" id="alunos">156</span>
                         </div>
                         <div class="stat-icon icon-blue">
                             <i class="fa-solid fa-user-group"></i>
@@ -81,33 +82,31 @@
                 <!-- Ações Rápidas -->
                 <section class="quick-actions">
                     <h2>Ações Rápidas</h2>
-                <div class="actions-grid">
-        
-                    <div class="action-card card-yellow">
-                        <div class="action-icon">
-                            <i class="fa-regular fa-file-lines"></i>
-                        </div>
+                    <div class="actions-grid">
+                        <div class="action-card card-yellow">
+                            <div class="action-icon">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
                             <div class="action-text">
                                 <strong>Revisar Atividades</strong>
-                                    <span>12 pendentes</span>
+                                <span>12 pendentes</span>
                             </div>
                         </div>
 
-        <!-- AQUI: card virou link -->
-        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html" style="text-decoration: none; color: inherit;">
-            <div class="action-card card-sky">
-                <div class="action-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <div class="action-text">
-                    <strong>Relatórios</strong>
-                    <span>Ver progresso</span>
-                </div>
-            </div>
-        </a>
-
-    </div>
-</section>
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html"
+                            style="text-decoration: none; color: inherit;">
+                            <div class="action-card card-sky">
+                                <div class="action-icon">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div class="action-text">
+                                    <strong>Relatórios</strong>
+                                    <span>Ver progresso</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
 
                 <!-- Enviadas Recentemente -->
                 <section class="recent-submissions">
@@ -115,7 +114,7 @@
                         <h2>Enviadas Recentemente</h2>
                         <a href="#" class="view-all">Ver Todas</a>
                     </div>
-                    <div class="submissions-grid">
+                    <div class="submissions-grid" id="submissionsContainer">
                         <div class="submission-card">
                             <div class="card-top">
                                 <h3>Projeto de Extensão</h3>
@@ -154,24 +153,43 @@
             </div>
         </main>
 
-        <!-- Sidebar Azul Retrátil (Direita) -->
+        <!-- SIDEBAR — colapsável, igual ao relatoriosDosAlunos -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <button class="close-menu" id="closeMenu">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+                <span class="menu-text">Menu</span>
             </div>
             <nav class="side-nav">
                 <ul>
-                    <li class="active"><a href="telaInicial.html"><i class="fa-solid fa-house"></i> Início</a></li>
-                    <li><a href="..//PerfilCoordenador/perfil-coordenador.html"><i class="fa-regular fa-user"></i> Perfil</a></li>
-                    <li><a href="..//RelatoriosDosAlunos/relatoriosDosAlunos.html"><i class="fa-solid fa-chart-simple"></i> Relatorio</a></li>
-                    <li><a href="*"><i class = "fa-solid fa-chart-simple"></i>Gerenciar cursos</a></li>
+                    <li class="active">
+                        <a href="telaInicial.html">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="..//PerfilCoordenador/perfil-coordenador.html">
+                            <i class="fa-regular fa-user"></i>
+                            <span class="nav-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="..//RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="nav-text">Relatório</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span class="nav-text">Gerenciar curso</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
                 <div class="footer-user">
-                    <i class="fa-regular fa-user"></i>
+                    <i class="fa-regular fa-user fa-2x"></i>
                     <div class="footer-text">
                         <strong>Usuário</strong>
                         <span><a href="..//Login/index.html">logout</a></span>
@@ -181,7 +199,7 @@
         </aside>
     </div>
 
-    <!-- JS Local -->
     <script src="telaInicial.js"></script>
 </body>
+
 </html>

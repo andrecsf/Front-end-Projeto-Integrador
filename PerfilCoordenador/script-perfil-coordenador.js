@@ -1,23 +1,29 @@
 // Elementos do DOM
+const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
-const openMenuBtn = document.getElementById('openMenu');
-const closeMenuBtn = document.getElementById('closeMenu');
-const menuOverlay = document.getElementById('menuOverlay');
+const mainContent = document.querySelector('.main-content');
 
 // Dados do coordenador (será preenchido dinamicamente)
 let currentCoordinator = null;
 let coordinatorCourses = [];
 
-// Função para abrir o menu
-function openMenu() {
-    sidebar.classList.add('active');
-    menuOverlay.classList.add('active');
+// Função para alternar o menu
+function toggleMenu() {
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+    
+    // Salvar estado do menu no localStorage
+    const isCollapsed = sidebar.classList.contains('collapsed');
+    localStorage.setItem('sidebarCollapsed', isCollapsed);
 }
 
-// Função para fechar o menu
-function closeMenu() {
-    sidebar.classList.remove('active');
-    menuOverlay.classList.remove('active');
+// Restaurar estado do menu ao carregar a página
+function restoreMenuState() {
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+        sidebar.classList.add('collapsed');
+        mainContent.classList.add('expanded');
+    }
 }
 
 // Função para obter o ID do coordenador da URL
@@ -130,9 +136,7 @@ function renderCourses() {
 }
 
 // Event Listeners
-openMenuBtn.addEventListener('click', openMenu);
-closeMenuBtn.addEventListener('click', closeMenu);
-menuOverlay.addEventListener('click', closeMenu);
+document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
 
 document.getElementById('btn-edit').addEventListener('click', () => {
     console.log('Editar coordenador:', currentCoordinator.id);
@@ -148,6 +152,7 @@ document.getElementById('btn-delete').addEventListener('click', () => {
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
+    restoreMenuState();
     const coordinatorId = getCoordinatorIdFromURL();
     loadCoordinatorData(coordinatorId);
 });
