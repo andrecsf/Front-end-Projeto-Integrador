@@ -12,6 +12,8 @@ const selectCurso = document.getElementById('student-course');
 
 // 2. LÓGICA DE INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', () => {
+    setupSidebar();
+
     // Se o ID do curso estiver na URL, ele veio da tela de perfil do curso
     if (cursoIdDaUrl) {
         // Esconde o campo de seleção de curso, pois já sabemos qual é
@@ -110,13 +112,28 @@ studentForm.addEventListener('submit', async (e) => {
     }
 });
 
-// --- COMPORTAMENTO DA INTERFACE (SIDEBAR) ---
-const sidebarHeader = document.querySelector('.sidebar-header');
-if (sidebarHeader) {
-    sidebarHeader.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.querySelector('.main-content').classList.toggle('expanded');
-    });
+// --- COMPORTAMENTO DA SIDEBAR (igual ao cadastrarCategoria) ---
+function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.querySelector('.main-content').classList.toggle('expanded');
+    const isCollapsed = document.getElementById('sidebar').classList.contains('collapsed');
+    localStorage.setItem('sidebarCollapsed', isCollapsed);
+}
+
+function restoreMenuState() {
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+        document.getElementById('sidebar').classList.add('collapsed');
+        document.querySelector('.main-content').classList.add('expanded');
+    }
+}
+
+function setupSidebar() {
+    const sidebarHeader = document.getElementById('sidebar-header');
+    if (sidebarHeader) {
+        sidebarHeader.addEventListener('click', toggleMenu);
+    }
+    restoreMenuState();
 }
 
 // --- FUNÇÃO DE CANCELAR ---
