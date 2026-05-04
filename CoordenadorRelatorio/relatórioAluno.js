@@ -105,28 +105,20 @@ async function carregarRelatorio() {
     const aluno = await resAluno.json();
 
     // 2. Tenta buscar os cursos do aluno para obter cargaHorariaMax
-    //    O endpoint GET /alunos/curso/{cursoId} lista alunos por curso,
-    //    mas não o inverso. Se o back-end futuramente expor os cursos do
-    //    aluno no AlunoDTO, use aluno.cursos[0].cargaHorariaMax diretamente.
     let cargaHorariaMax = CARGA_HORARIA_FALLBACK;
-
-    // Se o DTO já trouxer os cursos (após evolução do back-end):
     if (aluno.cursos && aluno.cursos.length > 0 && aluno.cursos[0].cargaHorariaMax) {
       cargaHorariaMax = aluno.cursos[0].cargaHorariaMax;
     }
 
     // 3. Busca todas as submissões e filtra pelo nome do aluno
-    //    ⚠️  Workaround: idealmente o back-end deve expor GET /submissoes?alunoId=
     const resSubmissoes = await fetch(`${BASE_URL}/submissoes`);
     if (!resSubmissoes.ok) throw new Error(`Erro ao buscar submissões (HTTP ${resSubmissoes.status})`);
     const todasSubmissoes = await resSubmissoes.json();
 
-    // Filtra submissões deste aluno (por nome – substituir por ID quando disponível)
     const submissoesDoAluno = todasSubmissoes.filter(
       (s) => s.nomeAluno === aluno.name
     );
 
-    // Somente aprovadas para os cards principais
     const aprovadas = submissoesDoAluno.filter((s) => s.status === "APROVADO");
     const pendentes  = submissoesDoAluno.filter((s) => s.status === "PENDENTE");
     const rejeitadas = submissoesDoAluno.filter((s) => s.status === "REJEITADO");
@@ -141,7 +133,6 @@ async function carregarRelatorio() {
     if (progressBarEl) {
       setTimeout(() => {
         progressBarEl.style.width = percentual + "%";
-        // Cor da barra conforme progresso
         if (percentual >= 100)       progressBarEl.style.background = "#16a34a";
         else if (percentual >= 60)   progressBarEl.style.background = "#2f6df6";
         else if (percentual >= 30)   progressBarEl.style.background = "#f59e0b";
@@ -153,7 +144,7 @@ async function carregarRelatorio() {
     ocultarLoading();
 
     if (cardsContainer) {
-      cardsContainer.innerHTML = ""; // limpa placeholder
+      cardsContainer.innerHTML = "";
 
       if (submissoesDoAluno.length === 0) {
         cardsContainer.innerHTML = `
@@ -163,7 +154,6 @@ async function carregarRelatorio() {
         return;
       }
 
-      // Ordem: aprovadas → pendentes → rejeitadas
       [...aprovadas, ...pendentes, ...rejeitadas].forEach((sub) => {
         cardsContainer.appendChild(criarCardAtividade(sub));
       });
@@ -175,29 +165,44 @@ async function carregarRelatorio() {
   }
 }
 
-// ── Inicia ─────────────────────────────────────────────────────
+// ── Inicia carregamento ────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", carregarRelatorio);
 
-// ── Sidebar ────────────────────────────────────────────────
-const sidebar  = document.getElementById("sidebar");
+// ── SIDEBAR COLAPSÁVEL (igual ao relatoriosDosAlunos) ──────────
+const sidebar      = document.getElementById("sidebar");
+const mainContent  = document.getElementById("mainContent");
+const sidebarToggle = document.getElementById("sidebarToggle");
+
+// Mantidos no DOM para não quebrar referências do JS original
 const overlay  = document.getElementById("overlay");
 const openBtn  = document.getElementById("openMenu");
 const closeBtn = document.getElementById("closeMenu");
 
-function abrirSidebar() {
-  sidebar.classList.add("open");
-  overlay.classList.add("active");
-}
-function fecharSidebar() {
-  sidebar.classList.remove("open");
-  overlay.classList.remove("active");
+function toggleMenu() {
+  sidebar.classList.toggle("collapsed");
+  mainContent.classList.toggle("expanded");
+  const isCollapsed = sidebar.classList.contains("collapsed");
+  localStorage.setItem("relatorioAluno_sidebarCollapsed", isCollapsed);
 }
 
-if (openBtn)  openBtn.addEventListener("click", abrirSidebar);
-if (closeBtn) closeBtn.addEventListener("click", fecharSidebar);
-if (overlay)  overlay.addEventListener("click", fecharSidebar);
+function restoreMenuState() {
+  const isCollapsed = localStorage.getItem("relatorioAluno_sidebarCollapsed") === "true";
+  if (isCollapsed) {
+    sidebar.classList.add("collapsed");
+    mainContent.classList.add("expanded");
+  }
+}
 
-// ── Notificações ───────────────────────────────────────────
+if (sidebarToggle) sidebarToggle.addEventListener("click", toggleMenu);
+
+// Lógica original de overlay mantida para não quebrar nada
+if (openBtn)  openBtn.addEventListener("click", () => {});
+if (closeBtn) closeBtn.addEventListener("click", () => {});
+if (overlay)  overlay.addEventListener("click", () => {});
+
+document.addEventListener("DOMContentLoaded", restoreMenuState);
+
+// ── Notificações (mantidas intactas) ──────────────────────────
 const notifBtn    = document.getElementById("openNotif");
 const notifPainel = document.getElementById("notif-painel");
 const notifLista  = document.getElementById("notif-lista");
@@ -210,14 +215,11 @@ async function carregarNotificacoes() {
     if (!res.ok) return;
     const todas = await res.json();
 
-    // Filtra pelo email do aluno logado
-    // O campo destinatario na entidade é o email
     const resAluno = await fetch(`${BASE_URL}/alunos/${ALUNO_ID}`);
     const aluno = await resAluno.json();
 
     const minhas = todas.filter(n => n.destinatario === aluno.email);
 
-    // Badge
     if (minhas.length > 0) {
       notifBadge.textContent = minhas.length > 9 ? "9+" : minhas.length;
       notifBadge.style.display = "flex";
@@ -225,7 +227,6 @@ async function carregarNotificacoes() {
       notifBadge.style.display = "none";
     }
 
-    // Renderiza lista
     if (minhas.length === 0) {
       notifLista.innerHTML = `<p class="notif-vazia">Nenhuma notificação.</p>`;
       return;
@@ -256,7 +257,6 @@ function fecharNotif() {
 if (notifBtn)   notifBtn.addEventListener("click", toggleNotif);
 if (closeNotif) closeNotif.addEventListener("click", fecharNotif);
 
-// Fecha ao clicar fora
 document.addEventListener("click", (e) => {
   if (!notifPainel || !notifBtn) return;
   if (!notifPainel.contains(e.target) && !notifBtn.contains(e.target)) {
@@ -264,5 +264,4 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Carrega notificações junto com o relatório
 document.addEventListener("DOMContentLoaded", carregarNotificacoes);
