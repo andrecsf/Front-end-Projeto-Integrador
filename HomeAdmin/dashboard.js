@@ -234,8 +234,52 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =========================
-  // SIDEBAR — NAVEGAÇÃO
+  // STATUS DO SISTEMA
   // =========================
+  const elServidor = document.getElementById('status-servidor');
+  const elBanco = document.getElementById('status-banco');
+  const elUltimaAtividade = document.getElementById('status-ultima-atividade');
+
+  // Se os dados já carregaram acima, o servidor e banco estão online
+  const backendOnline = submissoes !== null;
+
+  if (elServidor) {
+    if (backendOnline) {
+      elServidor.textContent = 'Online';
+      elServidor.className = 'badge online';
+    } else {
+      elServidor.textContent = 'Offline';
+      elServidor.className = 'badge offline';
+    }
+  }
+
+  if (elBanco) {
+    // Se conseguiu buscar submissões do banco, o banco está ativo
+    if (backendOnline) {
+      elBanco.textContent = 'Ativo';
+      elBanco.className = 'badge active';
+    } else {
+      elBanco.textContent = 'Indisponível';
+      elBanco.className = 'badge offline';
+    }
+  }
+
+  if (elUltimaAtividade) {
+    // Pega a submissão mais recente pelo dataEnvio
+    const comData = submissoes.filter(s => s.dataEnvio);
+    if (comData.length > 0) {
+      const maisRecente = comData.sort((a, b) => new Date(b.dataEnvio) - new Date(a.dataEnvio))[0];
+      const data = new Date(maisRecente.dataEnvio);
+      elUltimaAtividade.textContent = data.toLocaleDateString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    } else {
+      elUltimaAtividade.textContent = 'Nenhuma atividade registrada';
+    }
+  }
+
+
   const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
   const menuKeys = ["inicio", "perfil", "cursos", "usuarios", "documentos", "configuracoes"];
 
