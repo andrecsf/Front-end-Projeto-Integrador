@@ -96,7 +96,7 @@ function renderizarAlunos(lista) {
                 <span class="student-info">${aluno.matricula || ''} ${aluno.turma ? '· ' + aluno.turma : ''}</span>
             </div>
             <span class="student-horas">${aluno.horasAcumuladas ?? 0}h</span>
-            <button class="btn-desvincular" title="Desvincular aluno" onclick="desvincularAluno(${aluno.id}, '${aluno.name}')">
+            <button class="btn-desvincular" title="Desvincular aluno" onclick="window.desvincularAluno(${aluno.id}, '${aluno.name}')">
                 <i class="fa-solid fa-user-minus"></i>
             </button>
         </div>
@@ -104,9 +104,9 @@ function renderizarAlunos(lista) {
 }
 
 // =========================
-// DESVINCULAR ALUNO
+// DESVINCULAR ALUNO — exposta no window para o onclick funcionar
 // =========================
-async function desvincularAluno(alunoId, nome) {
+window.desvincularAluno = async function(alunoId, nome) {
     if (!confirm(`Desvincular "${nome}" deste curso?`)) return;
 
     try {
@@ -121,16 +121,14 @@ async function desvincularAluno(alunoId, nome) {
         console.error(e);
         alert('Erro ao desvincular aluno.');
     }
-}
+};
 
 // =========================
 // MODAL VINCULAR ALUNO
 // =========================
 async function abrirModalVincular() {
-    // Remove modal anterior se existir
     document.getElementById('modalVincular')?.remove();
 
-    // Busca todos os alunos
     try {
         const res = await fetch(`${API}/alunos`, { headers: authHeaders() });
         if (!res.ok) throw new Error();
@@ -140,7 +138,6 @@ async function abrirModalVincular() {
         return;
     }
 
-    // IDs já vinculados para não mostrar duplicado
     const idsVinculados = new Set(alunosVinculados.map(a => a.id));
     const disponiveis   = todosAlunos.filter(a => !idsVinculados.has(a.id));
 
@@ -168,7 +165,7 @@ async function abrirModalVincular() {
                                     <span class="student-name">${a.name}</span>
                                     <span class="student-info">${a.email}</span>
                                 </div>
-                                <button class="btn-vincular-item" onclick="vincularAluno(${a.id}, '${a.name}')">
+                                <button class="btn-vincular-item" onclick="window.vincularAluno(${a.id}, '${a.name}')">
                                     <i class="fa-solid fa-plus"></i> Vincular
                                 </button>
                             </div>`).join('')
@@ -180,11 +177,9 @@ async function abrirModalVincular() {
 
     document.body.appendChild(overlay);
 
-    // Fechar modal
     document.getElementById('btnFecharModal').addEventListener('click', () => overlay.remove());
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 
-    // Busca dentro do modal
     document.getElementById('modalSearchInput').addEventListener('input', e => {
         const termo = e.target.value.toLowerCase();
         document.querySelectorAll('.modal-aluno-item').forEach(item => {
@@ -194,9 +189,9 @@ async function abrirModalVincular() {
 }
 
 // =========================
-// VINCULAR ALUNO
+// VINCULAR ALUNO — exposta no window para o onclick funcionar
 // =========================
-async function vincularAluno(alunoId, nome) {
+window.vincularAluno = async function(alunoId, nome) {
     try {
         const res = await fetch(`${API}/alunos/${alunoId}/cursos/${courseId}`, {
             method: 'POST',
@@ -211,7 +206,7 @@ async function vincularAluno(alunoId, nome) {
         console.error(e);
         alert(`Erro ao vincular "${nome}".`);
     }
-}
+};
 
 // =========================
 // BUSCA DE ALUNOS VINCULADOS
@@ -245,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!courseId) { mostrarErro('ID do curso não encontrado na URL.'); return; }
 
-    // Sidebar
     const sidebar       = document.getElementById('sidebar');
     const mainContent   = document.getElementById('mainContent');
     const sidebarToggle = document.getElementById('sidebarToggle');
@@ -255,20 +249,16 @@ document.addEventListener('DOMContentLoaded', () => {
         mainContent.classList.toggle('expanded');
     });
 
-    // Botão voltar
     document.getElementById('btnVoltar')?.addEventListener('click', () => {
         window.location.href = '../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html';
     });
 
-    // Botão vincular aluno
     document.getElementById('btn-add-student')?.addEventListener('click', abrirModalVincular);
 
-    // Busca alunos vinculados
     document.getElementById('search-student')?.addEventListener('input', e => {
         filtrarAlunosVinculados(e.target.value);
     });
 
-    // Carregar dados
     carregarCurso();
     carregarAlunosVinculados();
 });
