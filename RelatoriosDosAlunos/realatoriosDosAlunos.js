@@ -1,5 +1,6 @@
 /* 
    RELATÓRIOS DE ALUNOS - SCRIPT
+   Fluxo: coordenador clica num card → vai para CoordenadorRelatorio/relatorioAluno.html?alunoId={id}
 */
 
 // =========================
@@ -45,6 +46,42 @@ async function fetchProtegido(url, options = {}) {
 }
 
 // =========================
+// DESCOBRE O CURSO DO COORDENADOR LOGADO
+// =========================
+async function descobrirCursoId() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        // Decodifica o e-mail do JWT
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const userEmail = payload.sub;
+
+        // Busca todos os coordenadores para achar o ID pelo e-mail
+        const resCoordenadores = await fetchProtegido(`${API_BASE_URL}/coordenadores`);
+        if (!resCoordenadores || !resCoordenadores.ok) return null;
+        const coordenadores = await resCoordenadores.json();
+        const meu = coordenadores.find(c => c.email === userEmail);
+        if (!meu) return null;
+
+        // Guarda o ID para uso posterior
+        localStorage.setItem('usuarioIdLogado', meu.id);
+
+        // Busca o curso vinculado a este coordenador
+        const resCursos = await fetchProtegido(`${API_BASE_URL}/cursos`);
+        if (!resCursos || !resCursos.ok) return null;
+        const cursos = await resCursos.json();
+        const meuCurso = cursos.find(c => c.coordenador && c.coordenador.id === meu.id);
+
+        return meuCurso ? meuCurso.id : null;
+
+    } catch (e) {
+        console.error("Erro ao descobrir curso do coordenador:", e);
+        return null;
+    }
+}
+
+// =========================
 // HELPERS
 // =========================
 function getIniciais(nome) {
@@ -77,9 +114,9 @@ function getIconeTrend(horas) {
 // CONTADORES
 // =========================
 function atualizarContadores(lista) {
-    document.querySelector('.count-green').textContent  = lista.filter(a => classificarAluno(a.horasAcumuladas) === 'completo').length;
-    document.querySelector('.count-blue').textContent   = lista.filter(a => classificarAluno(a.horasAcumuladas) === 'progresso').length;
-    document.querySelector('.count-orange').textContent = lista.filter(a => classificarAluno(a.horasAcumuladas) === 'atrasado').length;
+    document.querySelector('.count-green').textContent  = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'completo').length;
+    document.querySelector('.count-blue').textContent   = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'progresso').length;
+    document.querySelector('.count-orange').textContent = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'atrasado').length;
 }
 
 // =========================
@@ -105,7 +142,7 @@ function renderCards(lista) {
         const iniciais = getIniciais(aluno.name);
 
         return `
-        <div class="student-card" data-id="${aluno.id}">
+        <div class="student-card" data-id="${aluno.id}" style="cursor:pointer;">
             <div class="card-header">
                 <div class="avatar avatar-blue">${iniciais}</div>
                 <div class="student-info">
@@ -127,11 +164,11 @@ function renderCards(lista) {
         </div>`;
     }).join('');
 
-    // Clique nos cards (mantido)
+    // ✅ Clique no card → redireciona para o relatório individual do aluno
     document.querySelectorAll('.student-card').forEach(card => {
         card.addEventListener('click', () => {
-            const name = card.querySelector('h3').innerText;
-            console.log(`Visualizando detalhes de: ${name}`);
+            const alunoId = card.dataset.id;
+            window.location.href = `../CoordenadorRelatorio/relatorioAluno.html?alunoId=${alunoId}`;
         });
     });
 }
@@ -152,6 +189,7 @@ function filtrarAlunos() {
 
 // =========================
 // CARREGAR ALUNOS DO BACKEND
+// (filtrados pelo curso do coordenador logado)
 // =========================
 async function carregarAlunos() {
     const studentsGrid = document.getElementById('studentsGrid');
@@ -163,7 +201,14 @@ async function carregarAlunos() {
         </div>`;
 
     try {
-        const response = await fetchProtegido(`${API_BASE_URL}/alunos`);
+        // Tenta filtrar pelo curso do coordenador; se não encontrar, carrega todos
+        const cursoId = await descobrirCursoId();
+
+        let url = cursoId
+            ? `${API_BASE_URL}/alunos/curso/${cursoId}`
+            : `${API_BASE_URL}/alunos`;
+
+        const response = await fetchProtegido(url);
         if (!response) return;
 
         if (!response.ok) throw new Error(`Erro ${response.status}`);
@@ -171,6 +216,7 @@ async function carregarAlunos() {
         todosAlunos = await response.json();
         atualizarContadores(todosAlunos);
         renderCards(todosAlunos);
+
     } catch (error) {
         console.error("Erro ao carregar alunos:", error);
         studentsGrid.innerHTML = `
@@ -194,13 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleMenu() {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
-        const isCollapsed = sidebar.classList.contains('collapsed');
-        localStorage.setItem('relatorios_sidebarCollapsed', isCollapsed);
+        localStorage.setItem('relatorios_sidebarCollapsed', sidebar.classList.contains('collapsed'));
     }
 
     function restoreMenuState() {
-        const isCollapsed = localStorage.getItem('relatorios_sidebarCollapsed') === 'true';
-        if (isCollapsed) {
+        if (localStorage.getItem('relatorios_sidebarCollapsed') === 'true') {
             sidebar.classList.add('collapsed');
             mainContent.classList.add('expanded');
         }
@@ -209,22 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
     restoreMenuState();
 
-    // --- Menu overlay (mantido para não quebrar nada) ---
-    const openMenuBtn  = document.getElementById('openMenu');
-    const closeMenuBtn = document.getElementById('closeMenu');
-    const menuOverlay  = document.getElementById('menuOverlay');
-
-    const openMenu  = () => { if (menuOverlay) { menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; } };
-    const closeMenu = () => { if (menuOverlay) { menuOverlay.classList.remove('active'); document.body.style.overflow = 'auto'; } };
-
-    if (openMenuBtn)  openMenuBtn.addEventListener('click', openMenu);
-    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenu);
-    if (menuOverlay)  menuOverlay.addEventListener('click', closeMenu);
-
     // --- Busca ---
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.addEventListener('input', filtrarAlunos);
 
-    // --- Carrega dados do backend ---
+    // --- Carrega dados ---
     carregarAlunos();
 });

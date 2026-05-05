@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório do Aluno</title>
+  <link rel="stylesheet" href="relatorioAluno.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+
+    <main class="main-content" id="mainContent">
+
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <!-- ✅ Volta para a lista de alunos, não para a TelaInicial -->
+          <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html" class="back-btn" title="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <h1>Relatório do Aluno</h1>
+
+          <!-- Notificações -->
+          <span class="notif-btn" id="openNotif">
+            <i class="fa-solid fa-bell" style="color: white; font-size: 20px;"></i>
+            <span class="notif-badge" id="notif-badge" style="display:none;">0</span>
+          </span>
+        </div>
+      </header>
+
+      <!-- Painel de Notificações -->
+      <div class="notif-painel" id="notif-painel">
+        <div class="notif-header">
+          <span>Notificações</span>
+          <button id="closeNotif">&times;</button>
+        </div>
+        <div class="notif-lista" id="notif-lista">
+          <p class="notif-vazia">Carregando...</p>
+        </div>
+      </div>
+
+      <div class="container">
+
+        <!-- CARD DO ALUNO -->
+        <div class="card aluno">
+          <h2 id="nome-aluno">Carregando...</h2>
+          <p id="horas-texto">— h / — h obrigatórias</p>
+          <div class="progress-area">
+            <span>Progresso</span>
+            <span id="percent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+          </div>
+        </div>
+
+        <!-- Mensagem de erro -->
+        <div id="erro-msg" class="erro-msg" style="display:none;"></div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Carregando atividades...</p>
+        </div>
+
+        <!-- Cards de atividades -->
+        <div id="cards-container"></div>
+
+      </div>
+    </main>
+
+    <!-- SIDEBAR — fluxo coordenador -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="sidebarToggle">
+        <i class="fa-solid fa-bars"></i>
+        <span class="menu-text">Menu</span>
+      </div>
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="../TelaInicial/telaInicial.html">
+              <i class="fa-solid fa-house"></i>
+              <span class="nav-text">Início</span>
+            </a>
+          </li>
+          <li>
+            <a href="../MeuPerfilCoordenador/Meuperfilcoordenador.html">
+              <i class="fa-solid fa-user"></i>
+              <span class="nav-text">Perfil</span>
+            </a>
+          </li>
+          <li class="active">
+            <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span class="nav-text">Relatório</span>
+            </a>
+          </li>
+          <li>
+            <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
+              <i class="fa-regular fa-file-lines"></i>
+              <span class="nav-text">Gerenciar Curso</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="footer-user">
+          <i class="fa-solid fa-circle-user fa-2x"></i>
+          <div class="footer-text">
+            <strong id="sidebar-user-name">Coordenador</strong>
+            <a href="../Login/index.html">logout</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="relatorioAluno.js"></script>
+</body>
+
+</html>
