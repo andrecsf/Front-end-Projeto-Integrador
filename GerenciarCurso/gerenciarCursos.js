@@ -14,11 +14,9 @@ const searchInput = document.getElementById('search-input');
 // =========================
 const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
-    perfil: "../PerfilCurso/perfil-curso.html",
-    cursos: "../GerenciarCurso/gerenciaCursos.html",
+    perfil: "../PerfilSuperadmin/dashboard-superadmin.html",
+    cursos: "../GerenciarCurso/gerenciarCursos.html",
     usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
-    documentos: "../CadastrarCategoria/cadastrarCategoria.html",
-    configuracoes: "../Login/index.html"
 };
 
 let courses = [];
