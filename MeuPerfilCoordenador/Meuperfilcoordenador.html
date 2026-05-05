@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Sistema Acadêmico</title>
+    <link rel="stylesheet" href="meuPerfilCoordenador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="../TelaInicial/telaInicial.html">
+                            <i class="fas fa-home"></i>
+                            <span class="menu-text">Início</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="../MeuPerfilCoordenador/meuPerfilCoordenador.html">
+                            <i class="fas fa-user"></i>
+                            <span class="menu-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span class="menu-text">Relatório</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
+                            <i class="fas fa-users"></i>
+                            <span class="menu-text">Gerenciar Curso</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text" id="sidebar-user-name">Carregando...</p>
+                        <a href="../Login/index.html" class="menu-text">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <header class="main-header">
+                <div class="header-left">
+                    <i class="fas fa-arrow-left" id="btnVoltar" title="Voltar"></i>
+                    <h1>Meu Perfil</h1>
+                </div>
+            </header>
+
+            <section class="content-body">
+
+                <!-- Card de informações -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profile-avatar">?</div>
+                        <div class="profile-details">
+                            <h2 id="profile-name">Carregando...</h2>
+                            <p id="profile-email" class="profile-email">...</p>
+                            <p class="profile-role">Coordenador</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <p class="stat-label">Cursos Coordenados</p>
+                                <p class="stat-value" id="courses-count">-</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-id-badge"></i>
+                            <div>
+                                <p class="stat-label">ID de Usuário</p>
+                                <p class="stat-value" id="user-id">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de cursos -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Meus Cursos</h3>
+                    </div>
+                    <div id="courses-list" class="course-list">
+                        <div class="loading-state">
+                            <p><i class="fas fa-spinner fa-spin"></i> Carregando cursos...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script defer src="meuPerfilCoordenador.js"></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Sistema Acadêmico</title>
+    <link rel="stylesheet" href="meuPerfilCoordenador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="../TelaInicial/telaInicial.html">
+                            <i class="fas fa-home"></i>
+                            <span class="menu-text">Início</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="../MeuPerfilCoordenador/meuPerfilCoordenador.html">
+                            <i class="fas fa-user"></i>
+                            <span class="menu-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span class="menu-text">Relatório</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
+                            <i class="fas fa-users"></i>
+                            <span class="menu-text">Gerenciar Curso</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="user-text">
+                        <p class="menu-text" id="sidebar-user-name">Carregando...</p>
+                        <a href="../Login/index.html" class="menu-text">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <header class="main-header">
+                <div class="header-left">
+                    <i class="fas fa-arrow-left" id="btnVoltar" title="Voltar"></i>
+                    <h1>Meu Perfil</h1>
+                </div>
+            </header>
+
+            <section class="content-body">
+
+                <!-- Card de informações -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profile-avatar">?</div>
+                        <div class="profile-details">
+                            <h2 id="profile-name">Carregando...</h2>
+                            <p id="profile-email" class="profile-email">...</p>
+                            <p class="profile-role">Coordenador</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <p class="stat-label">Cursos Coordenados</p>
+                                <p class="stat-value" id="courses-count">-</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-id-badge"></i>
+                            <div>
+                                <p class="stat-label">ID de Usuário</p>
+                                <p class="stat-value" id="user-id">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de cursos -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Meus Cursos</h3>
+                    </div>
+                    <div id="courses-list" class="course-list">
+                        <div class="loading-state">
+                            <p><i class="fas fa-spinner fa-spin"></i> Carregando cursos...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script defer src="meuPerfilCoordenador.js"></script>
+</body>
+
+</html>
