@@ -1,4 +1,4 @@
-/* --- VARIÁVEIS DO SISTEMA (CONFORME REFERÊNCIA) --- */
+/* --- VARIÁVEIS DO SISTEMA --- */
 :root {
     --primary-blue: #2563eb;
     --sidebar-blue: #1d4ed8;
@@ -10,7 +10,7 @@
     --green: #22c55e;
     --red: #ef4444;
     --sidebar-width: 250px;
-    --sidebar-width-collapsed: 80px;
+    --sidebar-width-collapsed: 70px;
     --transition-duration: 0.3s;
 }
 
@@ -32,7 +32,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- SIDEBAR (ALINHADA À DIREITA CONFORME SUA REF) --- */
+/* --- SIDEBAR --- */
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -45,31 +45,49 @@ body {
     top: 0;
     z-index: 1000;
     transition: width var(--transition-duration) ease;
+    overflow: hidden;
 }
 
+/* HEADER DO MENU */
 .sidebar-header {
+    cursor: pointer;
     padding: 20px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    min-height: 80px;
-    justify-content: center;
+    gap: 12px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    min-height: 70px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    white-space: nowrap;
+}
+
+.sidebar-header i {
+    font-size: 1.4rem;
+    min-width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* NAV LINKS */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 10px;
 }
 
 .sidebar-nav ul {
     list-style: none;
-    margin-top: 20px;
 }
 
 .sidebar-nav li {
-    padding: 12px 20px;
-    transition: background 0.3s;
+    transition: background 0.2s;
 }
 
-.sidebar-nav li:hover, .sidebar-nav li.active {
-    background-color: rgba(255, 255, 255, 0.1);
+.sidebar-nav li:hover,
+.sidebar-nav li.active {
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .sidebar-nav a {
@@ -77,23 +95,117 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    padding: 14px 20px;
+    white-space: nowrap;
 }
 
-/* --- CONTEÚDO PRINCIPAL (MARGEM À DIREITA) --- */
+.sidebar-nav a i {
+    font-size: 1.1rem;
+    min-width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* FOOTER DO SIDEBAR — LOGOUT FIXO NO RODAPÉ */
+.sidebar-footer {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.sidebar-footer .user-icon {
+    font-size: 1.8rem;
+    min-width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--white);
+}
+
+.sidebar-footer .user-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-footer .user-text p {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--white);
+}
+
+.sidebar-footer .user-text a {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.sidebar-footer .user-text a:hover {
+    color: var(--white);
+}
+
+/* --- TEXTOS QUE SOMEM AO COLAPSAR --- */
+.menu-text {
+    transition: opacity var(--transition-duration) ease, width var(--transition-duration) ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* ESTADO COLAPSADO */
+.sidebar.collapsed {
+    width: var(--sidebar-width-collapsed);
+}
+
+.sidebar.collapsed .menu-text,
+.sidebar.collapsed .sidebar-footer .user-text,
+.sidebar.collapsed .sidebar-header span {
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+}
+
+.sidebar.collapsed .sidebar-footer {
+    justify-content: center;
+    padding: 16px 0;
+}
+
+.sidebar.collapsed .sidebar-nav a {
+    justify-content: center;
+    padding: 14px 0;
+}
+
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: 20px 0;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
 .main-content {
     flex: 1;
     margin-right: var(--sidebar-width);
     padding: 0;
     transition: margin-right var(--transition-duration) ease;
+    min-height: 100vh;
 }
 
+.main-content.expanded {
+    margin-right: var(--sidebar-width-collapsed);
+}
+
+/* HEADER PRINCIPAL */
 .main-header {
     background-color: var(--primary-blue);
     color: var(--white);
     padding: 15px 30px;
     display: flex;
     align-items: center;
+    min-height: 70px;
 }
 
 .header-left {
@@ -102,20 +214,29 @@ body {
     gap: 15px;
 }
 
-.btn-back {
+.header-left h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
     color: var(--white);
-    text-decoration: none;
-    font-size: 1.3rem;
-    transition: transform 0.2s;
 }
 
-.btn-back:hover { transform: scale(1.1); }
+#btnVoltar {
+    color: var(--white);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: transform var(--transition-duration) ease;
+}
 
+#btnVoltar:hover {
+    transform: scale(1.15);
+}
+
+/* --- BODY DO CONTEÚDO --- */
 .content-body {
     padding: 30px 40px;
 }
 
-/* --- CONTAINER DA LISTA (ESTILO FORM DA REF) --- */
+/* --- SEÇÃO / CARD --- */
 .section {
     background: var(--white);
     border-radius: 8px;
@@ -134,7 +255,7 @@ body {
     gap: 15px;
 }
 
-/* --- BUSCA (ESTILO INPUT DA REF) --- */
+/* --- BUSCA --- */
 .search-box {
     position: relative;
     max-width: 350px;
@@ -211,9 +332,9 @@ body {
     font-size: 0.85rem;
 }
 
-/* --- BOTÃO DE VÍNCULO (ESTILO BTN-SAVE DA REF) --- */
+/* --- BOTÃO VINCULAR --- */
 .btn-add-item {
-    background-color: var(--green); /* Verde da referência */
+    background-color: var(--green);
     color: var(--white) !important;
     border: none;
     padding: 10px 18px;
@@ -234,7 +355,10 @@ body {
 }
 
 .btn-add-item i {
-    color: var(--white);
+    color: var(--white) !important;
+    background: none !important;
+    padding: 0 !important;
+    font-size: 0.9rem;
 }
 
 .empty-message {
@@ -245,13 +369,53 @@ body {
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
-    .sidebar { display: none; } /* Oculta sidebar em telas pequenas se necessário */
-    .main-content { margin-right: 0; }
+    .sidebar {
+        width: var(--sidebar-width-collapsed);
+    }
+
+    .sidebar .menu-text,
+    .sidebar .sidebar-footer .user-text,
+    .sidebar .sidebar-header span {
+        opacity: 0;
+        width: 0;
+        pointer-events: none;
+    }
+
+    .sidebar .sidebar-footer {
+        justify-content: center;
+        padding: 16px 0;
+    }
+
+    .sidebar .sidebar-nav a {
+        justify-content: center;
+        padding: 14px 0;
+    }
+
+    .sidebar .sidebar-header {
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .main-content {
+        margin-right: var(--sidebar-width-collapsed);
+    }
+
+    .content-body {
+        padding: 20px 16px;
+    }
+
     .item-card {
         flex-direction: column;
         text-align: center;
         gap: 15px;
     }
-    .item-info { flex-direction: column; }
-    .btn-add-item { width: 100%; justify-content: center; }
+
+    .item-info {
+        flex-direction: column;
+    }
+
+    .btn-add-item {
+        width: 100%;
+        justify-content: center;
+    }
 }
