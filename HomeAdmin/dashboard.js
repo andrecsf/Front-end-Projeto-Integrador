@@ -1,126 +1,135 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const TOKEN = localStorage.getItem('token');
 
   const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
-    perfil: "../PerfilCurso/perfil-curso.html",
+    perfil: "../PerfilSuperadmin/dashboard-superadmin.html",
     cursos: "../GerenciarCurso/gerenciarCursos.html",
     usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
     documentos: "../CadastrarCategoria/cadastrarCategoria.html",
     configuracoes: "../Login/index.html",
-
-    // ações rápidas
     coordenadores: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
     categorias: "../CadastrarCategoria/cadastrarCategoria.html",
     relatorios: "../GerenciarCurso/gerenciarCursos.html"
   };
 
   // =========================
-  // SIDEBAR — NAVEGAÇÃO
+  // HELPERS
   // =========================
-  const menuItems = document.querySelectorAll(".menu-list li");
-
-  const menuKeys = [
-    "inicio",
-    "perfil",
-    "cursos",
-    "usuarios",
-    "documentos",
-    "configuracoes"
-  ];
-
-  menuItems.forEach((item, index) => {
-    item.style.cursor = "pointer";
-
-    item.addEventListener("click", () => {
-      const rota = menuKeys[index];
-      if (ROTAS[rota]) {
-        window.location.href = ROTAS[rota];
+  async function fetchAPI(endpoint) {
+    const res = await fetch(`http://localhost:8080${endpoint}`, {
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json'
       }
     });
+    if (!res.ok) throw new Error(`Erro ao buscar ${endpoint}`);
+    return res.json();
+  }
+
+  function setCard(id, valor) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = valor;
+  }
+
+  // =========================
+  // BUSCAR DADOS DO BACKEND
+  // =========================
+  let submissoes = [];
+  let alunos = [];
+  let coordenadores = [];
+  let admins = [];
+  let categorias = [];
+
+  try {
+    [submissoes, alunos, coordenadores, admins, categorias] = await Promise.all([
+      fetchAPI('/submissoes'),
+      fetchAPI('/alunos'),
+      fetchAPI('/coordenadores'),
+      fetchAPI('/admins'),
+      fetchAPI('/categorias')
+    ]);
+  } catch (e) {
+    console.error('Erro ao carregar dados do dashboard:', e);
+  }
+
+  // =========================
+  // CALCULAR TOTAIS
+  // =========================
+  const totalUsuarios = alunos.length + coordenadores.length + admins.length;
+  const totalAtividades = submissoes.length;
+  const totalAprovadas = submissoes.filter(s => s.status === 'APROVADO').length;
+  const totalPendentes = submissoes.filter(s => s.status === 'PENDENTE').length;
+
+  // =========================
+  // ATUALIZAR CARDS DO TOPO
+  // =========================
+  setCard('card-usuarios', totalUsuarios);
+  setCard('card-atividades', totalAtividades);
+  setCard('card-aprovadas', totalAprovadas);
+  setCard('card-pendentes', totalPendentes);
+
+  // =========================
+  // ATUALIZAR BANNER
+  // =========================
+  const banner = document.querySelector('.banner p');
+  if (banner) {
+    banner.textContent = totalPendentes > 0
+      ? `Você tem ${totalPendentes} atividade${totalPendentes > 1 ? 's' : ''} para revisar`
+      : 'Nenhuma atividade pendente no momento ✅';
+  }
+
+  // =========================
+  // GRÁFICO: ATIVIDADES POR CATEGORIA
+  // =========================
+  const CORES = ["#4CAF50", "#2196F3", "#9C27B0", "#FF9800", "#F44336", "#00BCD4", "#E91E63", "#FF5722"];
+
+  // Conta submissões por categoria
+  const contagemPorCategoria = {};
+  submissoes.forEach(s => {
+    const cat = s.nomeCategoria || 'Sem categoria';
+    contagemPorCategoria[cat] = (contagemPorCategoria[cat] || 0) + 1;
   });
 
-  // =========================
-  // AÇÕES RÁPIDAS
-  // =========================
-  const actionCards = document.querySelectorAll(".action-card");
+  // Se não houver submissões ainda, usa as categorias cadastradas com valor 0
+  const dadosCategoria = Object.keys(contagemPorCategoria).length > 0
+    ? Object.entries(contagemPorCategoria).map(([nome, valor], i) => ({
+        nome, valor, cor: CORES[i % CORES.length]
+      }))
+    : categorias.map((cat, i) => ({
+        nome: cat.area || cat.nome || `Categoria ${i + 1}`,
+        valor: 0,
+        cor: CORES[i % CORES.length]
+      }));
 
-  actionCards.forEach(card => {
-    card.style.cursor = "pointer";
+  const total = dadosCategoria.reduce((acc, d) => acc + d.valor, 0);
 
-    card.addEventListener("click", () => {
-      const acao = card.getAttribute("data-action");
-
-      if (ROTAS[acao]) {
-        window.location.href = ROTAS[acao];
-      }
-    });
-  });
-
-  // =========================
-  // CARDS DO TOPO (clicáveis)
-  // =========================
-  const cards = document.querySelectorAll(".card");
-
-  cards.forEach(card => {
-    card.style.cursor = "pointer";
-
-    card.addEventListener("click", () => {
-      const rota = card.getAttribute("data-rota");
-
-      if (ROTAS[rota]) {
-        window.location.href = ROTAS[rota];
-      }
-    });
-  });
-
-  // =========================
-  // DADOS
-  // =========================
-  const dados = [
-    { nome: "Eventos", valor: 789, cor: "#4CAF50" },
-    { nome: "Extensão", valor: 654, cor: "#2196F3" },
-    { nome: "Pesquisa", valor: 445, cor: "#9C27B0" },
-    { nome: "Cultural", valor: 445, cor: "#FF9800" },
-    { nome: "Voluntariado", valor: 390, cor: "#F44336" },
-    { nome: "Cursos", valor: 1100, cor: "#00BCD4" }
-  ];
-
-  const total = dados.reduce((acc, item) => acc + item.valor, 0);
-
-  // =========================
-  // GRÁFICO DE CATEGORIA
-  // =========================
-  const ctx = document.getElementById("categoriaChart");
-
-  if (ctx) {
-    new Chart(ctx, {
+  const ctxCategoria = document.getElementById("categoriaChart");
+  if (ctxCategoria) {
+    new Chart(ctxCategoria, {
       type: "doughnut",
       data: {
-        labels: dados.map(d => d.nome),
+        labels: dadosCategoria.map(d => d.nome),
         datasets: [{
-          data: dados.map(d => d.valor),
-          backgroundColor: dados.map(d => d.cor),
+          data: dadosCategoria.map(d => d.valor),
+          backgroundColor: dadosCategoria.map(d => d.cor),
           borderWidth: 0
         }]
       },
       options: {
         cutout: "65%",
-        plugins: {
-          legend: { display: false }
-        }
+        plugins: { legend: { display: false } }
       }
     });
   }
 
-  // =========================
-  // LEGENDA
-  // =========================
+  // Legenda do gráfico de categoria
   const legenda = document.getElementById("legenda");
-
   if (legenda) {
-    dados.forEach(item => {
-      const porcentagem = ((item.valor / total) * 100).toFixed(1);
-
+    legenda.innerHTML = '';
+    dadosCategoria.forEach(item => {
+      const porcentagem = total > 0 ? ((item.valor / total) * 100).toFixed(1) : '0.0';
       legenda.innerHTML += `
         <div class="legenda-item">
           <div>
@@ -134,59 +143,66 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // GRÁFICO DE LINHA
+  // GRÁFICO: TENDÊNCIA MENSAL
   // =========================
-  const ctxLinha = document.getElementById("linhaChart");
+  const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
+  // Agrupa submissões por mês
+  const atividadesPorMes = Array(12).fill(0);
+  submissoes.forEach(s => {
+    if (s.dataEnvio) {
+      const mes = new Date(s.dataEnvio).getMonth();
+      atividadesPorMes[mes]++;
+    }
+  });
+
+  // Pega apenas os últimos 6 meses
+  const mesAtual = new Date().getMonth();
+  const ultimos6Meses = [];
+  const dadosUltimos6 = [];
+  for (let i = 5; i >= 0; i--) {
+    const idx = (mesAtual - i + 12) % 12;
+    ultimos6Meses.push(meses[idx]);
+    dadosUltimos6.push(atividadesPorMes[idx]);
+  }
+
+  const ctxLinha = document.getElementById("linhaChart");
   if (ctxLinha) {
     new Chart(ctxLinha, {
       type: "line",
       data: {
-        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
-        datasets: [
-          {
-            label: "Atividades",
-            data: [200, 300, 250, 400, 350, 500],
-            borderColor: "#4CAF50",
-            backgroundColor: "rgba(76, 175, 80, 0.2)",
-            tension: 0.4,
-            fill: true
-          },
-          {
-            label: "Novos Usuários",
-            data: [100, 150, 200, 180, 220, 300],
-            borderColor: "#2196F3",
-            backgroundColor: "rgba(33, 150, 243, 0.2)",
-            tension: 0.4,
-            fill: true
-          }
-        ]
+        labels: ultimos6Meses,
+        datasets: [{
+          label: "Atividades Enviadas",
+          data: dadosUltimos6,
+          borderColor: "#4CAF50",
+          backgroundColor: "rgba(76, 175, 80, 0.2)",
+          tension: 0.4,
+          fill: true
+        }]
       },
       options: {
         responsive: true,
-        plugins: {
-          legend: { position: "bottom" }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
+        plugins: { legend: { position: "bottom" } },
+        scales: { y: { beginAtZero: true } }
       }
     });
   }
 
   // =========================
-  // STATUS CHART
+  // GRÁFICO: STATUS DAS ATIVIDADES
   // =========================
-  const ctxStatus = document.getElementById("statusChart");
+  const totalRejeitadas = submissoes.filter(s => s.status === 'REJEITADO').length;
 
+  const ctxStatus = document.getElementById("statusChart");
   if (ctxStatus) {
     new Chart(ctxStatus, {
       type: "bar",
       data: {
-        labels: ["Aprovadas", "Pendentes"],
+        labels: ["Aprovadas", "Pendentes", "Rejeitadas"],
         datasets: [{
-          data: [3200, 800],
-          backgroundColor: ["#4CAF50", "#FF9800"]
+          data: [totalAprovadas, totalPendentes, totalRejeitadas],
+          backgroundColor: ["#4CAF50", "#FF9800", "#F44336"]
         }]
       },
       options: {
@@ -197,17 +213,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // USUÁRIOS CHART
+  // GRÁFICO: DISTRIBUIÇÃO DE USUÁRIOS
   // =========================
   const ctxUsuarios = document.getElementById("usuariosChart");
-
   if (ctxUsuarios) {
     new Chart(ctxUsuarios, {
       type: "bar",
       data: {
         labels: ["Alunos", "Coordenadores", "Admins"],
         datasets: [{
-          data: [1000, 300, 150],
+          data: [alunos.length, coordenadores.length, admins.length],
           backgroundColor: ["#2196F3", "#9C27B0", "#F44336"]
         }]
       },
@@ -219,13 +234,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // SIDEBAR (TOGGLE)
+  // SIDEBAR — NAVEGAÇÃO
+  // =========================
+  const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
+  const menuKeys = ["inicio", "perfil", "cursos", "usuarios", "documentos", "configuracoes"];
+
+  menuLinks.forEach((link, index) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const rota = menuKeys[index];
+      if (ROTAS[rota]) window.location.href = ROTAS[rota];
+    });
+  });
+
+  // =========================
+  // AÇÕES RÁPIDAS
+  // =========================
+  document.querySelectorAll(".action-card").forEach(card => {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      const acao = card.getAttribute("data-action");
+      if (ROTAS[acao]) window.location.href = ROTAS[acao];
+    });
+  });
+
+  // =========================
+  // CARDS DO TOPO (clicáveis)
+  // =========================
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      const rota = card.getAttribute("data-rota");
+      if (ROTAS[rota]) window.location.href = ROTAS[rota];
+    });
+  });
+
+  // =========================
+  // SIDEBAR TOGGLE
   // =========================
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
 
   if (sidebar && menuBtn) {
-
     const overlay = document.createElement("div");
     overlay.classList.add("overlay");
     document.body.appendChild(overlay);
@@ -235,27 +285,17 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.classList.toggle("active");
     }
 
-    function fecharSidebar() {
+    menuBtn.addEventListener("click", toggleSidebar);
+    overlay.addEventListener("click", () => {
       sidebar.classList.remove("active");
       overlay.classList.remove("active");
-    }
-
-    menuBtn.addEventListener("click", toggleSidebar);
-    overlay.addEventListener("click", fecharSidebar);
+    });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") fecharSidebar();
-    });
-  }
-
-  // =========================
-  // NOTIFICAÇÃO
-  // =========================
-  const notificacao = document.querySelector(".icon");
-
-  if (notificacao) {
-    notificacao.addEventListener("click", () => {
-      alert("Você tem novas notificações 🔔");
+      if (e.key === "Escape") {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+      }
     });
   }
 
