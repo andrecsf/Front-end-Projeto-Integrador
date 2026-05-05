@@ -10,18 +10,17 @@
 </head>
 
 <body>
-    <!-- Overlay removido, mas mantido no DOM para não quebrar o JS existente -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="container">
         <main class="main-content" id="mainContent">
             <header class="top-header">
                 <div class="header-left">
-                    <a href="..//TelaInicial/telaInicial.html" class="back-btn"><i
-                            class="fa-solid fa-arrow-left"></i></a>
+                    <a href="..//TelaInicial/telaInicial.html" class="back-btn">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
                     <h1>Relatórios de Alunos</h1>
                 </div>
-                <!-- Botão de menu mantido no DOM para não quebrar o JS, mas oculto pelo CSS -->
                 <button class="menu-toggle" id="openMenu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -35,204 +34,24 @@
 
                 <div class="status-summary">
                     <div class="status-item">
-                        <span class="status-count count-green">1</span>
+                        <span class="status-count count-green">0</span>
                         <span class="status-label">Completos</span>
                     </div>
                     <div class="status-item">
-                        <span class="status-count count-blue">3</span>
+                        <span class="status-count count-blue">0</span>
                         <span class="status-label">Em Progresso</span>
                     </div>
                     <div class="status-item">
-                        <span class="status-count count-orange">1</span>
+                        <span class="status-count count-orange">0</span>
                         <span class="status-label">Atrasados</span>
                     </div>
                 </div>
 
-                <div class="students-grid" id="studentsGrid">
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">J</div>
-                            <div class="student-info">
-                                <h3>João Silva</h3>
-                                <p>120h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-up trend-up"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>60%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-blue" style="width: 60%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">J</div>
-                            <div class="student-info">
-                                <h3>João Silva</h3>
-                                <p>120h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-up trend-up"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>60%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-blue" style="width: 60%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">M</div>
-                            <div class="student-info">
-                                <h3>Maria Santos</h3>
-                                <p>180h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-up trend-up"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-blue" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">P</div>
-                            <div class="student-info">
-                                <h3>Pedro Costa</h3>
-                                <p>45h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-down trend-down"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>22%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-orange" style="width: 22%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">P</div>
-                            <div class="student-info">
-                                <h3>Pedro Costa</h3>
-                                <p>45h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-down trend-down"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>22%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-orange" style="width: 22%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">A</div>
-                            <div class="student-info">
-                                <h3>Ana Lima</h3>
-                                <p>200h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-check trend-check"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>100%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-green" style="width: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">C</div>
-                            <div class="student-info">
-                                <h3>Carlos Souza</h3>
-                                <p>95h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-up trend-up"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>47%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-orange" style="width: 47%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">C</div>
-                            <div class="student-info">
-                                <h3>Carlos Souza</h3>
-                                <p>95h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-trend-up trend-up"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>47%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-orange" style="width: 47%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="student-card">
-                        <div class="card-header">
-                            <div class="avatar avatar-blue">A</div>
-                            <div class="student-info">
-                                <h3>Ana Lima</h3>
-                                <p>200h / 200h obrigatórias</p>
-                            </div>
-                            <i class="fa-solid fa-check trend-check"></i>
-                        </div>
-                        <div class="progress-section">
-                            <div class="progress-labels">
-                                <span>Progresso</span>
-                                <span>100%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-green" style="width: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Cards preenchidos dinamicamente pelo JS -->
+                <div class="students-grid" id="studentsGrid"></div>
             </div>
         </main>
 
-        <!-- SIDEBAR — agora colapsável igual ao cadastro-coordenador -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header" id="sidebarToggle">
                 <i class="fa-solid fa-bars"></i>
@@ -271,7 +90,7 @@
                     <i class="fa-regular fa-user fa-2x"></i>
                     <div class="footer-text">
                         <strong>Usuário</strong>
-                        <span>logado</span>
+                        <span><a href="../Login/index.html">logout</a></span>
                     </div>
                 </div>
             </div>
