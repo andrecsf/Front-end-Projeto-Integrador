@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades Pendentes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="atividadesPendentes.css">
+</head>
+
+<body>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="container">
+        <main class="main-content" id="mainContent">
+            <header class="top-header">
+                <div class="header-left">
+                    <a href="../TelaInicial/telaInicial.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h1>Atividades Pendentes</h1>
+                </div>
+                <button class="menu-toggle" id="openMenu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </header>
+
+            <div class="content-padding">
+                <div class="page-header">
+                    <h2>Fila de Revisão</h2>
+                    <p id="contadorPendentes">Carregando...</p>
+                </div>
+
+                <!-- Container vazio: os cards serão injetados aqui pelo JS -->
+                <div class="pending-grid" id="pendingGrid">
+                    <p style="grid-column: 1 / -1; text-align: center; color: #6B7280; padding: 20px;">Buscando atividades...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+                <span class="menu-text">Menu</span>
+            </div>
+            <nav class="side-nav">
+                <ul>
+                    <li>
+                        <a href="../TelaInicial/telaInicial.html">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="nav-text">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../PerfilCoordenador/perfil-coordenador.html">
+                            <i class="fa-regular fa-user"></i>
+                            <span class="nav-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="">
+                            <i class="fa-regular fa-clock"></i>
+                            <span class="nav-text">Pendentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="nav-text">Relatório</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span class="nav-text">Gerenciar curso</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="footer-user">
+                    <i class="fa-regular fa-user fa-2x"></i>
+                    <div class="footer-text">
+                        <strong>Usuário</strong>
+                        <span><a href="../Login/index.html">logout</a></span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="atividadesPendentes.js"></script>
+</body>
+
+</html>

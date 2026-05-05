@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <!-- Overlay mantido no DOM para não quebrar o JS existente -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="container">
@@ -26,52 +25,54 @@
                         <span class="user-role">Coordenador</span>
                     </div>
                 </div>
-                <!-- Mantido no DOM para não quebrar o JS, oculto pelo CSS -->
                 <button class="menu-toggle" id="openMenu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </header>
 
             <div class="content-padding">
-                <!-- Banner de Boas-vindas Roxo -->
+                <!-- Banner -->
                 <section class="promo-banner">
                     <h1>Olá, Coordenador!</h1>
-                    <p>Você tem <strong>12 atividades</strong> para revisar</p>
+                    <p>Carregando atividades...</p>
                 </section>
 
-                <!-- Cards de Estatísticas -->
+                <!-- Cards -->
                 <section class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Pendentes</span>
-                            <span class="stat-number" id="pendentes">12</span>
+                            <span class="stat-number" id="pendentes">-</span>
                         </div>
                         <div class="stat-icon icon-orange">
                             <i class="fa-regular fa-clock"></i>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Aprovadas</span>
-                            <span class="stat-number" id="aprovadas">87</span>
+                            <span class="stat-number" id="aprovadas">-</span>
                         </div>
                         <div class="stat-icon icon-green">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Rejeitadas</span>
-                            <span class="stat-number" id="rejeitadas">5</span>
+                            <span class="stat-number" id="rejeitadas">-</span>
                         </div>
                         <div class="stat-icon icon-red">
                             <i class="fa-regular fa-circle-xmark"></i>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-info">
                             <span class="stat-label">Alunos</span>
-                            <span class="stat-number" id="alunos">156</span>
+                            <span class="stat-number" id="alunos">-</span>
                         </div>
                         <div class="stat-icon icon-blue">
                             <i class="fa-solid fa-user-group"></i>
@@ -83,18 +84,26 @@
                 <section class="quick-actions">
                     <h2>Ações Rápidas</h2>
                     <div class="actions-grid">
-                        <div class="action-card card-yellow">
-                            <div class="action-icon">
-                                <i class="fa-regular fa-file-lines"></i>
-                            </div>
-                            <div class="action-text">
-                                <strong>Revisar Atividades</strong>
-                                <span>12 pendentes</span>
-                            </div>
-                        </div>
 
+                        <!-- ✅ CORRIGIDO (AGORA É LINK) -->
+                        <a href="../AtividadesPendentes/atividadesPendentes.html"
+                           id="linkAtividadesPendentes"
+                           style="text-decoration: none; color: inherit;">
+                            <div class="action-card card-yellow">
+                                <div class="action-icon">
+                                    <i class="fa-regular fa-file-lines"></i>
+                                </div>
+                                <div class="action-text">
+                                    <strong>Revisar Atividades</strong>
+                                    <span>Carregando...</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- RELATÓRIOS (INALTERADO) -->
                         <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html"
-                            style="text-decoration: none; color: inherit;">
+                           id="linkRelatorioCard"
+                           style="text-decoration: none; color: inherit;">
                             <div class="action-card card-sky">
                                 <div class="action-icon">
                                     <i class="fa-solid fa-chart-line"></i>
@@ -105,89 +114,64 @@
                                 </div>
                             </div>
                         </a>
+
                     </div>
                 </section>
 
-                <!-- Enviadas Recentemente -->
+                <!-- Submissões -->
                 <section class="recent-submissions">
                     <div class="section-header">
                         <h2>Enviadas Recentemente</h2>
                         <a href="#" class="view-all">Ver Todas</a>
                     </div>
+
                     <div class="submissions-grid" id="submissionsContainer">
-                        <!-- Cards mantidos conforme o original -->
-                        <div class="submission-card">
-                            <div class="card-top">
-                                <h3>Projeto de Extensão</h3>
-                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
-                            </div>
-                            <p class="category">Extensão Universitária</p>
-                            <div class="card-bottom">
-                                <span>30h complementares</span>
-                                <span>13/03/2026</span>
-                            </div>
-                        </div>
-                        <div class="submission-card">
-                            <div class="card-top">
-                                <h3>Curso Online Certificado</h3>
-                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
-                            </div>
-                            <p class="category">Cursos Complementares</p>
-                            <div class="card-bottom">
-                                <span>15h complementares</span>
-                                <span>12/03/2026</span>
-                            </div>
-                        </div>
-                        <div class="submission-card">
-                            <div class="card-top">
-                                <h3>Participação em Hackathon</h3>
-                                <span class="status-badge"><i class="fa-regular fa-clock"></i> Em Análise</span>
-                            </div>
-                            <p class="category">Eventos Acadêmicos</p>
-                            <div class="card-bottom">
-                                <span>20h complementares</span>
-                                <span>14/03/2026</span>
-                            </div>
-                        </div>
+                        <!-- JS injeta aqui -->
                     </div>
                 </section>
             </div>
         </main>
 
-        <!-- SIDEBAR — colapsável -->
+        <!-- SIDEBAR ORIGINAL (INALTERADA) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header" id="sidebarToggle">
                 <i class="fa-solid fa-bars"></i>
                 <span class="menu-text">Menu</span>
             </div>
+
             <nav class="side-nav">
                 <ul>
-                    <li>
+                    <li class="active">
                         <a href="telaInicial.html">
                             <i class="fa-solid fa-house"></i>
                             <span class="nav-text">Início</span>
                         </a>
                     </li>
+
                     <li>
                         <a href="../PerfilCoordenador/perfil-coordenador.html">
                             <i class="fa-regular fa-user"></i>
                             <span class="nav-text">Perfil</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html">
+                        <a href="../RelatoriosDosAlunos/relatoriosDosAlunos.html"
+                           id="linkRelatorioMenu">
                             <i class="fa-solid fa-chart-simple"></i>
                             <span class="nav-text">Relatório</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="..//GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
+                        <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
                             <i class="fa-regular fa-file-lines"></i>
                             <span class="nav-text">Gerenciar curso</span>
                         </a>
                     </li>
                 </ul>
             </nav>
+
             <div class="sidebar-footer">
                 <div class="footer-user">
                     <i class="fa-regular fa-user fa-2x"></i>

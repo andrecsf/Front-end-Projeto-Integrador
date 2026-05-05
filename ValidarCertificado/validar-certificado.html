@@ -139,7 +139,7 @@
 
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL DE CONFIRMAÇÃO -->
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <h2 id="modal-title">Confirmar</h2>
@@ -151,6 +151,23 @@
     </div>
   </div>
 
+  <!-- 🔥 NOVO MODAL PDF (CORRIGIDO E COMPLETO) -->
+  <div class="pdf-modal-overlay" id="pdfModal">
+    <div class="pdf-modal">
+
+      <div class="pdf-header">
+        <h3>Visualizar Certificado</h3>
+        <button id="closePdfModal" class="close-btn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <iframe id="pdfFrame"></iframe>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script src="validar-certificado.js"></script>

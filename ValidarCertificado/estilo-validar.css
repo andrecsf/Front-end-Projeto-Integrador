@@ -497,3 +497,63 @@ body {
 .btn {
     transition: all 0.2s ease;
 }
+
+
+
+/* ===========================
+   MODAL PDF (VISUALIZAR CERTIFICADO)
+=========================== */
+
+.pdf-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 4000;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-modal-content {
+    width: 90%;
+    height: 90%;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* HEADER DO MODAL */
+.pdf-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--primary-blue);
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* BOTÃO FECHAR */
+.pdf-modal-header button {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 18px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.pdf-modal-header button:hover {
+    opacity: 0.7;
+}
+
+/* IFRAME DO PDF */
+.pdf-modal iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #f5f5f5;
+}
