@@ -12,8 +12,11 @@ const searchInput = document.getElementById('search-input');
 // =========================
 const ROTAS = {
     inicio: "../Telainicial/telaInicial.html",
-    perfilCurso: "../PerfilCursoCoordenador/perfilCursoCoordenador.html",
-    configuracoes: "../Login/index.html"
+    perfil: "#",
+    relatorio: "../RelatoriosDosAlunos/relatoriosDosAlunos.html",
+    gerenciarCurso: "../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html",
+    configuracoes: "../Login/index.html",
+    perfilCurso: "../PerfilCursoCoordenador/perfilCursoCoordenador.html"
 };
 
 let courses = [];
@@ -26,7 +29,13 @@ if (sidebarToggle) {
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
+        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
     });
+}
+
+if (localStorage.getItem('sidebarCollapsed') === 'true') {
+    sidebar?.classList.add('collapsed');
+    mainContent?.classList.add('expanded');
 }
 
 // =========================
@@ -131,7 +140,7 @@ if (searchInput) {
 }
 
 // =========================
-// REDIRECIONAR PARA PERFIL DO COORDENADOR
+// REDIRECIONAR PARA PERFIL DO CURSO
 // =========================
 function openCourseDetails(courseId) {
     window.location.href = `${ROTAS.perfilCurso}?id=${courseId}`;
@@ -143,9 +152,7 @@ function openCourseDetails(courseId) {
 document.addEventListener('DOMContentLoaded', () => {
     loadCourses();
 
-    // =========================
     // LOGOUT
-    // =========================
     const logoutLink = document.querySelector('.sidebar-footer a');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
