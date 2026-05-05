@@ -15,6 +15,7 @@ const searchInput = document.getElementById('search-input');
 const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
     perfil: "../PerfilSuperadmin/dashboard-superadmin.html",
+    perfilCurso: "../PerfilCurso/perfil-curso.html",
     cursos: "../GerenciarCurso/gerenciarCursos.html",
     usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
 };
@@ -176,7 +177,7 @@ searchInput.addEventListener('input', () => {
 // REDIRECIONAR PARA PERFIL
 // =========================
 function openCourseDetails(courseId) {
-    window.location.href = `${ROTAS.perfil}?id=${courseId}`;
+    window.location.href = `${ROTAS.perfilCurso}?id=${courseId}`;
 }
 
 // =========================
