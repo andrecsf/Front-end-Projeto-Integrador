@@ -364,4 +364,24 @@ btnNovoAluno.addEventListener('click', abrirModalNovoAluno);
 btnNovoCoordenador.addEventListener('click', abrirModalNovoCoordenador);
 
 // Inicializa a tela
-document.addEventListener('DOMContentLoaded', carregarUsuarios);
+document.addEventListener('DOMContentLoaded', () => {
+    carregarUsuarios();
+
+    // Sidebar toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar       = document.getElementById('sidebar');
+    const mainContent   = document.getElementById('mainContent');
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+    }
+
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        sidebar?.classList.add('collapsed');
+        mainContent?.classList.add('expanded');
+    }
+});
