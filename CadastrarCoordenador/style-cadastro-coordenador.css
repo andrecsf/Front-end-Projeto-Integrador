@@ -366,8 +366,8 @@ body {
         width: 100%;
     }
 
-    .header-left h1 {
-        font-size: 1rem;
+    .form-group-inline {
+        max-width: 100%;
     }
 }
 

@@ -460,3 +460,27 @@ body {
 
 /* ── OVERLAY (mantido no DOM mas invisível) ───────────────── */
 .overlay { display: none !important; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .content-body {
+        padding: 20px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-save,
+    .btn-cancel {
+        width: 100%;
+    }
+
+    .form-group-inline {
+        max-width: 100%;
+    }
+}
