@@ -1,33 +1,153 @@
 // perfilCursoCoordenador.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos da Interface ---
+
+    // =========================
+    // ELEMENTOS
+    // =========================
     const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('main-content');
-    const toggleMenuBtn = document.getElementById('toggle-menu');
+    const mainContent = document.getElementById('mainContent');
+    const sidebarToggle = document.getElementById('sidebarToggle');
     const searchInput = document.getElementById('search-student');
     const studentsList = document.getElementById('students-list');
 
-    // --- 1. Lógica do Menu Lateral (Sidebar) ---
-    // Faz a troca de classes para encolher/expandir o menu e ajustar o conteúdo
-    if (toggleMenuBtn) {
-        toggleMenuBtn.addEventListener('click', () => {
+    // =========================
+    // ROTAS
+    // =========================
+    const ROTAS = {
+        voltar: '../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html',
+        login: '../Login/index.html'
+    };
+
+    // =========================
+    // SIDEBAR TOGGLE
+    // =========================
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');
         });
     }
 
-    // --- 2. Lógica de Busca de Alunos ---
-    // Filtra os itens da lista conforme o usuário digita
+    // =========================
+    // BOTÃO VOLTAR
+    // =========================
+    const btnVoltar = document.getElementById('btnVoltar');
+    if (btnVoltar) {
+        btnVoltar.style.cursor = 'pointer';
+        btnVoltar.addEventListener('click', () => {
+            window.location.href = ROTAS.voltar;
+        });
+    }
+
+    // =========================
+    // LOGOUT
+    // =========================
+    const logoutLink = document.querySelector('.sidebar-footer a');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = ROTAS.login;
+        });
+    }
+
+    // =========================
+    // PEGAR ID DO CURSO NA URL
+    // =========================
+    const params = new URLSearchParams(window.location.search);
+    const courseId = params.get('id');
+
+    if (!courseId) {
+        mostrarErro('ID do curso não encontrado na URL.');
+        return;
+    }
+
+    // =========================
+    // BUSCAR DADOS DO CURSO
+    // =========================
+    async function carregarCurso() {
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await fetch(`http://localhost:8080/cursos/${courseId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 403) throw new Error('Sessão expirada. Faça login novamente.');
+                if (response.status === 404) throw new Error('Curso não encontrado.');
+                throw new Error('Erro ao carregar dados do curso.');
+            }
+
+            const curso = await response.json();
+            preencherDadosCurso(curso);
+
+        } catch (error) {
+            console.error('Erro ao carregar curso:', error);
+            mostrarErro(error.message);
+        }
+    }
+
+    // =========================
+    // PREENCHER DADOS NA TELA
+    // =========================
+    function preencherDadosCurso(curso) {
+        const nomeCurso = document.getElementById('course-name');
+        const descricaoCurso = document.getElementById('course-description');
+        const cargaHoraria = document.getElementById('course-workload');
+        const contadorAlunos = document.getElementById('students-count');
+
+        if (nomeCurso) nomeCurso.textContent = curso.nome || '—';
+        if (descricaoCurso) descricaoCurso.textContent = curso.descricao || 'Nenhuma descrição fornecida.';
+        if (cargaHoraria) cargaHoraria.textContent = `${curso.cargaHorariaMax}h` || '—';
+
+        // Se o backend retornar lista de alunos
+        if (curso.alunos && studentsList) {
+            contadorAlunos && (contadorAlunos.textContent = curso.alunos.length);
+            renderizarAlunos(curso.alunos);
+        }
+    }
+
+    // =========================
+    // RENDERIZAR LISTA DE ALUNOS
+    // =========================
+    function renderizarAlunos(alunos) {
+        if (!studentsList) return;
+
+        if (alunos.length === 0) {
+            studentsList.innerHTML = `
+                <div class="empty-state">
+                    <p>Nenhum aluno vinculado a este curso.</p>
+                </div>
+            `;
+            return;
+        }
+
+        studentsList.innerHTML = alunos.map(aluno => `
+            <div class="student-item">
+                <i class="fa-regular fa-user"></i>
+                <span>${aluno.nome}</span>
+            </div>
+        `).join('');
+    }
+
+    // =========================
+    // BUSCA DE ALUNOS
+    // =========================
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const studentItems = studentsList.querySelectorAll('.student-item'); // Assume que os itens terão essa classe
+            const studentItems = studentsList.querySelectorAll('.student-item');
             let foundAny = false;
 
             studentItems.forEach(item => {
-                const studentName = item.textContent.toLowerCase();
-                if (studentName.includes(searchTerm)) {
+                const name = item.textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
                     item.style.display = 'flex';
                     foundAny = true;
                 } else {
@@ -35,32 +155,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Se não encontrar ninguém, você pode mostrar uma mensagem de "não encontrado"
             const emptyMsg = studentsList.querySelector('.empty-state');
             if (emptyMsg) {
-                emptyMsg.style.display = (studentItems.length === 0 || !foundAny) ? 'block' : 'none';
+                emptyMsg.style.display = (!foundAny) ? 'block' : 'none';
             }
         });
     }
 
-    // --- 3. Simulação de Carregamento de Dados ---
-    // Aqui você pode integrar com seu fetch() do backend futuramente
-    const carregarDadosIniciais = () => {
-        // Exemplo: Atualizar contador de alunos
-        const contadorAlunos = document.getElementById('students-count');
-        // contadorAlunos.textContent = "15"; // Exemplo de atualização
-    };
+    // =========================
+    // MOSTRAR ERRO NA TELA
+    // =========================
+    function mostrarErro(msg) {
+        const main = document.querySelector('.content-padding') || document.body;
+        main.innerHTML = `
+            <div class="empty-state" style="padding: 2rem; text-align: center;">
+                <i class="fa-solid fa-circle-exclamation" style="font-size: 2rem; color: #ff4d4d; margin-bottom: 10px;"></i>
+                <p>${msg}</p>
+            </div>
+        `;
+    }
 
-    carregarDadosIniciais();
-
-    // --- 4. Listeners para os Botões de Ação ---
+    // =========================
+    // BOTÕES DE AÇÃO
+    // =========================
     document.getElementById('btn-add-category')?.addEventListener('click', () => {
         console.log('Abrir modal de adicionar categoria');
-        // Insira aqui a lógica para abrir seu modal ou redirecionar
     });
 
     document.getElementById('btn-add-student')?.addEventListener('click', () => {
         console.log('Abrir modal de vincular aluno');
-        // Insira aqui a lógica para abrir seu modal ou redirecionar
     });
+
+    // =========================
+    // INICIALIZAR
+    // =========================
+    carregarCurso();
 });

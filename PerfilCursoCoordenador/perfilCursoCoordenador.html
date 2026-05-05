@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Cursos | Coordenador</title>
-    <!-- CSS da Amiga (Base) e CSS Específico -->
+    <title>Perfil do Curso | Coordenador</title>
     <link rel="stylesheet" href="../Telainicial/telaInicial.css">
-    <link rel="stylesheet" href="gerenciarCursoCoordenador.css">
+    <link rel="stylesheet" href="../PerfilCursoCoordenador/perfilCursoCoordenador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -15,7 +14,8 @@
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="container">
-        <!-- SIDEBAR COORDENADOR -->
+
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header" id="sidebarToggle">
                 <i class="fa-solid fa-bars"></i>
@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a href="#">
+                        <a href="../GerenciarCursoCoordenador/gerenciarCursoCoordenador.html">
                             <i class="fa-solid fa-graduation-cap"></i>
                             <span class="nav-text">Gerenciar curso</span>
                         </a>
@@ -67,41 +67,62 @@
                     <button id="btnVoltar" class="back-button">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                    <h1>Gerenciar Cursos da Coordenação</h1>
+                    <h1>Perfil do Curso</h1>
                 </div>
             </header>
 
             <div class="content-padding">
-                <!-- Resumo Simples -->
-                <section class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-info">
-                            <span class="stat-label">Meus Cursos</span>
-                            <span class="stat-number" id="total-courses">0</span>
+
+                <!-- Dados do Curso -->
+                <section class="course-info-card">
+                    <div class="course-info-header">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <div>
+                            <h2 id="course-name">Carregando...</h2>
+                            <p id="course-description">—</p>
                         </div>
-                        <div class="stat-icon icon-blue">
-                            <i class="fa-solid fa-book"></i>
-                        </div>
+                    </div>
+                    <div class="course-info-meta">
+                        <span>
+                            <i class="fa-solid fa-clock"></i>
+                            Carga horária: <strong id="course-workload">—</strong>
+                        </span>
+                        <span class="badge-active">Ativo</span>
                     </div>
                 </section>
 
-                <!-- Área de Busca -->
-                <section class="search-section">
+                <!-- Alunos Vinculados -->
+                <section class="students-section">
+                    <div class="students-header">
+                        <h3>
+                            <i class="fa-solid fa-users"></i>
+                            Alunos vinculados
+                            <span class="badge-count" id="students-count">0</span>
+                        </h3>
+                        <button id="btn-add-student" class="btn-primary">
+                            <i class="fa-solid fa-plus"></i> Vincular aluno
+                        </button>
+                    </div>
+
+                    <!-- Busca de alunos -->
                     <div class="search-bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="search-input" placeholder="Filtrar cursos...">
+                        <input type="text" id="search-student" placeholder="Buscar aluno...">
+                    </div>
+
+                    <!-- Lista de alunos -->
+                    <div id="students-list">
+                        <div class="empty-state">
+                            <p>Nenhum aluno vinculado a este curso.</p>
+                        </div>
                     </div>
                 </section>
 
-                <!-- Lista de Cursos -->
-                <section class="course-grid" id="course-list">
-                    <!-- Gerado via JS -->
-                </section>
             </div>
         </main>
     </div>
 
-    <script src="gerenciarCursoCoordenador.js"></script>
+    <script src="perfilCursoCoordenador.js"></script>
 </body>
 
 </html>

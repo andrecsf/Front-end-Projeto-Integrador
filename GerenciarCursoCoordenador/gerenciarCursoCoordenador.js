@@ -2,22 +2,17 @@
 // ELEMENTOS
 // =========================
 const sidebar = document.getElementById('sidebar');
-const mainContent = document.querySelector('.main-content');
+const mainContent = document.getElementById('mainContent');
 const courseList = document.getElementById('course-list');
 const totalCourses = document.getElementById('total-courses');
-const activeCourses = document.getElementById('active-courses');
-const totalStudents = document.getElementById('total-students');
 const searchInput = document.getElementById('search-input');
 
 // =========================
 // ROTAS
 // =========================
 const ROTAS = {
-    inicio: "../TelaInicial/telaInicial.html",
-    perfil: "../PerfilCurso/perfil-curso.html",
-    cursos: "../GerenciarCurso/gerenciaCursos.html",
-    usuarios: "../PI TELAGerenciarUsuário/TELAGERENCIARUSUARIO.html",
-    documentos: "../CadastrarCategoria/cadastrarCategoria.html",
+    inicio: "../Telainicial/telaInicial.html",
+    perfilCurso: "../PerfilCursoCoordenador/perfilCursoCoordenador.html",
     configuracoes: "../Login/index.html"
 };
 
@@ -26,60 +21,21 @@ let courses = [];
 // =========================
 // SIDEBAR TOGGLE
 // =========================
-function toggleMenu() {
-    sidebar.classList.toggle('collapsed');
-    mainContent.classList.toggle('expanded');
-
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebarCollapsed', isCollapsed);
-}
-
-function restoreMenuState() {
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-
-    if (isCollapsed) {
-        sidebar.classList.add('collapsed');
-        mainContent.classList.add('expanded');
-    }
-}
-
-// Clique no topo da sidebar
-const sidebarHeader = document.querySelector('.sidebar-header');
-if (sidebarHeader) {
-    sidebarHeader.addEventListener('click', toggleMenu);
-}
-
-// =========================
-// SIDEBAR NAVEGAÇÃO
-// =========================
-const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
-
-const menuKeys = [
-    "inicio",
-    "perfil",
-    "cursos",
-    "usuarios",
-    "documentos",
-    "configuracoes"
-];
-
-menuLinks.forEach((link, index) => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const rota = menuKeys[index];
-        if (ROTAS[rota]) {
-            window.location.href = ROTAS[rota];
-        }
+const sidebarToggle = document.getElementById('sidebarToggle');
+if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
     });
-});
+}
 
 // =========================
 // BOTÃO VOLTAR
 // =========================
-const btnVoltar = document.getElementById("btnVoltar");
+const btnVoltar = document.getElementById('btnVoltar');
 if (btnVoltar) {
-    btnVoltar.style.cursor = "pointer";
-    btnVoltar.addEventListener("click", () => {
+    btnVoltar.style.cursor = 'pointer';
+    btnVoltar.addEventListener('click', () => {
         window.location.href = ROTAS.inicio;
     });
 }
@@ -155,43 +111,42 @@ function renderCourses(courseArray) {
 // ESTATÍSTICAS
 // =========================
 function updateStats() {
-    totalCourses.textContent = courses.length;
-    activeCourses.textContent = courses.length;
-    totalStudents.textContent = 0;
+    if (totalCourses) totalCourses.textContent = courses.length;
 }
 
 // =========================
 // BUSCA DINÂMICA
 // =========================
-searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.toLowerCase();
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
 
-    const filteredCourses = courses.filter(course =>
-        course.nome.toLowerCase().includes(searchTerm) ||
-        (course.descricao && course.descricao.toLowerCase().includes(searchTerm))
-    );
+        const filteredCourses = courses.filter(course =>
+            course.nome.toLowerCase().includes(searchTerm) ||
+            (course.descricao && course.descricao.toLowerCase().includes(searchTerm))
+        );
 
-    renderCourses(filteredCourses);
-});
+        renderCourses(filteredCourses);
+    });
+}
 
 // =========================
-// REDIRECIONAR PARA PERFIL
+// REDIRECIONAR PARA PERFIL DO COORDENADOR
 // =========================
 function openCourseDetails(courseId) {
-    window.location.href = `${ROTAS.perfil}?id=${courseId}`;
+    window.location.href = `${ROTAS.perfilCurso}?id=${courseId}`;
 }
 
 // =========================
 // INICIALIZAÇÃO
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
-    restoreMenuState();
     loadCourses();
 
     // =========================
     // LOGOUT
     // =========================
-    const logoutLink = document.querySelector('.sidebar-footer .user-info a');
+    const logoutLink = document.querySelector('.sidebar-footer a');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
             e.preventDefault();
