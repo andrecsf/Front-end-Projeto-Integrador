@@ -141,3 +141,9 @@ O front-end consome uma API REST esperada em `http://localhost:8080`. Os princip
 ## 👥 Equipe
 
 Projeto desenvolvido por estudantes do curso de **Análise e Desenvolvimento de Sistemas** — Senac.
+
+André Salgado
+Caio Victor
+Leticia Gabrielle
+Luciana Borges
+Priscila Barbosa
