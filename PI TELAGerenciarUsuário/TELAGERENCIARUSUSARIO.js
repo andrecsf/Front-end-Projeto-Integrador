@@ -1,24 +1,25 @@
 // =========================
 // SIDEBAR TOGGLE
 // =========================
-const sidebarToggle = document.getElementById('sidebarToggle');
-const sidebar = document.getElementById('sidebar');
-const mainContent = document.getElementById('mainContent');
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
 
-if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        mainContent.classList.toggle('expanded');
-        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-    });
-}
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+    }
 
-// Restaura estado ao carregar
-const sidebarColapsada = localStorage.getItem('sidebarCollapsed') === 'true';
-if (sidebarColapsada && sidebar) {
-    sidebar.classList.add('collapsed');
-    if (mainContent) mainContent.classList.add('expanded');
-}
+    const sidebarColapsada = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (sidebarColapsada && sidebar) {
+        sidebar.classList.add('collapsed');
+        if (mainContent) mainContent.classList.add('expanded');
+    }
+});
 
 // =========================
 // CONFIGURAÇÕES DE API
