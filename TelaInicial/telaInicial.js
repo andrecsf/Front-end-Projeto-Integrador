@@ -53,7 +53,7 @@ async function descobrirCursoId() {
     if (!coordIdLogado) return 1;
 
     try {
-        const resCursos = await authFetch('http://localhost:8080/cursos');
+        const resCursos = await authFetch('https://back-end-projeto-integrador.onrender.com/cursos');
 
         if (!resCursos.ok) {
             throw new Error(`Erro ao buscar cursos (${resCursos.status})`);
@@ -97,8 +97,8 @@ async function carregarDashboard() {
         }
 
         // URLs API
-        const API_URL_SUBMISSOES = 'http://localhost:8080/submissoes';
-        const API_URL_ALUNOS = `http://localhost:8080/alunos/curso/${cursoId}`;
+        const API_URL_SUBMISSOES = 'https://back-end-projeto-integrador.onrender.com/submissoes';
+        const API_URL_ALUNOS = `https://back-end-projeto-integrador.onrender.com/alunos/curso/${cursoId}`;
 
         const [resSubmissoes, resAlunos] = await Promise.all([
             authFetch(API_URL_SUBMISSOES),
