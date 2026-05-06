@@ -1,7 +1,5 @@
 const CACHE_NAME = 'atividades-extracurriculares-v1';
 
-// Importante: Removido o "../" pois o SW está na raiz. 
-// Certifique-se de que o nome das pastas (Maiúsculas/Minúsculas) está idêntico ao seu projeto.
 const STATIC_ASSETS = [
   '/',
   '/Login/index.html',
