@@ -1,8 +1,6 @@
 
 let selectedProfile = 'aluno';
 
-/**
- * Atualiza o perfil selecionado quando o utilizador clica nos cards.
  
 function selectProfile(profile) {
     selectedProfile = profile;
@@ -19,7 +17,7 @@ function selectProfile(profile) {
     console.log("Perfil visual selecionado:", selectedProfile);
 }
 
-/**
+/*
  * Processa o formulário de login
  */
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
