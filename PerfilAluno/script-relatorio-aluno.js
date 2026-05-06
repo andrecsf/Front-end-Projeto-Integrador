@@ -3,7 +3,7 @@ const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 
-// Dados do aluno (será preenchido dinamicamente)
+// Dados do aluno 
 let currentStudent = null;
 let studentActivities = [];
 
@@ -42,14 +42,12 @@ function getInitials(name) {
         .substring(0, 1);
 }
 
-// Função para carregar dados do aluno (exemplo com dados mockados)
+
 async function loadStudentData(studentId) {
     try {
-        // Aqui você faria uma chamada ao backend
-        // const response = await fetch(`/api/students/${studentId}`);
-        // const data = await response.json();
+             
         
-        // Por enquanto, usando dados mockados
+        
         currentStudent = {
             id: studentId || '1',
             name: 'João Silva',

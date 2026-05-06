@@ -1,10 +1,9 @@
-// Variável para armazenar o perfil selecionado visualmente nos cards
-// O valor inicial é 'aluno' pois o seu HTML já vem com o card de aluno marcado como active
+
 let selectedProfile = 'aluno';
 
 /**
  * Atualiza o perfil selecionado quando o utilizador clica nos cards.
- */
+ 
 function selectProfile(profile) {
     selectedProfile = profile;
     
@@ -45,13 +44,13 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         if (response.ok) {
             const data = await response.json(); 
-            // Esperamos que o Java retorne: { token: "...", role: "ADMIN" }
+            
 
             /**
              * VALIDAÇÃO DE PERFIL:
-             * Compara a Role que vem do Banco de Dados com o Card selecionado no Front.
+             
              */
-            const roleDoBanco = data.role; // Ex: "ADMIN", "COORDENADOR" ou "ALUNO"
+            const roleDoBanco = data.role; 
             
             // Mapeamento para comparar os termos do Back com os termos do Front
             const rolesMap = {

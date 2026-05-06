@@ -158,8 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Exemplo de função para integração com backend
- * Descomente e adapte conforme sua API
+ * Função para buscar dados do coordenador no backend
  */
 async function fetchCoordinatorFromBackend(coordinatorId) {
     try {

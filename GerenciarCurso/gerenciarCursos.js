@@ -42,7 +42,7 @@ function restoreMenuState() {
     }
 }
 
-// Clique no topo da sidebar
+
 const sidebarHeader = document.querySelector('.sidebar-header');
 if (sidebarHeader) {
     sidebarHeader.addEventListener('click', toggleMenu);
@@ -88,7 +88,7 @@ if (btnVoltar) {
 // =========================
 async function loadCourses() {
     try {
-        const token = localStorage.getItem('token'); // Recupera o token de login
+        const token = localStorage.getItem('token'); 
 
         const response = await fetch('http://localhost:8080/cursos', {
             method: 'GET',
@@ -155,8 +155,8 @@ function renderCourses(courseArray) {
 // =========================
 function updateStats() {
     totalCourses.textContent = courses.length;
-    activeCourses.textContent = courses.length; // Aqui você pode filtrar por status se tiver no futuro
-    totalStudents.textContent = 0; // Você pode implementar uma rota de contagem de alunos depois
+    activeCourses.textContent = courses.length; 
+    totalStudents.textContent = 0; 
 }
 
 // =========================

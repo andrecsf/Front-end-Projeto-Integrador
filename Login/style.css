@@ -14,7 +14,7 @@ body {
 .background-overlay {
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Escurece a imagem de fundo */
+    background-color: rgba(0, 0, 0, 0.6); 
     display: flex;
     justify-content: center;
     align-items: center;
