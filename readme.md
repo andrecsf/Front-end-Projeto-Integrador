@@ -8,6 +8,9 @@ Sistema de Gestão Acadêmica desenvolvido como parte das atividades do curso de
 
 O front-end é composto por páginas HTML, CSS e JavaScript puro (Vanilla JS), organizadas em módulos por funcionalidade. Cada módulo representa uma tela do sistema e se comunica com o back-end Java (Spring Boot) via API REST, utilizando `fetch` com autenticação JWT (Bearer Token).
 
+## Site 
+sgesenac.netlify.app
+
 ---
 
 ## 🗂️ Estrutura de Pastas
