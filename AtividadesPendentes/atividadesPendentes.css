@@ -17,7 +17,6 @@
 body { background-color: var(--bg-gray); color: var(--text-main); overflow-x: hidden; }
 .container { display: flex; min-height: 100vh; width: 100%; }
 
-/* SIDEBAR E HEADER (MANTIDOS) */
 .sidebar { width: var(--sidebar-width); background-color: var(--sidebar-blue); color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; right: 0; top: 0; z-index: 1000; transition: width var(--transition-duration) ease; overflow: hidden; }
 .sidebar.collapsed { width: var(--sidebar-width-collapsed); }
 .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 15px; font-size: 1.5rem; font-weight: bold; justify-content: center; cursor: pointer; min-height: 80px;}
@@ -49,14 +48,12 @@ body { background-color: var(--bg-gray); color: var(--text-main); overflow-x: hi
 .menu-toggle { display: none; }
 .content-padding { padding: 30px 40px; }
 
-/* ESTILOS DA FILA DE REVISÃO */
 .page-header { margin-bottom: 30px; }
 .page-header h2 { font-size: 1.5rem; color: var(--text-main); margin-bottom: 5px;}
 .page-header p { color: var(--text-muted); font-size: 0.95rem; }
 
 .pending-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
 
-/* Transformando o card em um elemento interativo */
 .pending-card {
     background: white; border: 1px solid var(--border-color);
     border-radius: 12px; padding: 20px;
@@ -81,7 +78,6 @@ body { background-color: var(--bg-gray); color: var(--text-main); overflow-x: hi
 .detail-label { color: var(--text-muted); }
 .detail-value { font-weight: 600; color: var(--text-main); text-align: right; max-width: 60%; }
 
-/* Nova área indicando a ação de clique */
 .card-footer {
     border-top: 1px solid var(--border-color);
     padding-top: 15px;

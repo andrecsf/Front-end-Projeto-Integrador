@@ -75,7 +75,6 @@ function renderizarLista(categorias) {
 
     categorias.forEach(cat => {
         const div = document.createElement('div');
-        // Usando as classes comuns de cards de lista
         div.className = 'categoria-card'; 
         div.style = "background: #fff; margin-bottom: 10px; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);";
         

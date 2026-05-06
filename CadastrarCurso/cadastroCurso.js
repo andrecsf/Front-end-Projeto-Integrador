@@ -54,9 +54,7 @@ courseForm.addEventListener('submit', async (e) => {
             body: JSON.stringify(courseData)
         });
 
-        // Se a resposta não for OK (status fora de 200-299)
         if (!response.ok) {
-            // Se o status for 409 (Conflict) ou 400 (Bad Request), tratamos como duplicidade/erro de validação
             if (response.status === 409 || response.status === 400 ||response.status === 500) {
                 throw new Error('Este curso já está cadastrado ou os dados são inválidos.');
             } else {
@@ -72,10 +70,8 @@ courseForm.addEventListener('submit', async (e) => {
 
     } catch (error) {
         console.error('Erro na requisição:', error);
-        // Exibe a mensagem específica definida no throw new Error
         alert(error.message);
     } finally {
-        // Reativa o botão caso ocorra erro ou termine o processo
         btnSave.disabled = false;
         btnSave.innerText = 'Salvar';
     }

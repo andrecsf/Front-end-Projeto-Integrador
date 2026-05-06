@@ -227,7 +227,6 @@ body {
     margin: 0 auto;  
 }
 
-/* Form Styles */
 .form-container {
     background: var(--white);
     border-radius: 8px;
@@ -269,7 +268,6 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Password Input Wrapper */
 .password-input-wrapper {
     position: relative;
     display: flex;
@@ -347,7 +345,6 @@ body {
     transform: translateY(0);
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .content-body {
         padding: 20px;

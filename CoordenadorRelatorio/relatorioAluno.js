@@ -1,12 +1,3 @@
-// ============================================================
-//  relatorioAluno.js — Relatório individual do aluno
-//  Fluxo: coordenador vem de relatoriosDosAlunos.html?alunoId={id}
-//
-//  Endpoints usados:
-//    GET /alunos/{id}     → dados do aluno
-//    GET /submissoes      → todas as submissões (filtra pelo nome do aluno)
-//    GET /notificacaoEmail → notificações
-// ============================================================
 
 const BASE_URL = "http://localhost:8080";
 
@@ -112,7 +103,6 @@ async function carregarRelatorio() {
         if (!resAluno.ok) throw new Error(`Erro ao buscar aluno (HTTP ${resAluno.status})`);
         const aluno = await resAluno.json();
 
-        // Carga horária: pega do curso se disponível, senão usa 200h
         const cargaHorariaMax = (aluno.cursos && aluno.cursos[0]?.cargaHorariaMax)
             ? aluno.cursos[0].cargaHorariaMax
             : 200;
@@ -160,7 +150,6 @@ async function carregarRelatorio() {
                 return;
             }
 
-            // Exibe aprovadas → pendentes → rejeitadas
             [...aprovadas, ...pendentes, ...rejeitadas].forEach(sub => {
                 cardsContainer.appendChild(criarCardAtividade(sub));
             });

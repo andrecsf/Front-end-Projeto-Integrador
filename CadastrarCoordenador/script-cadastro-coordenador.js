@@ -34,9 +34,7 @@ function togglePasswordVisibility() {
 
 // --- INTEGRAÇÃO COM BACKEND ---
 
-// Carregar cursos no Select (Execute isso no DOMContentLoaded)
 async function carregarCursosNoSelect() {
-    // Verifique se você adicionou o <select id="coordinator-course"> no seu HTML
     const selectCurso = document.getElementById('coordinator-course');
     if (!selectCurso) return; 
 
@@ -72,7 +70,6 @@ coordinatorForm.addEventListener('submit', async (e) => {
         password: passwordInput.value
     };
 
-    // Validações básicas (você pode manter as suas isValidEmail aqui)
     if (coordinatorData.password.length < 6) {
         alert('A senha deve ter no mínimo 6 caracteres.');
         return;
@@ -96,7 +93,7 @@ coordinatorForm.addEventListener('submit', async (e) => {
 
         const novoCoord = await response.json();
 
-        // 2. Vínculo Opcional (apenas se selecionou curso)
+        // 2. Vínculo Opcional
         if (cursoId) {
             await fetch(`http://localhost:8080/coordenadores/${novoCoord.id}/cursos/${cursoId}`, {
                 method: 'POST',

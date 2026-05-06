@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Coordenador</title>
-    <!-- Mantendo seus arquivos de estilo originais -->
     <link rel="stylesheet" href="style-cadastro-coordenador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
-        <!-- Sidebar (Lado Direito conforme seu CSS) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <i class="fas fa-bars"></i>
@@ -45,7 +43,6 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
-                    <!-- Link para voltar à gestão de coordenadores -->
                     <a href="javascript:history.back()" class="btn-back">
                         <i class="fas fa-arrow-left"></i>
                     </a>
@@ -83,12 +80,10 @@
                         </div>
                     </div>
 
-                    <!-- Vínculo com Curso (Novo Campo Adicionado) -->
                     <div class="form-group">
                         <label for="coordinator-course">Vincular a um curso (Opcional):</label>
                         <select id="coordinator-course" class="custom-select">
                             <option value="">Nenhum vínculo agora</option>
-                            <!-- Os cursos serão carregados aqui via JavaScript -->
                         </select>
                     </div>
 
@@ -106,7 +101,6 @@
         </main>
     </div>
 
-    <!-- Script atualizado com integração ao Backend -->
     <script src="script-cadastro-coordenador.js"></script>
 </body>
 

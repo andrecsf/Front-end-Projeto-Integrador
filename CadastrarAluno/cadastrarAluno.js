@@ -14,25 +14,25 @@ const selectCurso = document.getElementById('student-course');
 document.addEventListener('DOMContentLoaded', () => {
     setupSidebar();
 
-    // Se o ID do curso estiver na URL, ele veio da tela de perfil do curso
+    
     if (cursoIdDaUrl) {
-        // Esconde o campo de seleção de curso, pois já sabemos qual é
+        
         if (courseSelectionGroup) {
             courseSelectionGroup.style.display = 'none';
         }
         
-        // Atualiza o título da página
+        
         const pageTitle = document.getElementById('page-title');
         if (pageTitle) {
             pageTitle.innerText = "Vincular Aluno ao Curso";
         }
     } else {
-        // Se for um cadastro global (sem ID na URL), carrega a lista de cursos no select
+        
         carregarCursosNoSelect();
     }
 });
 
-// Função para buscar os cursos no backend e preencher o <select>
+
 async function carregarCursosNoSelect() {
     try {
         const response = await fetch('http://localhost:8080/cursos', {
@@ -59,7 +59,7 @@ async function carregarCursosNoSelect() {
 studentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Captura os valores dos inputs e monta o objeto conforme o AlunoDTO.java
+    
     const novoAluno = {
         name: document.getElementById('name').value,      
         email: document.getElementById('email').value,
@@ -69,13 +69,13 @@ studentForm.addEventListener('submit', async (e) => {
         horasAcumuladas: 0 
     };
 
-    // Define qual ID de curso usar: o da URL (prioridade) ou o selecionado no <select>
+    
     const finalCursoId = cursoIdDaUrl || (selectCurso ? selectCurso.value : null);
     
-    // Define para qual endpoint mandar a requisição dependendo se tem curso ou não
-    let endpoint = 'http://localhost:8080/alunos'; // Cadastro comum sem vincular curso
+    
+    let endpoint = 'http://localhost:8080/alunos'; 
     if (finalCursoId) {
-        endpoint = `http://localhost:8080/alunos/curso/${finalCursoId}`; // Cadastro ou Vínculo com curso
+        endpoint = `http://localhost:8080/alunos/curso/${finalCursoId}`; 
     }
 
     console.log(`Enviando para: ${endpoint}`, novoAluno);
@@ -93,16 +93,15 @@ studentForm.addEventListener('submit', async (e) => {
         if (response.ok) {
             alert('Aluno processado com sucesso!');
             
-            // Redirecionamento inteligente após o sucesso
+            
             if (cursoIdDaUrl) {
-                // Se veio do perfil do curso, volta para lá
+                
                 window.location.href = `../PerfilCurso/perfil-Curso.html?id=${cursoIdDaUrl}`;
             } else {
-                // Se veio do menu global, volta para a página anterior
+                
                 window.history.back();
             }
         } else {
-            // Tenta capturar a mensagem de erro específica vinda do Service
             const erroData = await response.json();
             alert('Erro: ' + (erroData.message || 'Falha ao processar cadastro.'));
         }
@@ -112,7 +111,6 @@ studentForm.addEventListener('submit', async (e) => {
     }
 });
 
-// --- COMPORTAMENTO DA SIDEBAR (igual ao cadastrarCategoria) ---
 function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('collapsed');
     document.querySelector('.main-content').classList.toggle('expanded');
