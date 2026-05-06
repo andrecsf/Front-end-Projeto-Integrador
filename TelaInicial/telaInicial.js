@@ -1,14 +1,10 @@
-// =========================
-// ELEMENTOS DO DOM
-// =========================
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
 const sidebarToggle = document.getElementById('sidebarToggle');
 const menuOverlay = document.getElementById('menuOverlay');
 
-// =========================
-// MENU
-// =========================
+
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     const isCollapsed = sidebar.classList.contains('collapsed');
@@ -27,9 +23,7 @@ function restoreMenuState() {
     }
 }
 
-// =========================
-// API HELPERS
-// =========================
+
 function getToken() {
     return localStorage.getItem('token');
 }
@@ -53,9 +47,7 @@ function authFetch(url, options = {}) {
     });
 }
 
-// =========================
-// BACKEND
-// =========================
+
 async function descobrirCursoId() {
     const coordIdLogado = localStorage.getItem('usuarioIdLogado');
     if (!coordIdLogado) return 1;
@@ -81,9 +73,7 @@ async function descobrirCursoId() {
     }
 }
 
-// =========================
-// DASHBOARD
-// =========================
+
 async function carregarDashboard() {
     try {
         const cursoId = await descobrirCursoId();
@@ -101,7 +91,7 @@ async function carregarDashboard() {
             linkMenu.href = `../RelatoriosDosAlunos/relatoriosDosAlunos.html?cursoId=${cursoId}`;
         }
 
-        // ✅ NOVO: link do card amarelo
+        // link do card amarelo
         if (linkAtividades) {
             linkAtividades.href = `../AtividadesPendentes/atividadesPendentes.html?cursoId=${cursoId}`;
         }
@@ -140,9 +130,7 @@ async function carregarDashboard() {
     }
 }
 
-// =========================
-// CARDS
-// =========================
+
 function atualizarCardsEstatisticos(submissoes, totalAlunos) {
     let pendentes = 0;
     let aprovadas = 0;
@@ -170,9 +158,7 @@ function atualizarCardsEstatisticos(submissoes, totalAlunos) {
     }
 }
 
-// =========================
-// SUBMISSÕES
-// =========================
+
 function renderizarSubmissoesRecentes(submissoes) {
     const container = document.getElementById('submissionsContainer');
     container.innerHTML = '';
@@ -228,9 +214,7 @@ function renderizarSubmissoesRecentes(submissoes) {
     });
 }
 
-// =========================
-// INIT
-// =========================
+
 if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
 
 const btnOpenMenu = document.getElementById('openMenu');
