@@ -1,171 +1,141 @@
-const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com";
+const token = localStorage.getItem('token');
 
-const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 
 let currentCoordinator = null;
 let coordinatorCourses = [];
 
+// ── Sidebar ──────────────────────────────────────────────
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
-    
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebarCollapsed', isCollapsed);
+    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
 }
 
 function restoreMenuState() {
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    if (isCollapsed) {
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
         sidebar.classList.add('collapsed');
         mainContent.classList.add('expanded');
     }
 }
 
+document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
+
+// ── Utilitários ───────────────────────────────────────────
 function getCoordinatorIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('id');
+    return new URLSearchParams(window.location.search).get('id');
 }
 
 function getInitials(name) {
-    return name
-        .split(' ')
-        .map(word => word[0])
-        .join('')
-        .toUpperCase()
-        .substring(0, 1);
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 1);
 }
 
+function authHeaders() {
+    return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+}
+
+// ── Carrega dados do backend ──────────────────────────────
 async function loadCoordinatorData(coordinatorId) {
     try {
-        
-        currentCoordinator = {
-            id: coordinatorId || '1',
-            name: 'Prof. Dr. Carlos Mendes',
-            email: 'carlos@example.com',
-            department: 'Departamento de Engenharia',
-            registrationDate: '15/01/2024'
-        };
+        const res = await fetch(`${BASE_URL}/coordenadores/${coordinatorId}`, {
+            headers: authHeaders()
+        });
 
-        coordinatorCourses = [
-            {
-                id: '1',
-                name: 'Engenharia de Software',
-                code: 'ENG-SW-001',
-                status: 'Ativo',
-                studentsCount: 156
-            },
-            {
-                id: '2',
-                name: 'Ciência da Computação',
-                code: 'CC-001',
-                status: 'Ativo',
-                studentsCount: 234
-            },
-            {
-                id: '3',
-                name: 'Análise e Desenvolvimento',
-                code: 'ADS-001',
-                status: 'Ativo',
-                studentsCount: 189
-            }
-        ];
+        if (!res.ok) throw new Error(`Erro ${res.status}`);
+
+        // Os cursos já vêm dentro do DTO do coordenador
+        const data = await res.json();
+        currentCoordinator = data;
+        coordinatorCourses = data.cursos || data.courses || [];
 
         renderCoordinatorData();
+
     } catch (error) {
         console.error('Erro ao carregar dados do coordenador:', error);
-        alert('Erro ao carregar os dados do coordenador. Tente novamente.');
+        alert('Erro ao carregar os dados do coordenador. Verifique sua conexão.');
     }
 }
 
+// ── Renderização ──────────────────────────────────────────
 function renderCoordinatorData() {
     if (!currentCoordinator) return;
 
-    document.getElementById('coordinator-name').textContent = currentCoordinator.name;
-    document.getElementById('coordinator-email').textContent = currentCoordinator.email;
-    document.getElementById('coordinator-department').textContent = currentCoordinator.department;
-    document.getElementById('registration-date').textContent = currentCoordinator.registrationDate;
+    document.getElementById('coordinator-name').textContent = currentCoordinator.name || currentCoordinator.nome || '—';
+    document.getElementById('coordinator-email').textContent = currentCoordinator.email || '—';
+    document.getElementById('coordinator-department').textContent = '—';
+    document.getElementById('registration-date').textContent = '—';
+    document.getElementById('coordinator-avatar').textContent =
+        getInitials(currentCoordinator.name || currentCoordinator.nome || 'C');
 
-    const avatar = document.getElementById('coordinator-avatar');
-    avatar.textContent = getInitials(currentCoordinator.name);
-
-    const totalStudents = coordinatorCourses.reduce((sum, course) => sum + course.studentsCount, 0);
     document.getElementById('courses-count').textContent = coordinatorCourses.length;
-    document.getElementById('students-count').textContent = totalStudents;
+    document.getElementById('students-count').textContent = '—';
 
     renderCourses();
 }
 
 function renderCourses() {
     const coursesList = document.getElementById('courses-list');
-    
-    if (coordinatorCourses.length === 0) {
+
+    if (!coordinatorCourses.length) {
         coursesList.innerHTML = '<div class="empty-message">Nenhum curso vinculado.</div>';
         return;
     }
 
     coursesList.innerHTML = coordinatorCourses.map(course => {
-        const statusClass = course.status === 'Ativo' ? 'active' : 'inactive';
+        const nome = course.name || course.nome || '—';
+        const descricao = course.description || course.descricao || '';
+
         return `
             <div class="course-item">
                 <div class="course-info">
-                    <div class="course-name">${course.name}</div>
-                    <div class="course-code">Código: ${course.code} • ${course.studentsCount} alunos</div>
+                    <div class="course-name">${nome}</div>
+                    <div class="course-code">${descricao}</div>
                 </div>
-                <span class="course-status ${statusClass}">${course.status}</span>
+                <span class="course-status active">Ativo</span>
             </div>
         `;
     }).join('');
 }
 
-document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
-
+// ── Ações ─────────────────────────────────────────────────
 document.getElementById('btn-edit').addEventListener('click', () => {
-    console.log('Editar coordenador:', currentCoordinator.id);
-    alert('Funcionalidade de edição de coordenador em desenvolvimento.');
+    const id = getCoordinatorIdFromURL();
+    window.location.href = `../EditarCoordenador/editarCoordenador.html?id=${id}`;
 });
 
-document.getElementById('btn-delete').addEventListener('click', () => {
-    if (confirm('Tem certeza que deseja remover este coordenador?')) {
-        alert('Coordenador removido com sucesso!');
-        window.history.back();
+document.getElementById('btn-delete').addEventListener('click', async () => {
+    if (!confirm('Tem certeza que deseja remover este coordenador?')) return;
+
+    try {
+        const id = getCoordinatorIdFromURL();
+        const res = await fetch(`${BASE_URL}/coordenadores/${id}`, {
+            method: 'DELETE',
+            headers: authHeaders()
+        });
+
+        if (res.ok) {
+            alert('Coordenador removido com sucesso!');
+            window.history.back();
+        } else {
+            const erro = await res.json().catch(() => ({}));
+            alert('Erro ao remover: ' + (erro.message || res.status));
+        }
+    } catch (error) {
+        console.error('Erro ao remover coordenador:', error);
+        alert('Erro de conexão ao tentar remover o coordenador.');
     }
 });
 
+// ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
     const coordinatorId = getCoordinatorIdFromURL();
+    if (!coordinatorId) {
+        alert('ID do coordenador não encontrado na URL.');
+        window.history.back();
+        return;
+    }
     loadCoordinatorData(coordinatorId);
 });
-
-/**
- * Função para buscar dados do coordenador no backend
- */
-async function fetchCoordinatorFromBackend(coordinatorId) {
-    try {
-        const response = await fetch(`/api/coordinators/${coordinatorId}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erro ao buscar coordenador do backend:', error);
-        throw error;
-    }
-}
-
-async function fetchCoordinatorCourses(coordinatorId) {
-    try {
-        const response = await fetch(`/api/coordinators/${coordinatorId}/courses`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erro ao buscar cursos do coordenador do backend:', error);
-        throw error;
-    }
-}
