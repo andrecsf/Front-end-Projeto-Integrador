@@ -1,6 +1,4 @@
-// =========================
-// ELEMENTOS
-// =========================
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 const courseList = document.getElementById('course-list');
@@ -9,9 +7,7 @@ const activeCourses = document.getElementById('active-courses');
 const totalStudents = document.getElementById('total-students');
 const searchInput = document.getElementById('search-input');
 
-// =========================
-// ROTAS
-// =========================
+
 const ROTAS = {
     inicio: "../HomeAdmin/home-super-admin.html",
     perfil: "../PerfilSuperadmin/dashboard-superadmin.html",
@@ -22,9 +18,7 @@ const ROTAS = {
 
 let courses = [];
 
-// =========================
-// SIDEBAR TOGGLE
-// =========================
+
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
@@ -48,9 +42,7 @@ if (sidebarHeader) {
     sidebarHeader.addEventListener('click', toggleMenu);
 }
 
-// =========================
-// SIDEBAR NAVEGAÇÃO
-// =========================
+
 const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
 
 const menuKeys = [
@@ -72,9 +64,7 @@ menuLinks.forEach((link, index) => {
     });
 });
 
-// =========================
-// BOTÃO VOLTAR
-// =========================
+
 const btnVoltar = document.getElementById("btnVoltar");
 if (btnVoltar) {
     btnVoltar.style.cursor = "pointer";
@@ -83,9 +73,7 @@ if (btnVoltar) {
     });
 }
 
-// =========================
-// CARREGAR CURSOS DO BACKEND
-// =========================
+
 async function loadCourses() {
     try {
         const token = localStorage.getItem('token'); 
@@ -120,9 +108,7 @@ async function loadCourses() {
     }
 }
 
-// =========================
-// RENDERIZAR CARDS DE CURSOS
-// =========================
+
 function renderCourses(courseArray) {
     if (courseArray.length === 0) {
         courseList.innerHTML = `
@@ -150,18 +136,14 @@ function renderCourses(courseArray) {
     `).join('');
 }
 
-// =========================
-// ESTATÍSTICAS
-// =========================
+
 function updateStats() {
     totalCourses.textContent = courses.length;
     activeCourses.textContent = courses.length; 
     totalStudents.textContent = 0; 
 }
 
-// =========================
-// BUSCA DINÂMICA
-// =========================
+
 searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
 
@@ -173,16 +155,12 @@ searchInput.addEventListener('input', () => {
     renderCourses(filteredCourses);
 });
 
-// =========================
-// REDIRECIONAR PARA PERFIL
-// =========================
+
 function openCourseDetails(courseId) {
     window.location.href = `${ROTAS.perfilCurso}?id=${courseId}`;
 }
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
     loadCourses();
