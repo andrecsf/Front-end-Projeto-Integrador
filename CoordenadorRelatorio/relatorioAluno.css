@@ -26,7 +26,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ── LAYOUT PRINCIPAL ─────────────────────────────────────── */
 .page-wrapper {
     display: flex;
     min-height: 100vh;
@@ -44,7 +43,6 @@ body {
     margin-right: var(--sidebar-width-collapsed);
 }
 
-/* ── SIDEBAR ──────────────────────────────────────────────── */
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -176,7 +174,6 @@ body {
 .footer-text strong { font-size: 0.9rem; }
 .footer-text span   { font-size: 0.75rem; opacity: 0.8; }
 
-/* ── HEADER / TOPBAR ──────────────────────────────────────── */
 .topbar {
     background-color: var(--primary-blue);
     color: white;
@@ -210,7 +207,6 @@ body {
     align-items: center;
 }
 
-/* ── NOTIFICAÇÕES ─────────────────────────────────────────── */
 .notif-btn {
     position: relative;
     cursor: pointer;
@@ -307,14 +303,12 @@ body {
     color: #9ca3af;
 }
 
-/* ── CONTAINER DE CONTEÚDO ────────────────────────────────── */
 .container {
     max-width: 900px;
     margin: 30px auto;
     padding: 0 15px;
 }
 
-/* ── CARD BASE ────────────────────────────────────────────── */
 .card {
     background: white;
     border-radius: 12px;
@@ -326,7 +320,6 @@ body {
 
 .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
 
-/* ── CARD ALUNO ───────────────────────────────────────────── */
 .card.aluno h2 {
     margin: 0 0 6px;
     font-size: 22px;
@@ -340,7 +333,6 @@ body {
     font-size: 14px;
 }
 
-/* ── BARRA DE PROGRESSO ───────────────────────────────────── */
 .progress-area {
     display: flex;
     justify-content: space-between;
@@ -367,7 +359,6 @@ body {
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
 }
 
-/* ── CARD DE ATIVIDADE ────────────────────────────────────── */
 .card.atividade h3 { margin: 0 0 10px; font-size: 16px; font-weight: 600; color: #111827; }
 .card.atividade p  { margin: 4px 0; font-size: 14px; color: #4b5563; }
 
@@ -381,7 +372,6 @@ body {
 
 .card-header-row h3 { margin: 0; }
 
-/* ── TAGS / BADGES ────────────────────────────────────────── */
 .tag {
     display: inline-block;
     padding: 4px 10px;
@@ -395,7 +385,6 @@ body {
 .tag-pendente  { background: #e7f0ff; color: #2f6df6; }
 .tag-rejeitado { background: #fee2e2; color: #dc2626; }
 
-/* ── OBSERVAÇÃO DO COORDENADOR ────────────────────────────── */
 .obs-coord {
     background: #fef9c3;
     border-left: 3px solid #f59e0b;
@@ -406,7 +395,6 @@ body {
     margin-top: 8px !important;
 }
 
-/* ── LINK CERTIFICADO ─────────────────────────────────────── */
 .cert-link {
     display: inline-block;
     margin-top: 10px;
@@ -418,7 +406,6 @@ body {
 
 .cert-link:hover { text-decoration: underline; }
 
-/* ── CARD SEM ATIVIDADES ──────────────────────────────────── */
 .card.sem-atividades {
     text-align: center;
     color: #9ca3af;
@@ -426,7 +413,6 @@ body {
     padding: 40px 20px;
 }
 
-/* ── LOADING SPINNER ──────────────────────────────────────── */
 .loading-spinner {
     text-align: center;
     padding: 40px 20px;
@@ -446,7 +432,6 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── MENSAGEM DE ERRO ─────────────────────────────────────── */
 .erro-msg {
     background: #fee2e2;
     border: 1px solid #fca5a5;
@@ -458,10 +443,8 @@ body {
     line-height: 1.5;
 }
 
-/* ── OVERLAY (mantido no DOM mas invisível) ───────────────── */
 .overlay { display: none !important; }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .content-body {
         padding: 20px;

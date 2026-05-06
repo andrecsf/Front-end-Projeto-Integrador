@@ -3,30 +3,52 @@ const urlParams = new URLSearchParams(window.location.search);
 const cursoId = urlParams.get('cursoId');
 const token = localStorage.getItem('token');
 
-console.log("Parâmetros carregados:", { cursoId, token: token ? "Presente" : "Ausente" });
+// --- SIDEBAR TOGGLE (padrão superadmin) ---
+const sidebar     = document.getElementById('sidebar');
+const mainContent = document.getElementById('mainContent');
+const sidebarToggle = document.getElementById('sidebarToggle');
 
-// --- FUNÇÃO GLOBAL DE VÍNCULO ---
-// Definimos como window. para o HTML encontrar com certeza
+function toggleMenu() {
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+}
+
+function restoreMenuState() {
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        sidebar.classList.add('collapsed');
+        mainContent.classList.add('expanded');
+    }
+}
+
+if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
+restoreMenuState();
+
+// --- BOTÃO VOLTAR ---
+const btnVoltar = document.getElementById('btnVoltar');
+if (btnVoltar) {
+    btnVoltar.style.cursor = 'pointer';
+    btnVoltar.addEventListener('click', () => window.history.back());
+}
+
+// --- VÍNCULO ---
 window.confirmarVinculo = async function(coordId, nomeCoord) {
-    console.log(`Botão acionado: Coordenador ${coordId}`);
-    
     if (!confirm(`Deseja definir ${nomeCoord} como coordenador?`)) return;
 
     const url = `http://localhost:8080/coordenadores/${coordId}/cursos/${cursoId}`;
-    
+
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        console.log("Resposta do servidor:", response.status);
-
         if (response.ok || response.status === 204) {
             alert("Vínculo realizado com sucesso!");
+            // ✅ Nome do arquivo correto
             window.location.href = `../PerfilCurso/perfil-curso.html?id=${cursoId}`;
         } else {
             alert("Erro ao vincular: status " + response.status);
@@ -40,7 +62,6 @@ window.confirmarVinculo = async function(coordId, nomeCoord) {
 // --- BUSCAR COORDENADORES ---
 async function loadCoordinators() {
     try {
-        console.log("Buscando coordenadores...");
         const response = await fetch('http://localhost:8080/coordenadores', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -50,14 +71,16 @@ async function loadCoordinators() {
             renderList(data);
         }
     } catch (error) {
-        console.error("Erro ao carregar:", error);
+        console.error("Erro ao carregar coordenadores:", error);
+        document.getElementById('coordinators-list').innerHTML =
+            '<div class="empty-message">Erro ao conectar com o servidor.</div>';
     }
 }
 
 // --- RENDERIZAR LISTA ---
 function renderList(list) {
     const container = document.getElementById('coordinators-list');
-    
+
     if (!list || list.length === 0) {
         container.innerHTML = '<div class="empty-message">Nenhum coordenador encontrado.</div>';
         return;
@@ -81,11 +104,23 @@ function renderList(list) {
     `).join('');
 }
 
-// --- INICIALIZAÇÃO ---
+// --- FILTRO DE BUSCA ---
 document.addEventListener('DOMContentLoaded', () => {
     if (!cursoId) {
         alert("ID do curso não encontrado na URL!");
         return;
     }
+
     loadCoordinators();
+
+    const searchInput = document.getElementById('search-coord');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const termo = searchInput.value.toLowerCase();
+            document.querySelectorAll('.item-card').forEach(card => {
+                const nome = card.querySelector('strong')?.textContent.toLowerCase() || '';
+                card.style.display = nome.includes(termo) ? '' : 'none';
+            });
+        });
+    }
 });
