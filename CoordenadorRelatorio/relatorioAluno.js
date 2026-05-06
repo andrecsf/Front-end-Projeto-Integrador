@@ -1,4 +1,5 @@
-const BASE_URL = "https://back-end-projeto-integrador.onrender.com";
+
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
 
 // ── Lê o alunoId da query string da URL ──────────────────────
 function getAlunoIdDaURL() {
