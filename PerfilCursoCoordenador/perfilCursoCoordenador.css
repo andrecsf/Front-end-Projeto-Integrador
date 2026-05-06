@@ -281,9 +281,7 @@ body {
     font-weight: 600;
 }
 
-/* =============================
-   SEÇÃO DE ALUNOS
-============================= */
+
 .students-section {
     background: var(--white);
     border-radius: 12px;
@@ -344,9 +342,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* =============================
-   BUSCA
-============================= */
+
 .search-bar {
     position: relative;
 }
@@ -375,9 +371,7 @@ body {
     border-color: var(--primary-blue);
 }
 
-/* =============================
-   LISTA DE ALUNOS
-============================= */
+
 #students-list {
     display: flex;
     flex-direction: column;
@@ -412,9 +406,7 @@ body {
     color: var(--text-dark);
 }
 
-/* =============================
-   EMPTY STATE
-============================= */
+
 .empty-state {
     text-align: center;
     padding: 32px;
@@ -430,9 +422,7 @@ body {
     margin-bottom: 10px;
     color: #cbd5e1;
 }
-/* =============================
-   ADICIONE AO FINAL DO perfilCursoCoordenador.css
-============================= */
+
 
 /* Avatar do aluno */
 .student-avatar {
@@ -508,9 +498,7 @@ body {
     transform: scale(1.1);
 }
 
-/* =============================
-   MODAL VINCULAR ALUNO
-============================= */
+
 .modal-overlay {
     display: none;
     position: fixed;
