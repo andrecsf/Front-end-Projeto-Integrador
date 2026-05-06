@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-    const API_URL_SUBMISSOES = 'http://localhost:8080/submissoes';
+    const API_URL_SUBMISSOES = 'https://back-end-projeto-integrador.onrender.com/';
 
     async function carregarPendentes() {
         try {
