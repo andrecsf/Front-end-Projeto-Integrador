@@ -1,23 +1,18 @@
-// Elementos do DOM
 const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 
-// Dados do coordenador (será preenchido dinamicamente)
 let currentCoordinator = null;
 let coordinatorCourses = [];
 
-// Função para alternar o menu
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
     
-    // Salvar estado do menu no localStorage
     const isCollapsed = sidebar.classList.contains('collapsed');
     localStorage.setItem('sidebarCollapsed', isCollapsed);
 }
 
-// Restaurar estado do menu ao carregar a página
 function restoreMenuState() {
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     if (isCollapsed) {
@@ -26,13 +21,11 @@ function restoreMenuState() {
     }
 }
 
-// Função para obter o ID do coordenador da URL
 function getCoordinatorIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
 }
 
-// Função para calcular a inicial do nome
 function getInitials(name) {
     return name
         .split(' ')
@@ -42,14 +35,9 @@ function getInitials(name) {
         .substring(0, 1);
 }
 
-// Função para carregar dados do coordenador (exemplo com dados mockados)
 async function loadCoordinatorData(coordinatorId) {
     try {
-        // Aqui você faria uma chamada ao backend
-        // const response = await fetch(`/api/coordinators/${coordinatorId}`);
-        // const data = await response.json();
         
-        // Por enquanto, usando dados mockados
         currentCoordinator = {
             id: coordinatorId || '1',
             name: 'Prof. Dr. Carlos Mendes',
@@ -89,30 +77,24 @@ async function loadCoordinatorData(coordinatorId) {
     }
 }
 
-// Função para renderizar os dados do coordenador
 function renderCoordinatorData() {
     if (!currentCoordinator) return;
 
-    // Atualizar informações do coordenador
     document.getElementById('coordinator-name').textContent = currentCoordinator.name;
     document.getElementById('coordinator-email').textContent = currentCoordinator.email;
     document.getElementById('coordinator-department').textContent = currentCoordinator.department;
     document.getElementById('registration-date').textContent = currentCoordinator.registrationDate;
 
-    // Atualizar avatar
     const avatar = document.getElementById('coordinator-avatar');
     avatar.textContent = getInitials(currentCoordinator.name);
 
-    // Calcular estatísticas
     const totalStudents = coordinatorCourses.reduce((sum, course) => sum + course.studentsCount, 0);
     document.getElementById('courses-count').textContent = coordinatorCourses.length;
     document.getElementById('students-count').textContent = totalStudents;
 
-    // Renderizar cursos
     renderCourses();
 }
 
-// Função para renderizar cursos
 function renderCourses() {
     const coursesList = document.getElementById('courses-list');
     
@@ -135,7 +117,6 @@ function renderCourses() {
     }).join('');
 }
 
-// Event Listeners
 document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
 
 document.getElementById('btn-edit').addEventListener('click', () => {
@@ -150,17 +131,12 @@ document.getElementById('btn-delete').addEventListener('click', () => {
     }
 });
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
     const coordinatorId = getCoordinatorIdFromURL();
     loadCoordinatorData(coordinatorId);
 });
 
-/**
- * Exemplo de função para integração com backend
- * Descomente e adapte conforme sua API
- */
 async function fetchCoordinatorFromBackend(coordinatorId) {
     try {
         const response = await fetch(`/api/coordinators/${coordinatorId}`);
