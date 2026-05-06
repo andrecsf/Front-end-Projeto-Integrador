@@ -31,7 +31,7 @@ const btnAddCategory = document.getElementById('btn-add-category');
 // --- INICIALIZAÇÃO ---
 async function init() {
     if (!courseId) {
-        window.location.href = '../GerenciarCurso/gerenciaCursos.html';
+        window.location.href = '../GerenciarCurso/gerenciarCursos.html';
         return;
     }
     await loadCourseDetails();
