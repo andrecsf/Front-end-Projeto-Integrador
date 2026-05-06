@@ -35,7 +35,7 @@ if (btnVoltar) {
 window.confirmarVinculo = async function(coordId, nomeCoord) {
     if (!confirm(`Deseja definir ${nomeCoord} como coordenador?`)) return;
 
-    const url = `http://localhost:8080/coordenadores/${coordId}/cursos/${cursoId}`;
+    const url = `https://back-end-projeto-integrador.onrender.com/coordenadores/${coordId}/cursos/${cursoId}`;
 
     try {
         const response = await fetch(url, {
@@ -62,7 +62,7 @@ window.confirmarVinculo = async function(coordId, nomeCoord) {
 // --- BUSCAR COORDENADORES ---
 async function loadCoordinators() {
     try {
-        const response = await fetch('http://localhost:8080/coordenadores', {
+        const response = await fetch('https://back-end-projeto-integrador.onrender.com/coordenadores', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
