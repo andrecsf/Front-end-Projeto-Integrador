@@ -1,6 +1,6 @@
 // perfilCursoCoordenador.js
 
-const API = 'http://localhost:8080';
+const API = 'https://back-end-projeto-integrador.onrender.com';
 
 
 const token = localStorage.getItem('token');
