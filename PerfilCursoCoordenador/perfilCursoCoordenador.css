@@ -1,6 +1,4 @@
-/* =============================
-   VARIÁVEIS (herda do sistema)
-============================= */
+
 :root {
     --primary-blue: #2563eb;
     --sidebar-blue: #1d4ed8;
@@ -16,9 +14,7 @@
     --transition-duration: 0.3s;
 }
 
-/* =============================
-   RESET & BASE
-============================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -36,9 +32,7 @@ body {
     min-height: 100vh;
 }
 
-/* =============================
-   SIDEBAR
-============================= */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -165,9 +159,7 @@ body {
     color: var(--white);
 }
 
-/* =============================
-   MAIN CONTENT
-============================= */
+
 .main-content {
     flex: 1;
     margin-right: var(--sidebar-width);
@@ -178,9 +170,6 @@ body {
     margin-right: var(--sidebar-width-collapsed);
 }
 
-/* =============================
-   HEADER
-============================= */
 .top-header {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -215,9 +204,7 @@ body {
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* =============================
-   CONTENT PADDING
-============================= */
+
 .content-padding {
     padding: 24px 36px;
     display: flex;
@@ -225,9 +212,7 @@ body {
     gap: 24px;
 }
 
-/* =============================
-   CARD DE INFORMAÇÕES DO CURSO
-============================= */
+
 .course-info-card {
     background: var(--white);
     border-radius: 12px;
@@ -678,9 +663,7 @@ body {
     color: var(--text-muted);
     font-size: 0.9rem;
 }
-/* =============================
-   RESPONSIVO
-============================= */
+
 @media (max-width: 768px) {
     .content-padding {
         padding: 16px 18px;
