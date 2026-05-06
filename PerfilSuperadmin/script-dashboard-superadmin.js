@@ -1,13 +1,9 @@
-/**
- * ELEMENTOS DO DOM
- */
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 const API_BASE_URL = 'http://localhost:8080'; 
 
-/**
- * INICIALIZAÇÃO
- */
+
 document.addEventListener('DOMContentLoaded', () => {
     // Verificações de segurança
     const token = localStorage.getItem('token');
@@ -35,9 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5 * 60 * 1000);
 });
 
-/**
- * AÇÕES RÁPIDAS
- */
+
 function configurarAcoesRapidas() {
     const botoesAcao = document.querySelectorAll('.action-btn');
 
@@ -80,9 +74,7 @@ function configurarAcoesRapidas() {
     }
 }
 
-/**
- * BUSCA DE DADOS E KPIS
- */
+
 async function loadSystemData() {
     const token = localStorage.getItem('token');
     const headers = { 'Authorization': `Bearer ${token}` };
@@ -112,9 +104,7 @@ async function loadSystemData() {
     }
 }
 
-/**
- * MONITORAMENTO DE SAÚDE DO SISTEMA (ACTUATOR)
- */
+
 async function checkSystemHealth() {
     const sStatus = document.getElementById('status-server');
     const sDetail = document.getElementById('detail-server');
@@ -189,9 +179,7 @@ async function checkSystemHealth() {
     }
 }
 
-/**
- * MENU E FUNÇÕES DE UI
- */
+
 function toggleMenu() {
     if (sidebar && mainContent) {
         sidebar.classList.toggle('collapsed');
