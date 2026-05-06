@@ -1,4 +1,4 @@
-const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com";
 
 // --- CONFIGURAÇÃO INICIAL ---
 const urlParams = new URLSearchParams(window.location.search);
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     carregarCategorias();
-    setupSidebar();
 });
 
 // --- 1. CARREGAR CATEGORIAS DO CURSO ---
@@ -55,7 +54,6 @@ async function carregarCategorias() {
 
         if (response.ok) {
             const todasCategorias = await response.json();
-            // Filtra para mostrar apenas as deste curso
             const filtradas = todasCategorias.filter(cat => cat.cursoId == cursoId);
             renderizarLista(filtradas);
         } else if (response.status === 403) {
@@ -119,7 +117,7 @@ form.addEventListener('submit', async function(e) {
         if (response.ok) {
             alert('Categoria salva com sucesso!');
             form.reset();
-            carregarCategorias(); // Recarrega a lista
+            carregarCategorias();
         } else {
             const erro = await response.json();
             alert("Erro ao salvar: " + (erro.message || "Verifique os dados."));
