@@ -137,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCoordinatorData(coordinatorId);
 });
 
+/**
+ * Função para buscar dados do coordenador no backend
+ */
 async function fetchCoordinatorFromBackend(coordinatorId) {
     try {
         const response = await fetch(`/api/coordinators/${coordinatorId}`);

@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     contagemPorCategoria[cat] = (contagemPorCategoria[cat] || 0) + 1;
   });
 
-  // Se não houver submissões ainda, usa as categorias cadastradas com valor 0
+  
   const dadosCategoria = Object.keys(contagemPorCategoria).length > 0
     ? Object.entries(contagemPorCategoria).map(([nome, valor], i) => ({
         nome, valor, cor: CORES[i % CORES.length]
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const elBanco = document.getElementById('status-banco');
   const elUltimaAtividade = document.getElementById('status-ultima-atividade');
 
-  // Se os dados já carregaram acima, o servidor e banco estão online
+  
   const backendOnline = submissoes !== null;
 
   if (elServidor) {
