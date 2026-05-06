@@ -1,11 +1,7 @@
-// =========================
-// CONFIGURAÇÕES DE API
-// =========================
+
 const API_BASE_URL = "http://localhost:8080"; 
 
-// =========================
-// ELEMENTOS DO DOM
-// =========================
+
 const userList      = document.getElementById('user-list');
 const searchInput   = document.getElementById('search-input');
 const filterBtns    = document.querySelectorAll('.filter-btn');
@@ -23,17 +19,13 @@ const statCoords = document.getElementById('stat-coords');
 const btnNovoAluno       = document.getElementById('btnNovoAluno');
 const btnNovoCoordenador = document.getElementById('btnNovoCoordenador');
 
-// =========================
-// ESTADO GLOBAL E TOKEN
-// =========================
+
 let usuarios = [];
 let filtroAtivo   = "todos";
 let idParaExcluir = null;
 let tipoParaExcluir = null;
 
-// =========================
-// HELPERS
-// =========================
+
 function getIniciais(nome) {
     if (!nome) return "?";
     return nome.trim().split(' ').filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('');
@@ -72,9 +64,7 @@ async function fetchProtegido(url, options = {}) {
     return response;
 }
 
-// =========================
-// BUSCA DE DADOS (BACKEND)
-// =========================
+
 async function carregarUsuarios() {
     try {
         const [resAlunos, resCoords] = await Promise.all([
@@ -103,9 +93,7 @@ async function carregarUsuarios() {
     }
 }
 
-// =========================
-// EXCLUSÃO (BACKEND)
-// =========================
+
 async function excluirUsuarioNoBackend() {
     if (!idParaExcluir || !tipoParaExcluir) return;
     const rota = tipoParaExcluir === 'aluno' ? 'alunos' : 'coordenadores';
@@ -120,9 +108,7 @@ async function excluirUsuarioNoBackend() {
     }
 }
 
-// =========================
-// RENDERIZAÇÃO E FILTROS
-// =========================
+
 function renderUsuarios(lista) {
     if (lista.length === 0) {
         userList.innerHTML = `
@@ -172,9 +158,7 @@ function updateStats() {
     statCoords.textContent = usuarios.filter(u => u.tipo === 'coordenador').length;
 }
 
-// =========================
-// MODAL DE EXCLUSÃO
-// =========================
+
 function confirmarExclusao(id, nome, tipo) {
     idParaExcluir   = id;
     tipoParaExcluir = tipo;
@@ -188,9 +172,7 @@ function fecharModal() {
     tipoParaExcluir = null;
 }
 
-// =========================
-// MODAL DE CADASTRO GENÉRICO
-// =========================
+
 function criarModalCadastro({ titulo, cor, campos, onSubmit }) {
     // Remove modal anterior se existir
     const existente = document.getElementById('modalCadastroOverlay');
@@ -277,9 +259,7 @@ function criarModalCadastro({ titulo, cor, campos, onSubmit }) {
     });
 }
 
-// =========================
-// CADASTRO DE ALUNO
-// =========================
+
 function abrirModalNovoAluno() {
     criarModalCadastro({
         titulo: '➕ Novo Aluno',
@@ -313,9 +293,7 @@ function abrirModalNovoAluno() {
     });
 }
 
-// =========================
-// CADASTRO DE COORDENADOR
-// =========================
+
 function abrirModalNovoCoordenador() {
     criarModalCadastro({
         titulo: '➕ Novo Coordenador',
@@ -344,9 +322,7 @@ function abrirModalNovoCoordenador() {
     });
 }
 
-// =========================
-// EVENT LISTENERS
-// =========================
+
 btnConfirmar.addEventListener('click', excluirUsuarioNoBackend);
 btnCancelar.addEventListener('click', fecharModal);
 searchInput.addEventListener('input', aplicarFiltros);
