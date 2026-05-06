@@ -11,7 +11,6 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-// --- ELEMENTOS DO DOM ---
 const coordinatorDisplay = document.getElementById('coordinator-display');
 const categoriesList = document.getElementById('categories-list');
 const studentsList = document.getElementById('students-list');
@@ -28,7 +27,6 @@ const resultsSearchAll = document.getElementById('results-search-all-students');
 const btnManageCoordinator = document.getElementById('btn-manage-coordinator');
 const btnAddCategory = document.getElementById('btn-add-category');
 
-// --- INICIALIZAÇÃO ---
 async function init() {
     if (!courseId) {
         window.location.href = '../GerenciarCurso/gerenciarCursos.html';
