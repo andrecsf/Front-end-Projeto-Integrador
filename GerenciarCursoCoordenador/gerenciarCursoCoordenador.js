@@ -1,15 +1,11 @@
-// =========================
-// ELEMENTOS
-// =========================
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
 const courseList = document.getElementById('course-list');
 const totalCourses = document.getElementById('total-courses');
 const searchInput = document.getElementById('search-input');
 
-// =========================
-// ROTAS
-// =========================
+
 const ROTAS = {
     inicio: "../Telainicial/telaInicial.html",
     perfil: "#",
@@ -21,9 +17,7 @@ const ROTAS = {
 
 let courses = [];
 
-// =========================
-// SIDEBAR TOGGLE
-// =========================
+
 const sidebarToggle = document.getElementById('sidebarToggle');
 if (sidebarToggle) {
     sidebarToggle.addEventListener('click', () => {
@@ -38,9 +32,7 @@ if (localStorage.getItem('sidebarCollapsed') === 'true') {
     mainContent?.classList.add('expanded');
 }
 
-// =========================
-// BOTÃO VOLTAR
-// =========================
+
 const btnVoltar = document.getElementById('btnVoltar');
 if (btnVoltar) {
     btnVoltar.style.cursor = 'pointer';
@@ -49,9 +41,6 @@ if (btnVoltar) {
     });
 }
 
-// =========================
-// CARREGAR CURSOS DO BACKEND
-// =========================
 async function loadCourses() {
     try {
         const token = localStorage.getItem('token');
@@ -86,9 +75,7 @@ async function loadCourses() {
     }
 }
 
-// =========================
-// RENDERIZAR CARDS DE CURSOS
-// =========================
+
 function renderCourses(courseArray) {
     if (courseArray.length === 0) {
         courseList.innerHTML = `
@@ -116,16 +103,12 @@ function renderCourses(courseArray) {
     `).join('');
 }
 
-// =========================
-// ESTATÍSTICAS
-// =========================
+
 function updateStats() {
     if (totalCourses) totalCourses.textContent = courses.length;
 }
 
-// =========================
-// BUSCA DINÂMICA
-// =========================
+
 if (searchInput) {
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase();
@@ -139,16 +122,12 @@ if (searchInput) {
     });
 }
 
-// =========================
-// REDIRECIONAR PARA PERFIL DO CURSO
-// =========================
+
 function openCourseDetails(courseId) {
     window.location.href = `${ROTAS.perfilCurso}?id=${courseId}`;
 }
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+
 document.addEventListener('DOMContentLoaded', () => {
     loadCourses();
 
