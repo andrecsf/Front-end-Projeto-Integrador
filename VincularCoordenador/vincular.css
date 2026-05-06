@@ -14,7 +14,7 @@
     --transition-duration: 0.3s;
 }
 
-/* --- RESET E BASE --- */
+
 * {
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- SIDEBAR --- */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -48,7 +48,7 @@ body {
     overflow: hidden;
 }
 
-/* HEADER DO MENU */
+
 .sidebar-header {
     cursor: pointer;
     padding: 20px;
@@ -69,7 +69,7 @@ body {
     flex-shrink: 0;
 }
 
-/* NAV LINKS */
+
 .sidebar-nav {
     flex: 1;
     overflow-y: auto;
@@ -107,7 +107,7 @@ body {
     flex-shrink: 0;
 }
 
-/* FOOTER DO SIDEBAR — LOGOUT FIXO NO RODAPÉ */
+
 .sidebar-footer {
     border-top: 1px solid rgba(255,255,255,0.15);
     padding: 16px 20px;
@@ -150,14 +150,14 @@ body {
     color: var(--white);
 }
 
-/* --- TEXTOS QUE SOMEM AO COLAPSAR --- */
+
 .menu-text {
     transition: opacity var(--transition-duration) ease, width var(--transition-duration) ease;
     white-space: nowrap;
     overflow: hidden;
 }
 
-/* ESTADO COLAPSADO */
+
 .sidebar.collapsed {
     width: var(--sidebar-width-collapsed);
 }
@@ -185,7 +185,7 @@ body {
     padding: 20px 0;
 }
 
-/* --- CONTEÚDO PRINCIPAL --- */
+
 .main-content {
     flex: 1;
     margin-right: var(--sidebar-width);
@@ -198,7 +198,7 @@ body {
     margin-right: var(--sidebar-width-collapsed);
 }
 
-/* HEADER PRINCIPAL */
+
 .main-header {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -231,12 +231,12 @@ body {
     transform: scale(1.15);
 }
 
-/* --- BODY DO CONTEÚDO --- */
+
 .content-body {
     padding: 30px 40px;
 }
 
-/* --- SEÇÃO / CARD --- */
+
 .section {
     background: var(--white);
     border-radius: 8px;
@@ -255,7 +255,7 @@ body {
     gap: 15px;
 }
 
-/* --- BUSCA --- */
+
 .search-box {
     position: relative;
     max-width: 350px;
@@ -284,7 +284,7 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* --- CARDS DE COORDENADORES --- */
+
 .items-list {
     display: flex;
     flex-direction: column;
@@ -332,7 +332,7 @@ body {
     font-size: 0.85rem;
 }
 
-/* --- BOTÃO VINCULAR --- */
+
 .btn-add-item {
     background-color: var(--green);
     color: var(--white) !important;
@@ -367,7 +367,7 @@ body {
     color: var(--text-muted);
 }
 
-/* --- RESPONSIVIDADE --- */
+
 @media (max-width: 768px) {
     .sidebar {
         width: var(--sidebar-width-collapsed);
