@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pendingGrid   = document.getElementById('pendingGrid');
     const contador      = document.getElementById('contadorPendentes');
 
-   
     function toggleMenu() {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
     restoreMenuState();
 
-    
     function getToken() {
         return localStorage.getItem('token');
     }
@@ -37,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!token) {
             console.warn("Sem token, redirecionando...");
-            window.location.href = "/login.html";
+            window.location.href = "../Login/index.html";
             return Promise.reject("Sem token");
         }
 
@@ -51,12 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
-    const API_URL_SUBMISSOES = 'https://back-end-projeto-integrador.onrender.com/';
+    const API_URL_SUBMISSOES = 'https://back-end-projeto-integrador.onrender.com/submissoes';
 
     async function carregarPendentes() {
         try {
-            
             const response = await authFetch(API_URL_SUBMISSOES);
 
             if (response.status === 403) {
@@ -82,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-   
     function renderizarCards(pendentes) {
         pendingGrid.innerHTML = ''; 
         
@@ -131,11 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
     window.abrirValidacao = function(idSubmissao) {
         window.location.href = `../ValidarCertificado/validar-certificado.html?id=${idSubmissao}`;
     }
 
-    
     carregarPendentes();
 });
