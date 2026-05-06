@@ -28,6 +28,14 @@ const resultsSearchAll = document.getElementById('results-search-all-students');
 const btnManageCoordinator = document.getElementById('btn-manage-coordinator');
 const btnAddCategory = document.getElementById('btn-add-category');
 
+// Elementos do Modal de Edição e Exclusão
+const btnEdit = document.getElementById('btn-edit');
+const btnDelete = document.getElementById('btn-delete');
+const modalEditar = document.getElementById('modal-editar');
+const closeModalEditar = document.getElementById('close-modal-editar');
+const btnCancelarEdicao = document.getElementById('btn-cancelar-edicao');
+const formEditarCurso = document.getElementById('form-editar-curso');
+
 async function init() {
     if (!courseId) {
         window.location.href = '../GerenciarCurso/gerenciarCursos.html';
@@ -150,7 +158,7 @@ function renderStudents(list) {
         </div>`).join('');
 }
 
-// --- FUNÇÕES DE REMOÇÃO (expostas no window para funcionar no onclick do HTML dinâmico) ---
+// --- FUNÇÕES DE REMOÇÃO ---
 
 window.deleteCategory = async function(id) {
     if (!confirm("Tem certeza que deseja excluir esta categoria?")) return;
@@ -269,6 +277,94 @@ window.vincularAluno = async function(alunoId) {
         console.error("Erro ao vincular:", error);
     }
 };
+
+// --- EDIÇÃO E EXCLUSÃO DO CURSO ---
+
+// Abrir modal de edição e preencher com os dados atuais
+btnEdit?.addEventListener('click', () => {
+    if (currentCourse) {
+        document.getElementById('edit-nome').value = currentCourse.nome || '';
+        document.getElementById('edit-carga-horaria').value = currentCourse.cargaHorariaMax || '';
+        document.getElementById('edit-descricao').value = currentCourse.descricao || '';
+        modalEditar.style.display = 'block';
+    }
+});
+
+// Fechar modal de edição
+const fecharModalEdicao = () => { 
+    modalEditar.style.display = 'none'; 
+};
+
+closeModalEditar?.addEventListener('click', fecharModalEdicao);
+btnCancelarEdicao?.addEventListener('click', fecharModalEdicao);
+
+// Fechar modais clicando fora
+window.addEventListener('click', (e) => {
+    if (e.target === modalEditar) fecharModalEdicao();
+    if (e.target === modalVincular) modalVincular.style.display = 'none';
+});
+
+// Submeter a edição (PUT)
+formEditarCurso?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Converte explicitamente a carga horária para inteiro
+    const payload = {
+        nome: document.getElementById('edit-nome').value,
+        cargaHorariaMax: parseInt(document.getElementById('edit-carga-horaria').value, 10),
+        descricao: document.getElementById('edit-descricao').value
+    };
+
+    try {
+        const response = await fetch(`${BASE_URL}/cursos/${courseId}`, {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert('Curso atualizado com sucesso!');
+            fecharModalEdicao();
+            await loadCourseDetails(); 
+        } else {
+            const errorMsg = await response.text();
+            let parsedError = errorMsg;
+            try {
+                const jsonError = JSON.parse(errorMsg);
+                parsedError = jsonError.message || jsonError.error || errorMsg;
+            } catch (err) { } 
+            
+            alert(`Erro ao atualizar curso: ${parsedError}`);
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar curso:", error);
+        alert("Erro ao conectar com o servidor.");
+    }
+});
+
+// Lógica de Exclusão (DELETE)
+btnDelete?.addEventListener('click', async () => {
+    const confirmacao = confirm(`ATENÇÃO: Tem certeza que deseja excluir o curso "${currentCourse?.nome}"?\n\nEsta ação não pode ser desfeita.`);
+    
+    if (confirmacao) {
+        try {
+            const response = await fetch(`${BASE_URL}/cursos/${courseId}`, {
+                method: 'DELETE',
+                headers: headers
+            });
+            
+            if (response.ok || response.status === 204) {
+                alert("Curso excluído com sucesso!");
+                window.location.href = '../GerenciarCurso/gerenciarCursos.html';
+            } else {
+                alert("Erro ao excluir o curso. Verifique se existem coordenadores, alunos ou categorias ainda vinculados a ele antes de tentar excluir.");
+            }
+        } catch (error) {
+            console.error("Erro ao excluir curso:", error);
+            alert("Erro de conexão com o servidor.");
+        }
+    }
+});
 
 // --- NAVEGAÇÃO E FILTROS ---
 
