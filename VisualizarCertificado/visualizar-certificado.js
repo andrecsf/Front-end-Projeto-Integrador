@@ -16,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentBlobUrl  = null;
 
-    /* =====================================================
-       SIDEBAR
-    ===================================================== */
+   
     function toggleMenu() {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
@@ -36,9 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
     restoreMenuState();
 
-    /* =====================================================
-       AUTENTICAÇÃO
-    ===================================================== */
+  
     function getToken() {
         return localStorage.getItem('token');
     }
@@ -67,9 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return res;
     }
 
-    /* =====================================================
-       ESTADOS DA TELA
-    ===================================================== */
+   
     function mostrarLoading() {
         pdfLoading.style.display = 'flex';
         pdfError.style.display   = 'none';
@@ -89,9 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pdfWrapper.style.display = 'block';
     }
 
-    /* =====================================================
-       PREENCHER INFOS DO DOCUMENTO
-    ===================================================== */
+ 
     function preencherInfo(dados) {
         // dados vêm da query string: nomeAluno, dataEnvio, horasAproveitadas
         if (dados.nomeAluno) {
@@ -154,9 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* =====================================================
-       EXPANDIR (MODO FOCO)
-    ===================================================== */
+    
     window.toggleExpand = function () {
         const isFullscreen = pdfWrapper.classList.toggle('fullscreen-active');
         expandIcon.classList.toggle('fa-maximize', !isFullscreen);
@@ -164,9 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = isFullscreen ? 'hidden' : 'auto';
     };
 
-    /* =====================================================
-       SAIR / VOLTAR
-    ===================================================== */
+  
     window.handleExit = function () {
         // Libera o blob antes de sair
         if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
