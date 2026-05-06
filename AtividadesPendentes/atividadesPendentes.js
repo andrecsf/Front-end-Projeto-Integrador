@@ -3,18 +3,14 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // =========================
-    // ELEMENTOS DOM
-    // =========================
+    
     const sidebar       = document.getElementById('sidebar');
     const mainContent   = document.getElementById('mainContent');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const pendingGrid   = document.getElementById('pendingGrid');
     const contador      = document.getElementById('contadorPendentes');
 
-    // =========================
-    // LÓGICA DO MENU
-    // =========================
+   
     function toggleMenu() {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
@@ -31,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarToggle) sidebarToggle.addEventListener('click', toggleMenu);
     restoreMenuState();
 
-    // =========================
-    // 🔐 AUTH (NOVO)
-    // =========================
+    
     function getToken() {
         return localStorage.getItem('token');
     }
@@ -57,14 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================
-    // API
-    // =========================
+    
     const API_URL_SUBMISSOES = 'http://localhost:8080/submissoes';
 
     async function carregarPendentes() {
         try {
-            // ✅ CORRIGIDO AQUI
+            
             const response = await authFetch(API_URL_SUBMISSOES);
 
             if (response.status === 403) {
@@ -90,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // =========================
-    // RENDER
-    // =========================
+   
     function renderizarCards(pendentes) {
         pendingGrid.innerHTML = ''; 
         
@@ -141,15 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================
-    // NAVEGAÇÃO
-    // =========================
+    
     window.abrirValidacao = function(idSubmissao) {
         window.location.href = `../ValidarCertificado/validar-certificado.html?id=${idSubmissao}`;
     }
 
-    // =========================
-    // INIT
-    // =========================
+    
     carregarPendentes();
 });
