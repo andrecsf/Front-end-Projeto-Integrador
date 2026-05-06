@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
     <div class="background-overlay">
         <div class="login-container">
             <header>
-                <img src="https://www.sp.senac.br/o/senac-theme/images/logo_senac_default.png" alt="Logo Senac" class="logo">
+                <img src="https://www.sp.senac.br/o/senac-theme/images/logo_senac_default.png" alt="Logo Senac"
+                    class="logo">
                 <h1>Bem-vindo</h1>
                 <p>Faça login para ter acesso à sua conta.</p>
             </header>
@@ -49,5 +52,14 @@
     </div>
 
     <script src="script.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../service-worker.js')
+                .then(() => console.log('Service Worker registrado!'))
+                .catch(err => console.error('Erro ao registrar SW:', err));
+        }
+    </script>
 </body>
+
 </html>
