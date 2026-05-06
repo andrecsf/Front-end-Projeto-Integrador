@@ -14,9 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     relatorios: "../GerenciarCurso/gerenciarCursos.html"
   };
 
-  // =========================
-  // HELPERS
-  // =========================
+  
   async function fetchAPI(endpoint) {
     const res = await fetch(`http://localhost:8080${endpoint}`, {
       headers: {
@@ -33,9 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (el) el.textContent = valor;
   }
 
-  // =========================
-  // BUSCAR DADOS DO BACKEND
-  // =========================
+  
   let submissoes = [];
   let alunos = [];
   let coordenadores = [];
@@ -54,25 +50,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error('Erro ao carregar dados do dashboard:', e);
   }
 
-  // =========================
-  // CALCULAR TOTAIS
-  // =========================
+  
   const totalUsuarios = alunos.length + coordenadores.length + admins.length;
   const totalAtividades = submissoes.length;
   const totalAprovadas = submissoes.filter(s => s.status === 'APROVADO').length;
   const totalPendentes = submissoes.filter(s => s.status === 'PENDENTE').length;
 
-  // =========================
-  // ATUALIZAR CARDS DO TOPO
-  // =========================
+  
   setCard('card-usuarios', totalUsuarios);
   setCard('card-atividades', totalAtividades);
   setCard('card-aprovadas', totalAprovadas);
   setCard('card-pendentes', totalPendentes);
 
-  // =========================
-  // ATUALIZAR BANNER
-  // =========================
+  
   const banner = document.querySelector('.banner p');
   if (banner) {
     banner.textContent = totalPendentes > 0
@@ -80,9 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       : 'Nenhuma atividade pendente no momento ✅';
   }
 
-  // =========================
-  // GRÁFICO: ATIVIDADES POR CATEGORIA
-  // =========================
+  
   const CORES = ["#4CAF50", "#2196F3", "#9C27B0", "#FF9800", "#F44336", "#00BCD4", "#E91E63", "#FF5722"];
 
   // Conta submissões por categoria
@@ -142,9 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // =========================
-  // GRÁFICO: TENDÊNCIA MENSAL
-  // =========================
+  
   const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
   // Agrupa submissões por mês
@@ -189,9 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // =========================
-  // GRÁFICO: STATUS DAS ATIVIDADES
-  // =========================
+  
   const totalRejeitadas = submissoes.filter(s => s.status === 'REJEITADO').length;
 
   const ctxStatus = document.getElementById("statusChart");
@@ -212,9 +196,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // =========================
-  // GRÁFICO: DISTRIBUIÇÃO DE USUÁRIOS
-  // =========================
+  
   const ctxUsuarios = document.getElementById("usuariosChart");
   if (ctxUsuarios) {
     new Chart(ctxUsuarios, {
@@ -233,9 +215,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // =========================
-  // STATUS DO SISTEMA
-  // =========================
+  
   const elServidor = document.getElementById('status-servidor');
   const elBanco = document.getElementById('status-banco');
   const elUltimaAtividade = document.getElementById('status-ultima-atividade');
@@ -291,9 +271,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // =========================
-  // AÇÕES RÁPIDAS
-  // =========================
+ 
   document.querySelectorAll(".action-card").forEach(card => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -302,9 +280,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // =========================
-  // CARDS DO TOPO (clicáveis)
-  // =========================
+  
   document.querySelectorAll(".card").forEach(card => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -313,9 +289,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // =========================
-  // SIDEBAR TOGGLE
-  // =========================
+  
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
 
