@@ -1,6 +1,4 @@
-/* 
-   RELATÓRIOS DE ALUNOS - STYLE
-*/
+
 
 :root {
     --primary-blue: #2563EB;
@@ -39,9 +37,7 @@ body {
     width: 100%;
 }
 
-/* ========================
-   SIDEBAR
-   ======================== */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -175,9 +171,7 @@ body {
 .footer-text a      { color: rgba(255,255,255,0.75); text-decoration: none; }
 .footer-text a:hover{ color: white; }
 
-/* ========================
-   CONTEÚDO PRINCIPAL
-   ======================== */
+
 .main-content {
     flex: 1;
     display: flex;
@@ -233,9 +227,7 @@ body {
     padding: 30px 40px;
 }
 
-/* ========================
-   BUSCA
-   ======================== */
+
 .search-container {
     width: 100%;
     position: relative;
@@ -266,9 +258,7 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* ========================
-   RESUMO DE STATUS
-   ======================== */
+
 .status-summary {
     display: flex;
     justify-content: center;
@@ -298,9 +288,7 @@ body {
     font-weight: 500;
 }
 
-/* ========================
-   GRID DE ALUNOS
-   ======================== */
+
 .students-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -377,9 +365,7 @@ body {
 .trend-down  { color: var(--orange); position: absolute; right: 0; top: 5px; }
 .trend-check { color: var(--green);  position: absolute; right: 0; top: 5px; }
 
-/* ========================
-   BARRA DE PROGRESSO
-   ======================== */
+
 .progress-section {
     display: flex;
     flex-direction: column;
@@ -412,9 +398,7 @@ body {
 .fill-orange { background-color: var(--orange); }
 .fill-green  { background-color: var(--green); }
 
-/* ========================
-   ESTADO DE LOADING
-   ======================== */
+
 .loading-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -429,9 +413,7 @@ body {
     color: var(--primary-blue);
 }
 
-/* ========================
-   ESTADO VAZIO / ERRO
-   ======================== */
+
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -453,14 +435,10 @@ body {
     font-size: 0.95rem;
 }
 
-/* ========================
-   OVERLAY (desativado)
-   ======================== */
+
 .menu-overlay { display: none !important; }
 
-/* ========================
-   RESPONSIVO
-   ======================== */
+
 @media (max-width: 1100px) {
     .students-grid { grid-template-columns: repeat(2, 1fr); }
 }
