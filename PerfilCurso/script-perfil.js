@@ -41,7 +41,7 @@ async function init() {
 
 async function loadCourseDetails() {
     try {
-        const response = await fetch(`http://localhost:8080/cursos/${courseId}`, { headers });
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.comcursos/${courseId}`, { headers });
         if (response.ok) {
             currentCourse = await response.json();
             document.getElementById('course-name-display').innerText = currentCourse.nome || "N/A";
@@ -57,7 +57,7 @@ async function loadCourseDetails() {
 
 async function loadCategories() {
     try {
-        const response = await fetch(`http://localhost:8080/categorias`, { headers });
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/categorias`, { headers });
         if (response.ok) {
             const allCategories = await response.json();
             const filtered = allCategories.filter(cat => cat.cursoId === Number(courseId));
@@ -71,7 +71,7 @@ async function loadCategories() {
 async function loadStudents() {
     try {
         // Busca os alunos vinculados a este curso específico
-        const response = await fetch(`http://localhost:8080/alunos/curso/${courseId}`, { headers });
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/curso/${courseId}`, { headers });
         if (response.ok) {
             allStudents = await response.json();
             renderStudents(allStudents);
@@ -159,7 +159,7 @@ async function removeCoordinator(coordId) {
     if (!confirm("Tem certeza que deseja desvincular o coordenador deste curso?")) return;
     
     try {
-        const response = await fetch(`http://localhost:8080/coordenadores/${coordId}/cursos/${courseId}`, {
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.comcoordenadores/${coordId}/cursos/${courseId}`, {
             method: 'DELETE',
             headers: headers
         });
@@ -175,7 +175,7 @@ async function removeStudent(alunoId) {
     if (!confirm("Deseja desvincular este aluno do curso?")) return;
     try {
         // Chamando o endpoint que configuramos no AlunoResource
-        const response = await fetch(`http://localhost:8080/alunos/${alunoId}/cursos/${courseId}`, {
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/${alunoId}/cursos/${courseId}`, {
             method: 'DELETE',
             headers: headers
         });
@@ -207,7 +207,7 @@ inputSearchAll?.addEventListener('input', (e) => {
 
 async function searchGlobalStudents(term) {
     try {
-        const response = await fetch(`http://localhost:8080/alunos`, { headers });
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos`, { headers });
         if (response.ok) {
             const list = await response.json();
             const filtered = list.filter(aluno => 
@@ -240,7 +240,7 @@ function renderGlobalResults(list) {
 
 window.vincularAluno = async function(alunoId) {
     try {
-        const response = await fetch(`http://localhost:8080/alunos/${alunoId}/cursos/${courseId}`, {
+        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/${alunoId}/cursos/${courseId}`, {
             method: 'POST',
             headers: headers
         });
