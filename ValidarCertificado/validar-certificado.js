@@ -223,7 +223,7 @@ function aplicarStatusBadge(status) {
 async function getData() {
   if (!submissaoId) throw new Error('ID da submissão não informado na URL.');
   
-  const res = await authFetch(`http://localhost:8080/submissoes/${submissaoId}`);
+  const res = await authFetch(`https://back-end-projeto-integrador.onrender.com/submissoes/${submissaoId}`);
 
   if (!res.ok) {
     throw new Error(`Erro ao buscar submissão (HTTP ${res.status})`);
@@ -353,7 +353,7 @@ modalConfirm.addEventListener('click', async () => {
       : { method: 'PUT' };
 
     const res = await authFetch(
-      `http://localhost:8080/submissoes/${submissaoId}/${endpoint}`,
+      `https://back-end-projeto-integrador.onrender.com/submissoes/${submissaoId}/${endpoint}`,
       options
     );
 
