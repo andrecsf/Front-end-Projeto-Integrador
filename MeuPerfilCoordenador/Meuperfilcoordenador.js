@@ -1,13 +1,9 @@
-// =========================
-// ELEMENTOS
-// =========================
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
 const sidebarToggle = document.getElementById('sidebarToggle');
 
-// =========================
-// SIDEBAR TOGGLE
-// =========================
+
 if (sidebarToggle) {
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
@@ -21,9 +17,6 @@ if (localStorage.getItem('sidebarCollapsed') === 'true') {
     mainContent?.classList.add('expanded');
 }
 
-// =========================
-// BOTÃO VOLTAR
-// =========================
 const btnVoltar = document.getElementById('btnVoltar');
 if (btnVoltar) {
     btnVoltar.style.cursor = 'pointer';
@@ -32,9 +25,7 @@ if (btnVoltar) {
     });
 }
 
-// =========================
-// AUTENTICAÇÃO
-// =========================
+
 const token = localStorage.getItem('token');
 
 if (!token) {
@@ -42,9 +33,7 @@ if (!token) {
     window.location.href = '../Login/index.html';
 }
 
-// =========================
-// CARREGAR PERFIL
-// =========================
+
 async function loadProfileData() {
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -72,9 +61,7 @@ async function loadProfileData() {
     }
 }
 
-// =========================
-// RENDERIZAR PERFIL
-// =========================
+
 function renderProfile(data) {
     document.getElementById('profile-name').textContent = data.name;
     document.getElementById('sidebar-user-name').textContent = data.name;
@@ -83,9 +70,7 @@ function renderProfile(data) {
     document.getElementById('profile-avatar').textContent = data.name.charAt(0).toUpperCase();
 }
 
-// =========================
-// CARREGAR CURSOS
-// =========================
+
 async function loadMyCourses(coordId) {
     try {
         const response = await fetch('http://localhost:8080/cursos', {
@@ -109,9 +94,7 @@ async function loadMyCourses(coordId) {
     }
 }
 
-// =========================
-// RENDERIZAR CURSOS
-// =========================
+
 function renderCourses(cursos) {
     const container = document.getElementById('courses-list');
 
@@ -142,16 +125,12 @@ function renderCourses(cursos) {
     `).join('');
 }
 
-// =========================
-// ERRO GENÉRICO
-// =========================
+
 function showError(msg) {
     document.getElementById('profile-name').textContent = 'Erro';
     document.getElementById('courses-list').innerHTML =
         `<div class="empty-state"><p>${msg}</p></div>`;
 }
 
-// =========================
-// INICIALIZAR
-// =========================
+
 document.addEventListener('DOMContentLoaded', loadProfileData);
