@@ -94,7 +94,7 @@ function renderCoordinator(coord) {
                 <i class="fas fa-user-tie" style="font-size: 2rem; color: #2563eb;"></i>
                 <div>
                     <strong>${coord.nome || coord.name}</strong>
-                    <p>${coord.email} | Matrícula: ${coord.matricula || coord.id}</p>
+                    <p>${coord.email} | ID: ${coord.id}</p>
                 </div>
             </div>
             <div class="item-actions">
@@ -150,12 +150,28 @@ function renderStudents(list) {
         </div>`).join('');
 }
 
-// --- FUNÇÕES DE REMOÇÃO (API) ---
+// --- FUNÇÕES DE REMOÇÃO (expostas no window para funcionar no onclick do HTML dinâmico) ---
 
-async function removeCoordinator(coordId) {
+window.deleteCategory = async function(id) {
+    if (!confirm("Tem certeza que deseja excluir esta categoria?")) return;
+    try {
+        const response = await fetch(`${BASE_URL}/categorias/${id}`, {
+            method: 'DELETE',
+            headers: headers
+        });
+        if (response.ok) {
+            await loadCategories();
+        } else {
+            alert("Não foi possível excluir. A categoria pode estar em uso.");
+        }
+    } catch (error) {
+        console.error("Erro ao excluir categoria:", error);
+    }
+};
+
+window.removeCoordinator = async function(coordId) {
     if (!coordId) return;
     if (!confirm("Tem certeza que deseja desvincular o coordenador deste curso?")) return;
-    
     try {
         const response = await fetch(`${BASE_URL}/coordenadores/${coordId}/cursos/${courseId}`, {
             method: 'DELETE',
@@ -163,13 +179,15 @@ async function removeCoordinator(coordId) {
         });
         if (response.ok) {
             await loadCourseDetails();
+        } else {
+            alert("Erro ao desvincular coordenador.");
         }
     } catch (error) {
         console.error("Erro ao remover coordenador:", error);
     }
-}
+};
 
-async function removeStudent(alunoId) {
+window.removeStudent = async function(alunoId) {
     if (!confirm("Deseja desvincular este aluno do curso?")) return;
     try {
         const response = await fetch(`${BASE_URL}/alunos/${alunoId}/cursos/${courseId}`, {
@@ -185,7 +203,7 @@ async function removeStudent(alunoId) {
     } catch (error) {
         console.error("Erro ao desvincular aluno:", error);
     }
-}
+};
 
 // --- LÓGICA DO MODAL DE VINCULAÇÃO ---
 
