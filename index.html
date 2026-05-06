@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=Login/index.html">
-    <title>Redirecionando...</title>
+    <title>SGE - Senac</title>
+    
+    <!-- Vincule o manifesto e o ícone aqui também -->
+    <link rel="manifest" href="Login/manifest.json">
+    <link rel="icon" type="image/png" href="Login/icons/launchericon-72x72.png">
+
+    <script>
+        // Registra o SW logo na entrada para o navegador ativar o botão de instalar
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+                .then(() => console.log('PWA Preparado!'))
+                .catch(err => console.error('Erro SW:', err));
+        }
+    </script>
 </head>
-
 <body>
-    <p>Redirecionando para o login...</p>
+    <p>Carregando sistema...</p>
 </body>
-
 </html>
