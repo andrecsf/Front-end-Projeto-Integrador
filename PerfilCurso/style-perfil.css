@@ -82,6 +82,27 @@ body {
     gap: 12px;
 }
 
+/* Sidebar Footer */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.sidebar-footer a:hover {
+    color: var(--white);
+}
+
 /* Main Content Styles */
 .main-content {
     flex: 1;
