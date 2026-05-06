@@ -48,7 +48,7 @@ window.confirmarVinculo = async function(coordId, nomeCoord) {
 
         if (response.ok || response.status === 204) {
             alert("Vínculo realizado com sucesso!");
-            // ✅ Nome do arquivo correto
+            //  Nome do arquivo correto
             window.location.href = `../PerfilCurso/perfil-curso.html?id=${cursoId}`;
         } else {
             alert("Erro ao vincular: status " + response.status);
