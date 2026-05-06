@@ -1,22 +1,16 @@
 /* 
-   RELATÓRIOS DE ALUNOS - SCRIPT
+   RELATÓRIOS DE ALUNOS 
    Fluxo: coordenador clica num card → vai para CoordenadorRelatorio/relatorioAluno.html?alunoId={id}
 */
 
-// =========================
-// CONFIGURAÇÕES
-// =========================
+
 const API_BASE_URL = "http://localhost:8080";
 const HORAS_OBRIGATORIAS = 200;
 
-// =========================
-// ESTADO
-// =========================
+
 let todosAlunos = [];
 
-// =========================
-// TOKEN / FETCH PROTEGIDO
-// =========================
+
 async function fetchProtegido(url, options = {}) {
     const token = localStorage.getItem('token');
 
@@ -45,9 +39,7 @@ async function fetchProtegido(url, options = {}) {
     return response;
 }
 
-// =========================
-// DESCOBRE O CURSO DO COORDENADOR LOGADO
-// =========================
+
 async function descobrirCursoId() {
     const token = localStorage.getItem('token');
     if (!token) return null;
@@ -81,9 +73,7 @@ async function descobrirCursoId() {
     }
 }
 
-// =========================
-// HELPERS
-// =========================
+
 function getIniciais(nome) {
     if (!nome) return '?';
     return nome.trim().split(' ').filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('');
@@ -110,18 +100,14 @@ function getIconeTrend(horas) {
     return '<i class="fa-solid fa-arrow-trend-down trend-down"></i>';
 }
 
-// =========================
-// CONTADORES
-// =========================
+
 function atualizarContadores(lista) {
     document.querySelector('.count-green').textContent  = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'completo').length;
     document.querySelector('.count-blue').textContent   = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'progresso').length;
     document.querySelector('.count-orange').textContent = lista.filter(a => classificarAluno(a.horasAcumuladas ?? 0) === 'atrasado').length;
 }
 
-// =========================
-// RENDERIZAR CARDS
-// =========================
+
 function renderCards(lista) {
     const studentsGrid = document.getElementById('studentsGrid');
 
@@ -164,7 +150,7 @@ function renderCards(lista) {
         </div>`;
     }).join('');
 
-    // ✅ Clique no card → redireciona para o relatório individual do aluno
+    //  Clique no card → redireciona para o relatório individual do aluno
     document.querySelectorAll('.student-card').forEach(card => {
         card.addEventListener('click', () => {
             const alunoId = card.dataset.id;
@@ -173,9 +159,7 @@ function renderCards(lista) {
     });
 }
 
-// =========================
-// FILTRO DE BUSCA
-// =========================
+
 function filtrarAlunos() {
     const termo = document.getElementById('searchInput').value.toLowerCase().trim();
     const filtrados = todosAlunos.filter(a =>
@@ -187,10 +171,7 @@ function filtrarAlunos() {
     renderCards(filtrados);
 }
 
-// =========================
-// CARREGAR ALUNOS DO BACKEND
-// (filtrados pelo curso do coordenador logado)
-// =========================
+
 async function carregarAlunos() {
     const studentsGrid = document.getElementById('studentsGrid');
 
@@ -227,9 +208,7 @@ async function carregarAlunos() {
     }
 }
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Sidebar colapsável ---

@@ -1,5 +1,5 @@
 /* 
-   DASHBOARD COORDENADOR - STYLE
+   DASHBOARD COORDENADOR 
    Layout: Sidebar Colapsável à Direita (padrão relatoriosDosAlunos)
 */
 
@@ -44,7 +44,7 @@ body {
     width: 100%;
 }
 
-/* --- CONTEÚDO PRINCIPAL --- */
+
 .main-content {
     flex: 1;
     display: flex;
@@ -100,7 +100,7 @@ body {
     opacity: 0.9;
 }
 
-/* Botão de menu removido do header — sidebar agora é colapsável */
+
 .menu-toggle {
     display: none;
 }
@@ -109,7 +109,7 @@ body {
     padding: 30px 40px;
 }
 
-/* --- SIDEBAR COLAPSÁVEL (padrão relatoriosDosAlunos) --- */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-blue);
@@ -245,7 +245,7 @@ body {
 /* Overlay mantido no DOM mas invisível */
 .menu-overlay { display: none !important; }
 
-/* --- CONTEÚDO INTERNO --- */
+
 
 /* Banner Roxo */
 .promo-banner {
