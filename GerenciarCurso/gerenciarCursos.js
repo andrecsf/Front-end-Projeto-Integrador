@@ -1,3 +1,4 @@
+const API = 'https://back-end-projeto-integrador.onrender.com';
 
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
@@ -76,9 +77,9 @@ if (btnVoltar) {
 
 async function loadCourses() {
     try {
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('token');
 
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${API}/cursos`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -139,8 +140,8 @@ function renderCourses(courseArray) {
 
 function updateStats() {
     totalCourses.textContent = courses.length;
-    activeCourses.textContent = courses.length; 
-    totalStudents.textContent = 0; 
+    activeCourses.textContent = courses.length;
+    totalStudents.textContent = 0;
 }
 
 
@@ -148,7 +149,7 @@ searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
 
     const filteredCourses = courses.filter(course =>
-        course.nome.toLowerCase().includes(searchTerm) || 
+        course.nome.toLowerCase().includes(searchTerm) ||
         (course.descricao && course.descricao.toLowerCase().includes(searchTerm))
     );
 

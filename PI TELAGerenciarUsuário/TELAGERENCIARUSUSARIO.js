@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://localhost:8080"; 
+const API_BASE_URL = "https://back-end-projeto-integrador.onrender.com"; 
 
 
 const userList      = document.getElementById('user-list');
