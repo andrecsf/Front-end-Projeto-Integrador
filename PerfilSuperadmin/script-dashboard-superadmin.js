@@ -1,7 +1,7 @@
 
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
-const API_BASE_URL = 'http://localhost:8080'; 
+const API_BASE_URL = 'https://back-end-projeto-integrador.onrender.com'; 
 
 
 document.addEventListener('DOMContentLoaded', () => {

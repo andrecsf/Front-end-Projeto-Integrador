@@ -1,3 +1,4 @@
+const API = 'https://back-end-projeto-integrador.onrender.com';
 
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
@@ -39,7 +40,7 @@ async function loadProfileData() {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const userEmail = payload.sub;
 
-        const response = await fetch('http://localhost:8080/coordenadores', {
+        const response = await fetch(`${API}/coordenadores`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -73,7 +74,7 @@ function renderProfile(data) {
 
 async function loadMyCourses(coordId) {
     try {
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${API}/cursos`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 

@@ -9,6 +9,7 @@ const token = localStorage.getItem('token'); // Recupera o token de autenticaç�
 // Elementos do novo select
 const courseSelectionGroup = document.getElementById('course-selection-group');
 const selectCurso = document.getElementById('student-course');
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com";
 
 // 2. LÓGICA DE INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function carregarCursosNoSelect() {
     try {
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${BASE_URL}/cursos`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -73,9 +74,9 @@ studentForm.addEventListener('submit', async (e) => {
     const finalCursoId = cursoIdDaUrl || (selectCurso ? selectCurso.value : null);
     
     
-    let endpoint = 'http://localhost:8080/alunos'; 
+    let endpoint = `${BASE_URL}/alunos`; 
     if (finalCursoId) {
-        endpoint = `http://localhost:8080/alunos/curso/${finalCursoId}`; 
+        endpoint = `${BASE_URL}/alunos/curso/${finalCursoId}`; 
     }
 
     console.log(`Enviando para: ${endpoint}`, novoAluno);

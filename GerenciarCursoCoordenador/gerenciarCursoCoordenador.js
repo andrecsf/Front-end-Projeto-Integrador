@@ -1,3 +1,4 @@
+const API = 'https://back-end-projeto-integrador.onrender.com';
 
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
@@ -45,7 +46,7 @@ async function loadCourses() {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${API}/cursos`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

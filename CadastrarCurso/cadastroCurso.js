@@ -1,7 +1,9 @@
+const API = 'https://back-end-projeto-integrador.onrender.com';
+
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
 const courseForm = document.getElementById('course-form');
-const btnSave = document.getElementById('btn-save'); // Selecionando o botão de salvar
+const btnSave = document.getElementById('btn-save');
 
 function toggleMenu() {
     sidebar.classList.toggle('collapsed');
@@ -25,27 +27,24 @@ document.querySelector('.sidebar-header').addEventListener('click', toggleMenu);
 courseForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Captura os dados do formulário
     const courseData = {
         nome: document.getElementById('course-name').value.trim(),
         descricao: document.getElementById('course-description').value.trim(),
         cargaHorariaMax: parseInt(document.getElementById('course-workload').value)
     };
 
-    // Validação básica no front-end
     if (!courseData.nome || isNaN(courseData.cargaHorariaMax)) {
         alert('Por favor, preencha todos os campos obrigatórios corretamente.');
         return;
     }
 
-    // Desabilita o botão e muda o texto para dar feedback visual
     btnSave.disabled = true;
     btnSave.innerText = 'Salvando...';
 
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${API}/cursos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +54,7 @@ courseForm.addEventListener('submit', async (e) => {
         });
 
         if (!response.ok) {
-            if (response.status === 409 || response.status === 400 ||response.status === 500) {
+            if (response.status === 409 || response.status === 400 || response.status === 500) {
                 throw new Error('Este curso já está cadastrado ou os dados são inválidos.');
             } else {
                 throw new Error('Ocorreu um erro inesperado no servidor. Tente novamente mais tarde.');
@@ -64,8 +63,7 @@ courseForm.addEventListener('submit', async (e) => {
 
         console.log('Curso salvo com sucesso');
         alert('Curso cadastrado com sucesso!');
-        
-        // Redirecionamento
+
         window.location.href = '../GerenciarCurso/gerenciarCursos.html';
 
     } catch (error) {
