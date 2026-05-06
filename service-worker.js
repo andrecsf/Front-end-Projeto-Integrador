@@ -1,4 +1,4 @@
-const CACHE_NAME = 'atividades-extracurriculares-v1';
+const CACHE_NAME = 'atividades-extracurriculares-v2';
 
 const STATIC_ASSETS = [
   '/',
@@ -181,6 +181,7 @@ self.addEventListener('fetch', (event) => {
 
   if (event.request.method !== 'GET') return;
   if (!url.protocol.startsWith('http')) return;
+  if (event.request.mode === 'navigate') return;
 
   const isApiCall = API_ROUTES.some((route) => url.pathname.includes(route));
   
