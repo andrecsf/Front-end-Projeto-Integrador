@@ -310,9 +310,7 @@ body {
     line-height: 1.6;
 }
 
-/* =====================
-   SECTIONS
-   ===================== */
+/* seção */
 .section {
     background: var(--white);
     border-radius: 8px;
@@ -362,9 +360,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* =====================
-   ITEMS LIST / CARDS
-   ===================== */
+
 .items-list {
     display: flex;
     flex-direction: column;
@@ -437,9 +433,7 @@ body {
     color: var(--text-muted);
 }
 
-/* =====================
-   SEARCH BOX
-   ===================== */
+
 .search-box {
     position: relative;
     flex: 1;
@@ -470,9 +464,7 @@ body {
     font-size: 0.85rem;
 }
 
-/* =====================
-   ACTION BUTTONS FINAL
-   ===================== */
+
 .action-buttons {
     display: flex;
     gap: 15px;
@@ -524,9 +516,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* =====================
-   MODAL
-   ===================== */
+
 .modal {
     display: none;
     position: fixed;
@@ -574,9 +564,7 @@ body {
     color: var(--text-dark);
 }
 
-/* =====================
-   RESPONSIVIDADE
-   ===================== */
+
 @media (max-width: 768px) {
     .sidebar {
         width: var(--sidebar-width-collapsed);
