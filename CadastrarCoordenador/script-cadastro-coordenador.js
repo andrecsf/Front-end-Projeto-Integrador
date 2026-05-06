@@ -1,3 +1,5 @@
+const API = 'https://back-end-projeto-integrador.onrender.com';
+
 // Elementos do DOM
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
@@ -36,12 +38,12 @@ function togglePasswordVisibility() {
 
 async function carregarCursosNoSelect() {
     const selectCurso = document.getElementById('coordinator-course');
-    if (!selectCurso) return; 
+    if (!selectCurso) return;
 
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch('http://localhost:8080/cursos', {
+        const response = await fetch(`${API}/cursos`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const cursos = await response.json();
@@ -60,7 +62,7 @@ async function carregarCursosNoSelect() {
 // Submissão do formulário
 coordinatorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const token = localStorage.getItem('token');
     const cursoId = document.getElementById('coordinator-course')?.value;
 
@@ -80,7 +82,7 @@ coordinatorForm.addEventListener('submit', async (e) => {
 
     try {
         // 1. Salvar o Coordenador
-        const response = await fetch('http://localhost:8080/coordenadores', {
+        const response = await fetch(`${API}/coordenadores`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ coordinatorForm.addEventListener('submit', async (e) => {
 
         // 2. Vínculo Opcional
         if (cursoId) {
-            await fetch(`http://localhost:8080/coordenadores/${novoCoord.id}/cursos/${cursoId}`, {
+            await fetch(`${API}/coordenadores/${novoCoord.id}/cursos/${cursoId}`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -121,5 +123,5 @@ btnTogglePassword.addEventListener('click', (e) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     restoreMenuState();
-    carregarCursosNoSelect(); // Carrega os cursos assim que a página abrir
+    carregarCursosNoSelect();
 });
