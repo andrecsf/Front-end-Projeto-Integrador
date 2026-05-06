@@ -2,9 +2,7 @@
 
 const API = 'http://localhost:8080';
 
-// =========================
-// TOKEN
-// =========================
+
 const token = localStorage.getItem('token');
 if (!token) {
     alert('Sessão expirada. Faça login novamente.');
@@ -15,29 +13,21 @@ function authHeaders() {
     return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 }
 
-// =========================
-// ID DO CURSO NA URL
-// =========================
+
 const params   = new URLSearchParams(window.location.search);
 const courseId = params.get('id');
 
-// =========================
-// ESTADO
-// =========================
+
 let alunosVinculados = [];
 let todosAlunos      = [];
 
-// =========================
-// UTILS
-// =========================
+
 function getIniciais(nome) {
     if (!nome) return '?';
     return nome.trim().split(' ').filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('');
 }
 
-// =========================
-// CARREGAR CURSO
-// =========================
+
 async function carregarCurso() {
     try {
         const res = await fetch(`${API}/cursos/${courseId}`, { headers: authHeaders() });
@@ -53,9 +43,7 @@ async function carregarCurso() {
     }
 }
 
-// =========================
-// CARREGAR ALUNOS VINCULADOS
-// =========================
+
 async function carregarAlunosVinculados() {
     const lista = document.getElementById('students-list');
     lista.innerHTML = `<div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Carregando alunos...</p></div>`;
@@ -73,9 +61,7 @@ async function carregarAlunosVinculados() {
     }
 }
 
-// =========================
-// RENDERIZAR ALUNOS VINCULADOS
-// =========================
+
 function renderizarAlunos(lista) {
     const container = document.getElementById('students-list');
 
@@ -103,9 +89,7 @@ function renderizarAlunos(lista) {
     `).join('');
 }
 
-// =========================
-// DESVINCULAR ALUNO — exposta no window para o onclick funcionar
-// =========================
+
 window.desvincularAluno = async function(alunoId, nome) {
     if (!confirm(`Desvincular "${nome}" deste curso?`)) return;
 
@@ -123,9 +107,7 @@ window.desvincularAluno = async function(alunoId, nome) {
     }
 };
 
-// =========================
-// MODAL VINCULAR ALUNO
-// =========================
+
 async function abrirModalVincular() {
     document.getElementById('modalVincular')?.remove();
 
@@ -188,9 +170,7 @@ async function abrirModalVincular() {
     });
 }
 
-// =========================
-// VINCULAR ALUNO — exposta no window para o onclick funcionar
-// =========================
+
 window.vincularAluno = async function(alunoId, nome) {
     try {
         const res = await fetch(`${API}/alunos/${alunoId}/cursos/${courseId}`, {
@@ -208,9 +188,7 @@ window.vincularAluno = async function(alunoId, nome) {
     }
 };
 
-// =========================
-// BUSCA DE ALUNOS VINCULADOS
-// =========================
+
 function filtrarAlunosVinculados(termo) {
     termo = termo.toLowerCase();
     const filtrados = alunosVinculados.filter(a =>
@@ -222,9 +200,7 @@ function filtrarAlunosVinculados(termo) {
     renderizarAlunos(filtrados);
 }
 
-// =========================
-// ERRO GENÉRICO
-// =========================
+
 function mostrarErro(msg) {
     document.querySelector('.content-padding').innerHTML = `
         <div class="empty-state" style="padding:3rem; text-align:center;">
@@ -233,9 +209,7 @@ function mostrarErro(msg) {
         </div>`;
 }
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+
 document.addEventListener('DOMContentLoaded', () => {
 
     if (!courseId) { mostrarErro('ID do curso não encontrado na URL.'); return; }
