@@ -291,9 +291,8 @@ async function preencherDados() {
   }
 }
 
-// =========================
-// BOTÃO VER CERTIFICADO
-// =========================
+
+
 btnVer.addEventListener('click', () => {
   if (dataGlobal?.urlCertificado) {
     // Redireciona para a página de visualização passando todos os dados via query string
@@ -311,9 +310,7 @@ btnVer.addEventListener('click', () => {
   }
 });
 
-// =========================
-// APROVAR
-// =========================
+
 btnApprove.addEventListener('click', () => {
   pendingAction         = 'approve';
   modalTitle.textContent = 'Aprovar submissão?';
@@ -321,9 +318,7 @@ btnApprove.addEventListener('click', () => {
   abrirModal();
 });
 
-// =========================
-// REPROVAR
-// =========================
+
 btnReject.addEventListener('click', () => {
   justificativa.disabled = false;
   justificativa.focus();
@@ -333,9 +328,7 @@ btnReject.addEventListener('click', () => {
   abrirModal();
 });
 
-// =========================
-// CONFIRMAR AÇÃO
-// =========================
+
 modalConfirm.addEventListener('click', async () => {
   try {
     if (pendingAction === 'reject' && !justificativa.value.trim()) {
@@ -384,7 +377,5 @@ modalConfirm.addEventListener('click', async () => {
   }
 });
 
-// =========================
-// INIT
-// =========================
+
 preencherDados();
