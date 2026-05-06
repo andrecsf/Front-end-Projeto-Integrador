@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
        Exemplo de link gerado pela tela anterior:
          visualizar-certificado.html
            ?id=1
-           &urlArquivo=http://localhost:8080/submissoes/1/arquivo
+           &urlArquivo=https://back-end-projeto-integrador.onrender.com/submissoes/1/arquivo
            &nomeAluno=Caio Victor
            &dataEnvio=2026-05-04T10:00:00Z
            &horasAproveitadas=15
