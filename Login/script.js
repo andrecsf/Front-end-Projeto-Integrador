@@ -1,3 +1,4 @@
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
 
 let selectedProfile = 'aluno';
 
@@ -32,7 +33,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     };
 
     try {
-        const response = await fetch('http://localhost:8080/auth/login', {
+        const response = await fetch('${BASE_URL}/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

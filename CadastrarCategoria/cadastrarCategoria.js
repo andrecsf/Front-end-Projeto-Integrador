@@ -1,3 +1,5 @@
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
+
 // --- CONFIGURAÇÃO INICIAL ---
 const urlParams = new URLSearchParams(window.location.search);
 const cursoId = urlParams.get('cursoId') || urlParams.get('id');
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- 1. CARREGAR CATEGORIAS DO CURSO ---
 async function carregarCategorias() {
     try {
-        const response = await fetch(`http://localhost:8080/categorias`, {
+        const response = await fetch(`${BASE_URL}/categorias`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -105,7 +107,7 @@ form.addEventListener('submit', async function(e) {
     };
 
     try {
-        const response = await fetch(`http://localhost:8080/categorias/curso/${cursoId}`, {
+        const response = await fetch(`${BASE_URL}/categorias/curso/${cursoId}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
@@ -132,7 +134,7 @@ window.excluirCategoria = async function(id) {
     if (!confirm("Tem certeza que deseja excluir esta categoria?")) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/categorias/${id}`, {
+        const response = await fetch(`${BASE_URL}/categorias/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });

@@ -1,3 +1,5 @@
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com/";
+
 const toggleMenuBtn = document.getElementById('toggle-menu');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('.main-content');
