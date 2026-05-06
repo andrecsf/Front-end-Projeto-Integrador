@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
+  const API = 'https://back-end-projeto-integrador.onrender.com';
   const TOKEN = localStorage.getItem('token');
 
   const ROTAS = {
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   
   async function fetchAPI(endpoint) {
-    const res = await fetch(`http://localhost:8080${endpoint}`, {
+    const res = await fetch(`${API}${endpoint}`, {
       headers: {
         'Authorization': `Bearer ${TOKEN}`,
         'Content-Type': 'application/json'
@@ -73,7 +74,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   const CORES = ["#4CAF50", "#2196F3", "#9C27B0", "#FF9800", "#F44336", "#00BCD4", "#E91E63", "#FF5722"];
 
-  // Conta submissões por categoria
   const contagemPorCategoria = {};
   submissoes.forEach(s => {
     const cat = s.nomeCategoria || 'Sem categoria';
@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legenda do gráfico de categoria
   const legenda = document.getElementById("legenda");
   if (legenda) {
     legenda.innerHTML = '';
@@ -133,7 +132,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
-  // Agrupa submissões por mês
   const atividadesPorMes = Array(12).fill(0);
   submissoes.forEach(s => {
     if (s.dataEnvio) {
@@ -142,7 +140,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Pega apenas os últimos 6 meses
   const mesAtual = new Date().getMonth();
   const ultimos6Meses = [];
   const dadosUltimos6 = [];
@@ -220,7 +217,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const elBanco = document.getElementById('status-banco');
   const elUltimaAtividade = document.getElementById('status-ultima-atividade');
 
-  
   const backendOnline = submissoes !== null;
 
   if (elServidor) {
@@ -234,7 +230,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (elBanco) {
-    // Se conseguiu buscar submissões do banco, o banco está ativo
     if (backendOnline) {
       elBanco.textContent = 'Ativo';
       elBanco.className = 'badge active';
@@ -245,7 +240,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (elUltimaAtividade) {
-    // Pega a submissão mais recente pelo dataEnvio
     const comData = submissoes.filter(s => s.dataEnvio);
     if (comData.length > 0) {
       const maisRecente = comData.sort((a, b) => new Date(b.dataEnvio) - new Date(a.dataEnvio))[0];
@@ -259,7 +253,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-
   const menuLinks = document.querySelectorAll(".sidebar-nav ul li a");
   const menuKeys = ["inicio", "perfil", "cursos", "usuarios", "documentos", "configuracoes"];
 
@@ -271,7 +264,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
- 
   document.querySelectorAll(".action-card").forEach(card => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -280,7 +272,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  
   document.querySelectorAll(".card").forEach(card => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -289,7 +280,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
 
