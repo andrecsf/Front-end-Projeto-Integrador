@@ -1,4 +1,5 @@
 // --- CONFIGURAÇÃO INICIAL ---
+const BASE_URL = "https://back-end-projeto-integrador.onrender.com";
 const urlParams = new URLSearchParams(window.location.search);
 const courseId = urlParams.get('id');
 const token = localStorage.getItem('token');
@@ -41,7 +42,7 @@ async function init() {
 
 async function loadCourseDetails() {
     try {
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.comcursos/${courseId}`, { headers });
+        const response = await fetch(`${BASE_URL}/cursos/${courseId}`, { headers });
         if (response.ok) {
             currentCourse = await response.json();
             document.getElementById('course-name-display').innerText = currentCourse.nome || "N/A";
@@ -57,7 +58,7 @@ async function loadCourseDetails() {
 
 async function loadCategories() {
     try {
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/categorias`, { headers });
+        const response = await fetch(`${BASE_URL}/categorias`, { headers });
         if (response.ok) {
             const allCategories = await response.json();
             const filtered = allCategories.filter(cat => cat.cursoId === Number(courseId));
@@ -70,8 +71,7 @@ async function loadCategories() {
 
 async function loadStudents() {
     try {
-        // Busca os alunos vinculados a este curso específico
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/curso/${courseId}`, { headers });
+        const response = await fetch(`${BASE_URL}/alunos/curso/${courseId}`, { headers });
         if (response.ok) {
             allStudents = await response.json();
             renderStudents(allStudents);
@@ -138,13 +138,11 @@ function renderStudents(list) {
             <div class="item-info">
                 <i class="fas fa-user-graduate"></i>
                 <div>
-                    <!-- CORREÇÃO: Usando aluno.name conforme AlunoDTO -->
                     <strong>${aluno.name}</strong>
                     <p>Matrícula: ${aluno.matricula} | Turma: ${aluno.turma || 'N/A'}</p>
                 </div>
             </div>
             <div class="item-actions">
-                <!-- Chamar função de desvincular -->
                 <button class="btn-icon-delete" title="Desvincular Aluno" onclick="removeStudent(${aluno.id})">
                     <i class="fas fa-user-minus"></i>
                 </button>
@@ -159,7 +157,7 @@ async function removeCoordinator(coordId) {
     if (!confirm("Tem certeza que deseja desvincular o coordenador deste curso?")) return;
     
     try {
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.comcoordenadores/${coordId}/cursos/${courseId}`, {
+        const response = await fetch(`${BASE_URL}/coordenadores/${coordId}/cursos/${courseId}`, {
             method: 'DELETE',
             headers: headers
         });
@@ -174,8 +172,7 @@ async function removeCoordinator(coordId) {
 async function removeStudent(alunoId) {
     if (!confirm("Deseja desvincular este aluno do curso?")) return;
     try {
-        // Chamando o endpoint que configuramos no AlunoResource
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/${alunoId}/cursos/${courseId}`, {
+        const response = await fetch(`${BASE_URL}/alunos/${alunoId}/cursos/${courseId}`, {
             method: 'DELETE',
             headers: headers
         });
@@ -207,11 +204,11 @@ inputSearchAll?.addEventListener('input', (e) => {
 
 async function searchGlobalStudents(term) {
     try {
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos`, { headers });
+        const response = await fetch(`${BASE_URL}/alunos`, { headers });
         if (response.ok) {
             const list = await response.json();
             const filtered = list.filter(aluno => 
-                aluno.name.toLowerCase().includes(term.toLowerCase()) && // CORREÇÃO: aluno.name
+                aluno.name.toLowerCase().includes(term.toLowerCase()) &&
                 !allStudents.some(s => s.id === aluno.id)
             );
             renderGlobalResults(filtered);
@@ -229,7 +226,7 @@ function renderGlobalResults(list) {
     resultsSearchAll.innerHTML = list.map(aluno => `
         <div class="item-card">
             <div class="item-info">
-                <strong>${aluno.name}</strong> <!-- CORREÇÃO: aluno.name -->
+                <strong>${aluno.name}</strong>
                 <p>Matrícula: ${aluno.matricula}</p>
             </div>
             <button class="btn-add-item" onclick="vincularAluno(${aluno.id})">
@@ -240,7 +237,7 @@ function renderGlobalResults(list) {
 
 window.vincularAluno = async function(alunoId) {
     try {
-        const response = await fetch(`https://back-end-projeto-integrador.onrender.com/alunos/${alunoId}/cursos/${courseId}`, {
+        const response = await fetch(`${BASE_URL}/alunos/${alunoId}/cursos/${courseId}`, {
             method: 'POST',
             headers: headers
         });
