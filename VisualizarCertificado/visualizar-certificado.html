@@ -13,64 +13,82 @@
 
     <div class="app-container">
 
-        <!-- Main Content -->
         <main class="main-content" id="mainContent">
 
             <header>
                 <div class="header-left">
                     <i class="fa-solid fa-arrow-left" onclick="handleExit()"></i>
-                    <h2>Certificado do aluno <i class="fa-regular fa-bell" style="font-size: 0.9rem;"></i></h2>
+                    <h2>Certificado do Aluno</h2>
                 </div>
+                <i class="fa-regular fa-bell" style="font-size: 1rem;"></i>
             </header>
 
             <div class="container">
                 <div class="card">
+
                     <div class="doc-info">
                         <div class="doc-icon">
                             <i class="fa-regular fa-file-lines"></i>
                         </div>
                         <div class="doc-text">
-                            <strong>Documento Anexado:</strong>
-                            <span>João Silva</span>
-                            <small>14/03/2026 • 20h</small>
+                            <strong>Documento Anexado</strong>
+                            <span id="doc-aluno">Carregando...</span>
+                            <small id="doc-meta">—</small>
                         </div>
                     </div>
 
-                    <div class="pdf-viewer-container" id="pdfWrapper">
-                        <button class="expand-btn" onclick="toggleExpand()">
+                    <!-- Estado: carregando -->
+                    <div class="pdf-loading" id="pdf-loading">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Carregando certificado...</p>
+                    </div>
+
+                    <!-- Estado: erro -->
+                    <div class="pdf-error" id="pdf-error" style="display:none;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p id="pdf-error-msg">Não foi possível carregar o certificado.</p>
+                        <button class="btn-retry" id="btn-retry">
+                            <i class="fa-solid fa-rotate-right"></i> Tentar novamente
+                        </button>
+                    </div>
+
+                    <!-- Visualizador PDF -->
+                    <div class="pdf-viewer-container" id="pdfWrapper" style="display:none;">
+                        <button class="expand-btn" onclick="toggleExpand()" title="Expandir">
                             <i class="fa-solid fa-maximize" id="expandIcon"></i>
                         </button>
-                        <iframe src="" id="pdf-frame"></iframe>
+                        <iframe id="pdf-frame"></iframe>
                     </div>
 
                     <div class="footer-actions">
-                        <button class="btn-sair" onclick="handleExit()">Sair</button>
+                        <button class="btn-sair" onclick="handleExit()">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
                     </div>
+
                 </div>
             </div>
         </main>
 
-        <!-- Sidebar colapsável (igual telaInicial) -->
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header" id="sidebarToggle">
                 <i class="fa-solid fa-bars"></i>
                 <span class="menu-text">Menu</span>
             </div>
             <ul class="nav-list">
-                <li class="nav-item"><i class="fa-solid fa-house"></i> <span class="nav-text">Início</span></li>
-                <li class="nav-item"><i class="fa-solid fa-user"></i> <span class="nav-text">Perfil</span></li>
-                <li class="nav-item"><i class="fa-solid fa-chart-line"></i> <span class="nav-text">Atividades</span>
-                </li>
-                <li class="nav-item active"><i class="fa-solid fa-file"></i> <span class="nav-text">Documentos</span>
-                </li>
-                <li class="nav-item"><i class="fa-solid fa-gear"></i> <span class="nav-text">Configurações</span></li>
+                <li class="nav-item"><i class="fa-solid fa-house"></i><span class="nav-text">Início</span></li>
+                <li class="nav-item"><i class="fa-solid fa-user"></i><span class="nav-text">Perfil</span></li>
+                <li class="nav-item"><i class="fa-solid fa-chart-line"></i><span class="nav-text">Atividades</span></li>
+                <li class="nav-item active"><i class="fa-solid fa-file"></i><span class="nav-text">Documentos</span></li>
+                <li class="nav-item"><i class="fa-solid fa-gear"></i><span class="nav-text">Configurações</span></li>
             </ul>
             <div class="sidebar-footer">
                 <div class="user-info">
                     <i class="fa-solid fa-circle-user"></i>
                     <div class="user-text">
-                        <span>João Silva</span>
-                        <a href="#" class="logout-link" onclick="handleExit()">logout</a>
+                        <span id="sidebar-user">Usuário</span>
+                        <a href="../Login/index.html" class="logout-link">Sair</a>
                     </div>
                 </div>
             </div>

@@ -71,14 +71,19 @@ header {
     gap: 15px;
 }
 
-.header-left h2 {
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-header i {
+.header-left i {
     cursor: pointer;
     font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.header-left i:hover {
+    transform: scale(1.15);
+}
+
+.header-left h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 /* ==========================================================================
@@ -99,7 +104,7 @@ header i {
     max-width: 850px;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     border: 1px solid var(--border-color);
 }
 
@@ -107,44 +112,122 @@ header i {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .doc-icon {
     color: #F59E0B;
-    font-size: 24px;
+    font-size: 22px;
     background: #FEFCE8;
-    padding: 12px;
+    padding: 12px 14px;
     border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .doc-text strong {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     color: var(--text-main);
+    font-size: 14px;
 }
 
 .doc-text span {
     color: var(--text-main);
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 .doc-text small {
     color: var(--text-muted);
     display: block;
-    margin-top: 2px;
+    margin-top: 3px;
+    font-size: 13px;
 }
 
-/* PDF */
+/* ==========================================================================
+   ESTADOS DO PDF
+========================================================================== */
+
+/* Loading */
+.pdf-loading {
+    width: 100%;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.pdf-loading i {
+    font-size: 36px;
+    color: var(--primary-blue);
+}
+
+/* Erro */
+.pdf-error {
+    width: 100%;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #fff5f5;
+    border-radius: 8px;
+    border: 1px dashed #fca5a5;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+}
+
+.pdf-error i {
+    font-size: 36px;
+    color: var(--danger-red);
+}
+
+.pdf-error p {
+    max-width: 320px;
+    line-height: 1.5;
+    color: #374151;
+}
+
+.btn-retry {
+    margin-top: 8px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s ease;
+}
+
+.btn-retry:hover {
+    background: var(--sidebar-blue);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   VISUALIZADOR PDF
+========================================================================== */
 .pdf-viewer-container {
     width: 100%;
     height: 480px;
-    background-color: #dcdcdc;
+    background-color: #e5e7eb;
     position: relative;
     border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: 1px solid var(--border-color);
     overflow: hidden;
 }
@@ -153,26 +236,41 @@ header i {
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
 }
 
 .expand-btn {
     position: absolute;
+    top: 10px;
+    right: 10px;
     z-index: 10;
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     cursor: pointer;
     color: var(--primary-blue);
-    font-size: 60px;
-    transition: transform 0.2s ease;
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
 .expand-btn:hover {
-    transform: scale(1.1);
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: scale(1.05);
 }
 
-/* Botão Sair */
+/* ==========================================================================
+   FOOTER
+========================================================================== */
 .footer-actions {
-    margin-top: 25px;
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 }
@@ -181,22 +279,25 @@ header i {
     background-color: var(--danger-red);
     color: var(--white);
     border: none;
-    padding: 12px 60px;
+    padding: 11px 36px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
 }
 
 .btn-sair:hover {
     background-color: #dc2626;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 /* ==========================================================================
-   SIDEBAR COLAPSÁVEL (igual telaInicial)
+   SIDEBAR COLAPSÁVEL
 ========================================================================== */
 .sidebar {
     width: var(--sidebar-width);
@@ -231,7 +332,6 @@ header i {
 }
 
 .sidebar.collapsed .sidebar-header {
-    justify-content: center;
     padding: 20px 10px;
 }
 
@@ -259,7 +359,7 @@ header i {
     gap: 15px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.2s;
     color: var(--white);
     white-space: nowrap;
 }
@@ -271,7 +371,7 @@ header i {
 
 .nav-item:hover,
 .nav-item.active {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .nav-text {
@@ -311,6 +411,7 @@ header i {
     display: flex;
     flex-direction: column;
     transition: opacity var(--transition-duration) ease;
+    font-size: 0.9rem;
 }
 
 .sidebar.collapsed .user-text {
@@ -325,28 +426,29 @@ header i {
     font-size: 0.8rem;
 }
 
-.logout-link:hover {
-    color: var(--white);
-}
+.logout-link:hover { color: var(--white); }
 
 /* ==========================================================================
    FULLSCREEN
 ========================================================================== */
 .fullscreen-active {
     position: fixed !important;
-    top: 0;
-    left: 0;
+    top: 0 !important;
+    left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
     z-index: 9999;
-    border-radius: 0;
+    border-radius: 0 !important;
 }
 
 /* ==========================================================================
    RESPONSIVIDADE
 ========================================================================== */
 @media (max-width: 700px) {
-    .container { padding: 20px; }
+    .container { padding: 16px; }
     header { padding: 0 20px; }
     .main-content { margin-right: var(--sidebar-width-collapsed); }
+    .pdf-loading,
+    .pdf-error,
+    .pdf-viewer-container { height: 340px; }
 }

@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Validação de Certificado</title>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="estilo-validar.css" />
 </head>
@@ -16,18 +15,15 @@
 
     <div class="main">
       <header class="topbar">
-
         <div class="topbar-left">
           <a href="../CoordenadorRelatorio/relatórioAluno.html" class="back-btn">
             <i class="fa-solid fa-arrow-left"></i>
           </a>
           <h1 class="topbar-title">Validação de Certificado</h1>
         </div>
-
         <div class="topbar-right">
           <button class="bell-btn"><i class="fa-solid fa-bell"></i></button>
         </div>
-
       </header>
 
       <main class="content">
@@ -37,9 +33,10 @@
           <div class="profile-row">
             <div class="avatar" id="avatar">--</div>
             <div class="profile-info">
-              <p class="profile-name" id="profile-name">—</p>
+              <p class="profile-name" id="profile-name">Carregando...</p>
               <p class="profile-sub" id="profile-sub">Horas complementares</p>
             </div>
+            <span class="status-badge" id="status-badge">—</span>
           </div>
 
           <div class="progress-row">
@@ -55,24 +52,24 @@
         <section class="card info-card">
           <div class="card-header">
             <span class="card-icon"><i class="fa-solid fa-clipboard-list"></i></span>
-            <h2>Informações do Aluno</h2>
+            <h2>Informações da Submissão</h2>
           </div>
 
           <dl class="info-grid">
             <dt>Nome</dt>
             <dd id="info-nome">—</dd>
 
-            <dt>Atividade</dt>
-            <dd id="info-atividade">—</dd>
-
             <dt>Categoria</dt>
             <dd id="info-categoria">—</dd>
 
-            <dt>Data</dt>
+            <dt>Data de Envio</dt>
             <dd id="info-data">—</dd>
 
             <dt>Carga Horária</dt>
             <dd id="info-carga">—</dd>
+
+            <dt>Status</dt>
+            <dd id="info-status">—</dd>
           </dl>
         </section>
 
@@ -85,25 +82,47 @@
 
           <div class="doc-item">
             <div class="doc-thumb"><i class="fa-solid fa-file-pdf"></i></div>
-            <div>
+            <div class="doc-info">
               <p id="doc-name">—</p>
+              <span id="doc-hint" class="doc-hint">Clique em "Ver" para visualizar o certificado</span>
             </div>
-            <button class="doc-action" id="btnVer">Ver</button>
+            <button class="doc-action" id="btnVer">
+              <i class="fa-solid fa-eye"></i> Ver
+            </button>
           </div>
+        </section>
+
+        <!-- OBSERVAÇÃO DO COORDENADOR (se houver) -->
+        <section class="card" id="obs-card" style="display:none;">
+          <div class="card-header">
+            <span class="card-icon"><i class="fa-solid fa-comment-dots"></i></span>
+            <h2>Observação do Coordenador</h2>
+          </div>
+          <p id="obs-texto" style="color:#374151; font-size:14px; line-height:1.6;"></p>
         </section>
 
         <!-- JUSTIFICATIVA -->
         <section class="card">
           <label for="justificativa">
-            Justificativa <span>(obrigatória se reprovar)</span>
+            Justificativa <span style="color:#9ca3af; font-size:12px;">(obrigatória ao reprovar)</span>
           </label>
-          <textarea id="justificativa" disabled></textarea>
+          <textarea id="justificativa" placeholder="Descreva o motivo da reprovação..." disabled></textarea>
         </section>
 
         <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn btn-approve" id="btn-approve">Aprovar</button>
-          <button class="btn btn-reject" id="btn-reject">Reprovar</button>
+        <div class="actions" id="actions-container">
+          <button class="btn btn-approve" id="btn-approve">
+            <i class="fa-solid fa-check"></i> Aprovar
+          </button>
+          <button class="btn btn-reject" id="btn-reject">
+            <i class="fa-solid fa-xmark"></i> Reprovar
+          </button>
+        </div>
+
+        <!-- MENSAGEM SE JÁ PROCESSADO -->
+        <div class="already-processed" id="already-processed" style="display:none;">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Esta submissão já foi processada e não pode ser alterada.</span>
         </div>
 
       </main>
@@ -111,7 +130,6 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-
       <div class="sidebar-header">
         <i class="fa-solid fa-bars"></i>
         <span class="menu-text">Menu</span>
@@ -134,7 +152,6 @@
           </div>
         </div>
       </div>
-
     </aside>
 
   </div>
@@ -151,19 +168,20 @@
     </div>
   </div>
 
-  <!-- 🔥 NOVO MODAL PDF (CORRIGIDO E COMPLETO) -->
+  <!-- MODAL PDF -->
   <div class="pdf-modal-overlay" id="pdfModal">
     <div class="pdf-modal">
-
       <div class="pdf-header">
-        <h3>Visualizar Certificado</h3>
+        <h3><i class="fa-solid fa-file-pdf"></i> Visualizar Certificado</h3>
         <button id="closePdfModal" class="close-btn">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-
-      <iframe id="pdfFrame"></iframe>
-
+      <div class="pdf-loading" id="pdf-loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <span>Carregando certificado...</span>
+      </div>
+      <iframe id="pdfFrame" style="display:none;"></iframe>
     </div>
   </div>
 

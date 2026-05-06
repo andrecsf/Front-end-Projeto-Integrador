@@ -12,49 +12,56 @@ document.querySelector('.sidebar-header').addEventListener('click', () => {
 // =========================
 // ELEMENTOS
 // =========================
-const avatar = document.getElementById('avatar');
-const profileName = document.getElementById('profile-name');
-const infoNome = document.getElementById('info-nome');
-const infoAtiv = document.getElementById('info-atividade');
-const infoCategoria = document.getElementById('info-categoria');
-const infoData = document.getElementById('info-data');
-const infoCarga = document.getElementById('info-carga');
-const docName = document.getElementById('doc-name');
+const avatar          = document.getElementById('avatar');
+const profileName     = document.getElementById('profile-name');
+const statusBadge     = document.getElementById('status-badge');
+const progressFill    = document.getElementById('progress-fill');
+const progressPct     = document.getElementById('progress-pct');
 
-const btnVer = document.getElementById('btnVer');
-const justificativa = document.getElementById('justificativa');
-const btnApprove = document.getElementById('btn-approve');
-const btnReject = document.getElementById('btn-reject');
+const infoNome        = document.getElementById('info-nome');
+const infoCategoria   = document.getElementById('info-categoria');
+const infoData        = document.getElementById('info-data');
+const infoCarga       = document.getElementById('info-carga');
+const infoStatus      = document.getElementById('info-status');
 
-const modal = document.getElementById('modal');
-const modalTitle = document.getElementById('modal-title');
-const modalSub = document.getElementById('modal-sub');
-const modalCancel = document.getElementById('modal-cancel');
-const modalConfirm = document.getElementById('modal-confirm');
+const docName         = document.getElementById('doc-name');
+const btnVer          = document.getElementById('btnVer');
+const justificativa   = document.getElementById('justificativa');
 
-const toast = document.getElementById('toast');
+const btnApprove      = document.getElementById('btn-approve');
+const btnReject       = document.getElementById('btn-reject');
+const actionsContainer    = document.getElementById('actions-container');
+const alreadyProcessed    = document.getElementById('already-processed');
+const obsCard         = document.getElementById('obs-card');
+const obsTexto        = document.getElementById('obs-texto');
 
-// =========================
-// PDF MODAL
-// =========================
-const pdfModal = document.getElementById('pdfModal');
-const pdfFrame = document.getElementById('pdfFrame');
-const closePdfModal = document.getElementById('closePdfModal');
+const modal           = document.getElementById('modal');
+const modalTitle      = document.getElementById('modal-title');
+const modalSub        = document.getElementById('modal-sub');
+const modalCancel     = document.getElementById('modal-cancel');
+const modalConfirm    = document.getElementById('modal-confirm');
+const toast           = document.getElementById('toast');
+
+const pdfModal        = document.getElementById('pdfModal');
+const pdfFrame        = document.getElementById('pdfFrame');
+const pdfLoading      = document.getElementById('pdf-loading');
+const closePdfModal   = document.getElementById('closePdfModal');
 
 // =========================
 // ESTADO
 // =========================
 let pendingAction = null;
-let dataGlobal = null;
+let dataGlobal    = null;
+let currentBlobUrl = null; // para liberar memória do blob anterior
 
 // =========================
 // URL PARAM
 // =========================
-const urlParams = new URLSearchParams(window.location.search);
-const submissaoId = urlParams.get('id');
+const urlParams    = new URLSearchParams(window.location.search);
+const submissaoId  = urlParams.get('id');
 
 // =========================
-// AUTH FETCH (COM MELHORIAS)
+// AUTH
 // =========================
 function getToken() {
   return localStorage.getItem('token');
@@ -64,24 +71,26 @@ async function authFetch(url, options = {}) {
   const token = getToken();
 
   if (!token) {
-    window.location.href = "/login.html";
-    throw new Error("Sem token");
+    window.location.href = '/login.html';
+    throw new Error('Sem token de autenticação');
   }
 
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      ...(options.body && { 'Content-Type': 'application/json' }),
-      ...(options.headers || {})
-    }
-  });
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    ...(options.headers || {})
+  };
 
-  // 🔥 tratamento automático de erro
+  // Só adiciona Content-Type: application/json quando body for string JSON
+  if (options.body && typeof options.body === 'string') {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const res = await fetch(url, { ...options, headers });
+
   if (res.status === 401 || res.status === 403) {
     localStorage.removeItem('token');
-    window.location.href = "/login.html";
-    throw new Error("Sessão expirada");
+    window.location.href = '/login.html';
+    throw new Error('Sessão expirada. Faça login novamente.');
   }
 
   return res;
@@ -90,180 +99,288 @@ async function authFetch(url, options = {}) {
 // =========================
 // TOAST
 // =========================
-function showToast(msg) {
+let toastTimer = null;
+
+function showToast(msg, type = '') {
   toast.textContent = msg;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
+  toast.className   = 'toast show ' + type;
+  
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 // =========================
-// MODAL CONFIRMAÇÃO
+// MODAL DE CONFIRMAÇÃO
 // =========================
 function abrirModal() {
-  modal.style.display = "flex";
+  modal.style.display = 'flex';
 }
 
 function fecharModal() {
-  modal.style.display = "none";
+  modal.style.display = 'none';
 }
 
+modalCancel.addEventListener('click', fecharModal);
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) fecharModal();
+});
+
 // =========================
-// PDF MODAL
+// MODAL PDF
 // =========================
-function abrirPdfModal(url) {
-  pdfFrame.src = url;
-  pdfModal.style.display = "flex";
+function abrirPdfModal() {
+  pdfModal.style.display = 'flex';
 }
 
 function fecharPdfModal() {
-  pdfModal.style.display = "none";
-  pdfFrame.src = "";
+  pdfModal.style.display = 'none';
+  pdfFrame.style.display = 'none';
+  pdfFrame.src           = '';
+  pdfLoading.style.display = 'flex';
+
+  // Libera a URL do blob para evitar leak de memória
+  if (currentBlobUrl) {
+    URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = null;
+  }
 }
 
 closePdfModal.addEventListener('click', fecharPdfModal);
 
 pdfModal.addEventListener('click', (e) => {
-  if (e.target === pdfModal) {
-    fecharPdfModal();
-  }
+  if (e.target === pdfModal) fecharPdfModal();
 });
 
 // =========================
-// 🔥 NOVA FUNÇÃO (CORRETA)
+// ABRIR PDF COM AUTH
 // =========================
-async function abrirPdfSeguro(url) {
-  try {
-    showToast("Carregando PDF...");
+/**
+ * O endpoint /submissoes/{id}/arquivo retorna os bytes do PDF.
+ * Fazemos o fetch com o token Bearer, criamos um Blob e exibimos no iframe.
+ * Isso evita que o browser tente abrir a URL diretamente (sem o header de auth).
+ */
+async function abrirPdfSeguro(urlArquivo) {
+  if (!urlArquivo) {
+    showToast('Nenhum certificado encontrado.', 'error');
+    return;
+  }
 
-    const res = await authFetch(url);
+  abrirPdfModal();
+  pdfLoading.style.display = 'flex';
+  pdfFrame.style.display   = 'none';
+
+  try {
+    const res = await authFetch(urlArquivo);
 
     if (!res.ok) {
-      throw new Error("Erro ao carregar certificado");
+      throw new Error(`Erro ao buscar o arquivo: ${res.status}`);
     }
 
     const blob = await res.blob();
-    const blobUrl = URL.createObjectURL(blob);
 
-    abrirPdfModal(blobUrl);
+    // Libera blob anterior se existir
+    if (currentBlobUrl) {
+      URL.revokeObjectURL(currentBlobUrl);
+    }
+
+    currentBlobUrl = URL.createObjectURL(blob);
+
+    pdfFrame.onload = () => {
+      pdfLoading.style.display = 'none';
+      pdfFrame.style.display   = 'block';
+    };
+
+    pdfFrame.src = currentBlobUrl;
 
   } catch (error) {
-    console.error(error);
-    showToast(error.message);
+    console.error('[PDF]', error);
+    fecharPdfModal();
+    showToast(error.message || 'Erro ao carregar o certificado.', 'error');
   }
 }
 
 // =========================
-// API
+// HELPERS DE STATUS
+// =========================
+function statusLabel(status) {
+  const map = {
+    PENDENTE : 'Pendente',
+    APROVADO : 'Aprovado',
+    REJEITADO: 'Rejeitado'
+  };
+  return map[status] || status || '—';
+}
+
+function aplicarStatusBadge(status) {
+  statusBadge.textContent = statusLabel(status);
+  statusBadge.className   = 'status-badge ' + (status || '').toLowerCase();
+}
+
+// =========================
+// BUSCAR DADOS DA API
 // =========================
 async function getData() {
-  const res = await authFetch(
-    `http://localhost:8080/submissoes/${submissaoId}`
-  );
+  if (!submissaoId) throw new Error('ID da submissão não informado na URL.');
+  
+  const res = await authFetch(`http://localhost:8080/submissoes/${submissaoId}`);
 
   if (!res.ok) {
-    throw new Error("Erro ao buscar submissão");
+    throw new Error(`Erro ao buscar submissão (HTTP ${res.status})`);
   }
 
   return res.json();
 }
 
 // =========================
-// PREENCHER DADOS
+// PREENCHER TELA
 // =========================
 async function preencherDados() {
   try {
     const data = await getData();
     dataGlobal = data;
 
-    avatar.textContent = data.nomeAluno?.substring(0, 2).toUpperCase();
-    profileName.textContent = data.nomeAluno;
-    infoNome.textContent = data.nomeAluno;
-    infoAtiv.textContent = data.nomeCategoria;
-    infoCategoria.textContent = data.nomeCategoria;
-    infoData.textContent = new Date(data.dataEnvio).toLocaleDateString('pt-BR');
-    infoCarga.textContent = data.horasAproveitadas + "h";
-    docName.textContent = data.urlCertificado ? "Certificado anexado" : "—";
+    // Perfil
+    const iniciais  = (data.nomeAluno || '??').substring(0, 2).toUpperCase();
+    avatar.textContent    = iniciais;
+    profileName.textContent = data.nomeAluno || '—';
+    aplicarStatusBadge(data.status);
+
+    // Barra de progresso: considera 200h como meta total
+    // (ajuste conforme a regra de negócio do seu sistema)
+    const META_HORAS = 200;
+    const horasAcum  = data.horasAproveitadas || 0;
+    const pct        = Math.min(Math.round((horasAcum / META_HORAS) * 100), 100);
+    progressFill.style.width = pct + '%';
+    progressPct.textContent  = pct + '%';
+
+    // Informações
+    infoNome.textContent      = data.nomeAluno      || '—';
+    infoCategoria.textContent = data.nomeCategoria  || '—';
+    infoData.textContent      = data.dataEnvio
+      ? new Date(data.dataEnvio).toLocaleDateString('pt-BR', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        })
+      : '—';
+    infoCarga.textContent   = (data.horasAproveitadas != null) ? data.horasAproveitadas + 'h' : '—';
+    infoStatus.textContent  = statusLabel(data.status);
+
+    // Documento
+    docName.textContent = data.urlCertificado ? 'Certificado anexado' : 'Nenhum arquivo';
+    btnVer.disabled     = !data.urlCertificado;
+
+    // Observação do coordenador (se houver)
+    if (data.observacaoCoordenador) {
+      obsCard.style.display  = 'block';
+      obsTexto.textContent   = data.observacaoCoordenador;
+    }
+
+    // Exibe ou oculta botões de ação conforme o status
+    if (data.status === 'PENDENTE') {
+      actionsContainer.style.display = 'flex';
+      alreadyProcessed.style.display = 'none';
+    } else {
+      actionsContainer.style.display = 'none';
+      alreadyProcessed.style.display = 'flex';
+    }
 
   } catch (error) {
-    console.error(error);
-    showToast(error.message);
+    console.error('[DADOS]', error);
+    showToast(error.message, 'error');
   }
 }
 
 // =========================
-// BOTÃO VER (CORRIGIDO)
+// BOTÃO VER CERTIFICADO
 // =========================
-btnVer.addEventListener("click", () => {
+btnVer.addEventListener('click', () => {
   if (dataGlobal?.urlCertificado) {
-    abrirPdfSeguro(dataGlobal.urlCertificado); // 🔥 corrigido
+    // Redireciona para a página de visualização passando todos os dados via query string
+    const params = new URLSearchParams({
+      id               : submissaoId || '',
+      urlArquivo       : dataGlobal.urlCertificado,
+      nomeAluno        : dataGlobal.nomeAluno        || '',
+      dataEnvio        : dataGlobal.dataEnvio        || '',
+      horasAproveitadas: dataGlobal.horasAproveitadas || '',
+      nomeCategoria    : dataGlobal.nomeCategoria    || ''
+    });
+    window.location.href = `../VisualizarCertificado/visualizar-certificado.html?${params.toString()}`;
   } else {
-    showToast("Nenhum certificado encontrado");
+    showToast('Nenhum certificado encontrado.', 'error');
   }
 });
 
 // =========================
 // APROVAR
 // =========================
-btnApprove.addEventListener("click", () => {
-  pendingAction = "approve";
-  modalTitle.textContent = "Aprovar?";
-  modalSub.textContent = "Deseja aprovar esta submissão?";
+btnApprove.addEventListener('click', () => {
+  pendingAction         = 'approve';
+  modalTitle.textContent = 'Aprovar submissão?';
+  modalSub.textContent   = `Deseja aprovar o certificado de "${dataGlobal?.nomeAluno || 'este aluno'}"?`;
   abrirModal();
 });
 
 // =========================
 // REPROVAR
 // =========================
-btnReject.addEventListener("click", () => {
+btnReject.addEventListener('click', () => {
   justificativa.disabled = false;
-  pendingAction = "reject";
-  modalTitle.textContent = "Reprovar?";
-  modalSub.textContent = "Deseja reprovar esta submissão?";
+  justificativa.focus();
+  pendingAction          = 'reject';
+  modalTitle.textContent = 'Reprovar submissão?';
+  modalSub.textContent   = `Deseja reprovar o certificado de "${dataGlobal?.nomeAluno || 'este aluno'}"?`;
   abrirModal();
 });
 
 // =========================
-// CANCELAR MODAL
-// =========================
-modalCancel.addEventListener("click", fecharModal);
-
-// =========================
 // CONFIRMAR AÇÃO
 // =========================
-modalConfirm.addEventListener("click", async () => {
+modalConfirm.addEventListener('click', async () => {
   try {
-    if (pendingAction === "reject" && !justificativa.value.trim()) {
-      showToast("Informe a justificativa!");
+    if (pendingAction === 'reject' && !justificativa.value.trim()) {
+      showToast('Informe a justificativa antes de reprovar!', 'error');
+      fecharModal();
+      justificativa.focus();
       return;
     }
 
     fecharModal();
 
-    const endpoint =
-      pendingAction === "approve" ? "aprovar" : "rejeitar";
+    const endpoint = pendingAction === 'approve' ? 'aprovar' : 'rejeitar';
 
-    const body =
-      pendingAction === "reject"
-        ? JSON.stringify({ justificativa: justificativa.value })
-        : null;
+    // O backend no método rejeitar() espera @RequestBody String (texto simples)
+    // NÃO enviar como JSON. Se for aprovar, sem body.
+    const options = pendingAction === 'reject'
+      ? {
+          method : 'PUT',
+          body   : justificativa.value.trim(),
+          headers: { 'Content-Type': 'text/plain' }
+        }
+      : { method: 'PUT' };
 
     const res = await authFetch(
       `http://localhost:8080/submissoes/${submissaoId}/${endpoint}`,
-      {
-        method: "PUT",
-        body: body
-      }
+      options
     );
 
     if (!res.ok) {
-      throw new Error("Erro ao atualizar submissão");
+      const msg = await res.text().catch(() => '');
+      throw new Error(msg || `Erro ao ${endpoint} (HTTP ${res.status})`);
     }
 
-    showToast("Atualizado com sucesso!");
+    const tipo = pendingAction === 'approve' ? 'success' : 'error';
+    showToast(
+      pendingAction === 'approve' ? 'Submissão aprovada com sucesso!' : 'Submissão reprovada.',
+      tipo
+    );
+
+    // Atualiza a tela após a ação
+    setTimeout(() => preencherDados(), 800);
 
   } catch (error) {
-    console.error(error);
-    showToast(error.message);
+    console.error('[AÇÃO]', error);
+    showToast(error.message || 'Erro ao processar a ação.', 'error');
   }
 });
 
